@@ -79,10 +79,12 @@ label {
   color: #fff;
   font-family: Inter;
   font-weight: 600;
+  font-size: 1.1em;
   margin-right: 0.5em;
 }
 form input {
   width: 20em;
+  font-size: 1em;
 }
 
 input:disabled {
