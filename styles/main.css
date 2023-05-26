@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;600&display=swap');
+
+body {
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+main {
+  width: 90%;
+  background: #000 url('../assets/images/CroppedMedium.jpg') no-repeat fixed center top;
+  background-size: cover;
+}
+
+a {
+  text-decoration: underline;
+  color: #444;
+}
+
+.topspacer {
+  height: 85vh;
+}
+
+.show,
+.callout {
+  background-color: #baacdd;
+  color: #000;
+  font-family: Inter;
+  text-align: center;
+  position: sticky;
+  position: -webkit-sticky;
+  margin-bottom: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 6rem;
+}
+
+.callout {
+  font-weight: 600;
+  font-size: clamp(1.3rem, 9vw, 4rem);
+  top: 0;
+  mix-blend-mode: difference;
+}
+
+.show {
+  font-weight: 200;
+  font-size: clamp(1rem, 5vw, 2.5em);
+}
+
+.first {
+  top: 0;
+}
+
+.second {
+  top: 0;
+}
+
+.third {
+  top: 0;
+}
+
+footer {
+  /* position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0; */
+  padding: 1em;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+label {
+  color: #fff;
+  font-family: Inter;
+  font-weight: 600;
+  margin-right: 0.5em;
+}
+form input {
+  width: 20em;
+}
+
+input:disabled {
+  background-color: #222;
+  color: #f44;
+}
+
+section.socials {
+  margin: 0.5em;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#date,
+#show,
+#venue,
+#announce,
+#onsale {
+  display: none;
+}
