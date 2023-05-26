@@ -85,11 +85,12 @@ label {
 form input {
   width: 20em;
   font-size: 1em;
+  margin: 0.1em;
 }
 
 input:disabled {
   background-color: #222;
-  color: #f44;
+  color: #f88;
 }
 
 section.socials {
