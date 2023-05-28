@@ -1,5 +1,5 @@
 const sendEmailBatch = async (mailout) => {
-  const sendURL = `./API/mailout.php?mailout=${mailout}`;
+  const sendURL = `./API/test_fake_smtp.php?mailout=${mailout}`;
   emailsSent.appendChild(loading);
   const res = await fetch(sendURL);
   const output = await res.text();

@@ -3,9 +3,20 @@
 function get_email_addresses($db, $mailout_id) {
     global $output;
     try {
-        if ($mailout_id == 'test') {$mailout_id = 1; $mailing_table = "test_mailing_list";}
-        else $mailing_table = "mailing_list";
-        $query = "SELECT email, name, email_id FROM $mailing_table WHERE last_sent < ? ORDER BY domain LIMIT 30";
+        if ($mailout_id == 'test') {
+            $mailout_id = 1;
+            $mailing_table = "test_mailing_list";
+        }
+        else {
+            $mailout_id = (int)$mailout_id;
+            $mailing_table = "mailing_list";
+        };
+        $query = "SELECT email, name, email_id
+        FROM $mailing_table
+        WHERE last_sent < ?
+        AND subscribed = 1
+        ORDER BY domain
+        LIMIT 30";
         $stmt = $db->prepare($query);
         $stmt->execute([$mailout_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,13 +43,12 @@ function mark_as_sent($db, $current_mailout, $row) {
     if ($current_mailout == 'test') {
         $stmt = $db->prepare("UPDATE test_mailing_list SET last_sent = ? WHERE email_id = ? AND email = ?");
         $stmt->execute([1, $row['email_id'], $row['email']]);
-        $output .=  "JUST A TEST\n"; return 'Message sent to :' . htmlspecialchars($row['name']) . ' (' .
-        htmlspecialchars($row['email']) . ')';}
+        $output .=  "JUST A TEST\n";
+        return 'Message sent: '.htmlspecialchars($row['email']);}
     try {
         $stmt = $db->prepare("UPDATE mailing_list SET last_sent = ? WHERE email_id = ? AND email = ?");
         $stmt->execute([$current_mailout, $row['email_id'], $row['email']]);
-        return 'Message sent to :' . htmlspecialchars($row['name']) . ' (' .
-        htmlspecialchars($row['email']) . ')';
+        return 'Message sent: '.htmlspecialchars($row['email']);
     }
     catch(PDOException $e) {
         $output .=  "Database Error: " . $e->getMessage() . "\n";
@@ -88,6 +98,15 @@ $mail->Port = 25;
 $mail->Username = 'info@thesadsongco.com';
 $mail->Password = "0RosamundE####";
 
+// $mail->isSMTP();
+// $mail->Host = 'sandbox.smtp.mailtrap.io';
+// $mail->SMTPAuth = true;
+// $mail->Port = 2525;
+// $mail->Username = '2be25e29cd2991';
+// $mail->Password = 'aa9d83d9080798';
+// $mail->setFrom('info@thesadsongco.com', 'The Sad Song Co. mailing list');
+// $mail->addReplyTo('info@thesadsongco.com', 'The Sad Song Co. mailing list');
+
 $mail->Subject = $subject;
 
 $output = 'COMPLETE';
@@ -107,7 +126,7 @@ if (sizeof($result) > 0) {
         }
     
         try {
-            // $mail->send();
+            $mail->send();
             //Mark it as sent in the DB
             $output .=  mark_as_sent($db, $current_mailout, $row)."\n";
         } catch (Exception $e) {
@@ -119,6 +138,8 @@ if (sizeof($result) > 0) {
         //Clear all addresses and attachments for the next iteration
         $mail->clearAddresses();
         $mail->clearAttachments();
+        // don't send too many emails per second
+        sleep(0.5);
     }
 }
 
