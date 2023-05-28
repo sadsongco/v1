@@ -8,7 +8,7 @@ $message = "<p>Email unsubscribe page. You can access this through the link prov
 
 if (isset($_GET['email']) && $_GET['email'] != '') {
     try {
-        $stmt = $db->prepare("SELECT email_id FROM test_mailing_list WHERE email=?;");
+        $stmt = $db->prepare("SELECT email_id FROM mailing_list WHERE email=?;");
         $stmt->execute([$_GET['email']]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $db_id = $result[0]['email_id'];
@@ -16,7 +16,7 @@ if (isset($_GET['email']) && $_GET['email'] != '') {
         if ($secure_id != $_GET['check']) {
             throw new PDOException('Bad Check Code', 1176);
         }
-        $stmt = $db->prepare("DELETE FROM test_mailing_list WHERE email_id=? and email=?");
+        $stmt = $db->prepare("DELETE FROM mailing_list WHERE email_id=? and email=?");
         $stmt->execute([$db_id, $_GET['email']]);
         $message = "<h2>Your email has been removed from The Sad Song Co. mailing list.</h2>";
     }

@@ -48,8 +48,8 @@ function mark_as_sent($db, $current_mailout, $row) {
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once('../../../secure/scripts/ut_m_connect.php');
-include_once('../includes/html_header.php');
+require_once('../../../../secure/scripts/ut_m_connect.php');
+include_once('../../includes/html_header.php');
 
 error_reporting(E_STRICT | E_ALL);
 
@@ -66,9 +66,9 @@ $current_mailout = "test";
 
 //Passing `true` enables PHPMailer exceptions
 $mail = new PHPMailer(true);
-$body_template = file_get_contents($html_email_path.$current_mailout.'.html');
-$text_template = file_get_contents($text_email_path.$current_mailout.'.txt');
-$subject = file_get_contents($subject_path.$current_mailout.'.txt');
+$body_template = file_get_contents($html_email_path.$current_mailout.'.html') or die('No HTML body');
+$text_template = file_get_contents($text_email_path.$current_mailout.'.txt') or die('No text body');
+$subject = file_get_contents($subject_path.$current_mailout.'.txt') or die('No subject file');
 
 $mail->isSMTP();
 $mail->Host = 'thesadsongco.com';
@@ -111,5 +111,5 @@ foreach ($result as $row) {
     $mail->clearAttachments();
 }
 
-include_once('../includes/html_footer.php');
-include_once('../../../secure/scripts/ut_disconnect.php');
+include_once('../../includes/html_footer.php');
+include_once('../../../../secure/scripts/ut_disconnect.php');

@@ -48,7 +48,7 @@ elseif (isset($_GET['email']) && $_GET['email'] != '' && isset($_GET['check']) &
         else {
             $stmt = $db->prepare("UPDATE ut_mailing_list SET subscribed=1 WHERE email=?");
             $stmt->execute([$_GET['email']]);
-            $stmt = $db->prepare("SELECT email_id FROM test_mailing_list WHERE email=?");
+            $stmt = $db->prepare("SELECT email_id FROM mailing_list WHERE email=?");
             $stmt->execute([$_GET['email']]);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $id = $result[0]['email_id'];

@@ -1,0 +1,20 @@
+h1 {
+  font-weight: 600;
+  font-size: 1.8em;
+}
+
+.emailsSent {
+  background: white;
+  color: black;
+  margin-top: 1em;
+  padding: 0.5em;
+}
+
+form {
+  margin: 1em auto;
+}
+
+a {
+  font-size: 1em;
+  color: #acacac;
+}
