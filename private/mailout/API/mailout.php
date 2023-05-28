@@ -77,6 +77,8 @@ $text_email_path = "./mailout_bodies/text/";
 $subject_path = "./mailout_bodies/subject/";
 // set the current email
 $current_mailout = $_GET['mailout'];
+// create log
+$fp = fopen("./logs/mailout_log_".$current_mailout.".txt", 'a');
 
 //Passing `true` enables PHPMailer exceptions
 $mail = new PHPMailer(true);
@@ -143,7 +145,14 @@ if (sizeof($result) > 0) {
     }
 }
 
+// create log
+$fp = fopen("./logs/mailout_log_".$current_mailout.".txt", 'a');
+fwrite($fp, $output);
+fclose($fp);
+
 
 echo $output;
 
 include_once('../../../../secure/scripts/ut_disconnect.php');
+
+?>
