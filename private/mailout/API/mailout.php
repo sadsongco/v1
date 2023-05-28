@@ -139,7 +139,7 @@ if (sizeof($result) > 0) {
         $mail->clearAddresses();
         $mail->clearAttachments();
         // don't send too many emails per second
-        sleep(0.5);
+        sleep(1);
     }
 }
 
