@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
-require '../private/mailout/vendor/autoload.php';
+require '../private/mailout/API/vendor/autoload.php';
 
 function replace_tags($body_template, $row) {
     $row['secure_id'] = $row['check'];
