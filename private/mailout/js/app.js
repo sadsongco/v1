@@ -1,22 +1,21 @@
-const sendEmailBatch = async (mailout) => {
-  const sendURL = `./API/mailout.php?mailout=${mailout}`;
+const updateCurrentMailout = async (mailout) => {
+  const sendURL = `./API/set_current_mailout.php?mailout=${mailout}`;
   emailsSent.appendChild(loading);
   const res = await fetch(sendURL);
   const output = await res.text();
+  const status = output === 'SUCCESS' ? `Mailout ${mailout} has started sending` : `There was an error, please try again`;
   const newLine = document.createElement('p');
-  newLine.innerHTML = output.replace(/\r?\n|\r/g, '<br>');
+  newLine.innerHTML = status;
   loading.remove();
   emailsSent.appendChild(newLine);
-  if (output === 'COMPLETE' || output.substring(0, 5) == 'FATAL') {
-    return;
+  for (const formEl of mailoutForm.children) {
+    formEl.disabled = true;
   }
-  document.getElementById('foot').scrollIntoView();
-  await sendEmailBatch(mailout);
 };
 
 const mailoutSubmit = async (data) => {
   for (const [name, value] of data) {
-    if (name === 'mailout') sendEmailBatch(value);
+    if (name === 'mailout') updateCurrentMailout(value);
   }
 };
 
@@ -75,5 +74,3 @@ mailoutForm.addEventListener('submit', async (e) => {
   await mailoutSubmit(data);
 });
 await populateMailoutSelect();
-
-// sendEmailBatch();
