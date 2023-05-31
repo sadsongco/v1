@@ -12,6 +12,7 @@ if (isset ($_POST['add_name']) && $_POST['add_name'] == "Add Your Name") {
         $stmt->execute([$_POST['email']]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $db_id = $result[0]['email_id'];
+        echo $db_id."<br>";
         $secure_id = hash('ripemd128', $_POST['email'].$db_id.'AndyJasNigel');
         if ($secure_id != $_POST['check']) {
             throw new PDOException('Bad Check Code', 1176);
@@ -51,7 +52,9 @@ elseif (isset($_GET['email']) && $_GET['email'] != '' && isset($_GET['check']) &
             $stmt = $db->prepare("SELECT email_id FROM mailing_list WHERE email=?");
             $stmt->execute([$_GET['email']]);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $id = $result[0]['email_id'];
+            $id = 0;
+            if (isset($result) && isset($result[0]))
+                $id = $result[0]['email_id'];
             $_GET['check'] = hash('ripemd128', $_GET['email'].$id.'AndyJasNigel');
             $message = '<p>That email is already on our list, thank you!</p>';
         }

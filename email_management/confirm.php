@@ -27,12 +27,13 @@ function getLatestMailout() {
         }
         closedir($handle);
     }
-    return $mailout_id;
+    return $latest_mailout;
 }
 
 function sendLastMailout($row) {
 
     $last_mailout = getLatestMailout();
+    if ($last_mailout == 0) return null;
     $bodies_path = '../private/mailout/API/mailout_bodies/';
     //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);

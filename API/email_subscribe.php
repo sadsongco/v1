@@ -10,15 +10,16 @@ use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
 require '../private/mailout/API/vendor/autoload.php';
+include_once('../private/includes/replace_tags.php');
 
-function replace_tags($body_template, $row) {
-    $row['secure_id'] = $row['check'];
-    foreach ($row as $tag_name=>$tag_content) {
-        if ($tag_name == 'name' && $tag_content == '') $tag_content = 'Music Friend';
-        $body_template = str_replace("<!--{{".$tag_name."}}-->", $tag_content, $body_template);
-    }
-    return $body_template;
-}
+// function replace_tags($body_template, $row) {
+//     $row['secure_id'] = $row['check'];
+//     foreach ($row as $tag_name=>$tag_content) {
+//         if ($tag_name == 'name' && $tag_content == '') $tag_content = 'Music Friend';
+//         $body_template = str_replace("<!--{{".$tag_name."}}-->", $tag_content, $body_template);
+//     }
+//     return $body_template;
+// }
 
 function sendConfirmationEmail($row) {
     //Create an instance; passing `true` enables exceptions
@@ -33,7 +34,7 @@ function sendConfirmationEmail($row) {
         $text_body = replace_tags($text_template, $row);
 
         $mail->isSMTP();
-        $mail->Host = 'thesadsongco.com';
+        $mail->Host = 'unbelievabletruth.co.uk';
         $mail->SMTPAuth = true;
         $mail->SMTPKeepAlive = false; //SMTP connection will not close after each email sent, reduces SMTP overhead
         $mail->Port = 25;

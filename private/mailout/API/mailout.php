@@ -94,6 +94,7 @@ require 'vendor/autoload.php';
 $html_email_path = "./mailout_bodies/html/";
 $text_email_path = "./mailout_bodies/text/";
 $subject_path = "./mailout_bodies/subject/";
+echo "I have run";
 // set the current email
 $current_mailout = file_get_contents('./current_mailout.txt');
 if ($current_mailout == '') exit('no mailout set');
@@ -133,7 +134,7 @@ $mail->addReplyTo('info@thesadsongco.com', 'The Sad Song Co. mailing list');
 
 $mail->Subject = $subject;
 
-$output = 'COMPLETE';
+$output = '';
 $result = get_email_addresses($db, $current_mailout);
 if (sizeof($result) == 0) {
     fwrite ($fp, '--------COMPLETE--------');
@@ -141,6 +142,9 @@ if (sizeof($result) == 0) {
     $fp = fopen('current_mailout.txt', 'w');
     fwrite($fp, '');
     fclose($fp);
+    $mail->msgHTML("<h2>ALL EMAILS SENT. Check ./logs/mailout_log_".$current_mailout.".txt for details<h2>");
+    $mail->addAddress('info@thesadsongco.com', 'Info');
+    $mail->send();
     exit();
 }
 

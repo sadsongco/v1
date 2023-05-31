@@ -14,5 +14,5 @@ https://www.facebook.com/untruth.band/
 
 nigel x
 
-Subscribe to the Unbelievable Truth Mailing List https://unbelievabletruth.co.uk/email_management/subscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
-Unsubscribe from The Sad Song Co. Mailing List https://unbelievabletruth.co.uk/email_management/unsubscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
+Subscribe to the Unbelievable Truth Mailing List https://<!--{{host}}-->/email_management/subscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
+Unsubscribe from The Sad Song Co. Mailing List https://<!--{{host}}-->/email_management/unsubscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
