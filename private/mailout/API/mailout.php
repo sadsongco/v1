@@ -1,5 +1,7 @@
 <?php
 
+// /usr/local/bin/php /home/thesadso/secure/cron/mailout.php
+
 function get_email_addresses($db, $mailout_id) {
     global $output;
     try {
