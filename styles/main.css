@@ -1,19 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;600&display=swap');
 @font-face {
-  font-family: 'OpenSans, Inter sans-serifBold';
+  font-family: 'OpenSansBold';
   font-style: bold;
   font-weight: 700;
-  src: url('../assets/fonts/OpenSans, Inter sans-serif-Bold.ttf');
+  src: url('../assets/fonts/OpenSans-Bold.ttf');
 }
 
 @font-face {
-  font-family: 'OpenSans, Inter sans-serif';
+  font-family: 'OpenSans';
   font-style: normal;
   font-weight: 400;
-  src: url('../assets/fonts/OpenSans, Inter sans-serif-Regular.ttf');
+  src: url('../assets/fonts/OpenSans-Regular.ttf');
 }
 
 body {
+  font-family: OpenSans, Inter, sans-serif;
   background: black;
   display: flex;
   justify-content: center;
@@ -52,7 +53,8 @@ a {
 }
 
 .callout {
-  font-family: OpenSans, Inter sans-serifBold;
+  font-family: OpenSansBold, Inter sans-serif;
+  font-weight: 700;
   font-size: clamp(1.3rem, 9vw, 4rem);
   top: 0;
   mix-blend-mode: difference;
