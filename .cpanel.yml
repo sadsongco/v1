@@ -1,0 +1,15 @@
+##### THIS ALLOWS US TO DEPLOY THE SITE FROM A GIT REPO ######
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/thesadso/theexactopposite.uk/
+    - /bin/cp -R API $DEPLOYPATH
+    - /bin/cp -R assets $DEPLOYPATH
+    - /bin/cp -R email_management $DEPLOYPATH
+    - /bin/cp -R js $DEPLOYPATH
+    - /bin/cp -R private $DEPLOYPATH
+    - /bin/cp -R styles $DEPLOYPATH
+    - /bin/cp .htaccess $DEPLOYPATH
+    - /bin/cp favicon.ico $DEPLOYPATH
+    - /bin/cp index.html $DEPLOYPATH
+    - /bin/cp .gitignore $DEPLOYPATH
