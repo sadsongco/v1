@@ -14,7 +14,7 @@ function write_to_log ($log_fp, $output) {
 }
 
 function delete_current_mailout() {
-    $fp = fopen('current_mailout.txt', 'w');
+    $fp = fopen('current_mailout_tssc.txt', 'w');
     fwrite($fp, '');
     fclose($fp);
 }
@@ -95,7 +95,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require_once('../../../../secure/scripts/ut_m_connect.php');
-require_once("../../../../secure/mailauth/ut.php");
+require_once("../../../../secure/mailauth/tssc.php");
 
 error_reporting(E_ERROR | E_PARSE);
 
@@ -104,16 +104,16 @@ date_default_timezone_set('Etc/UTC');
 require 'vendor/autoload.php';
 
 // paths to email data
-$html_email_path = "../assets/mailout_bodies/html/";
-$text_email_path = "../assets/mailout_bodies/text/";
-$subject_path = "../assets/mailout_bodies/subject/";
+$html_email_path = "../assets/mailout_bodies/tssc/html/";
+$text_email_path = "../assets/mailout_bodies/tssc/text/";
+$subject_path = "../assets/mailout_bodies/tssc/subject/";
 // set the current email
-$current_mailout = file_get_contents('./current_mailout.txt');
+$current_mailout = file_get_contents('./current_mailout_tssc.txt');
 if ($current_mailout == '') exit();
 // create log
-$log_dir = './logs/';
+$log_dir = './logs/tssc';
 makeLogDir($log_dir);
-$log_fp = fopen("./logs/mailout_log_".$current_mailout.".txt", 'a');
+$log_fp = fopen("$log_dir/mailout_log_$current_mailout.txt", 'a');
 
 // set up PHP Mailer
 //Passing `true` enables PHPMailer exceptions
@@ -160,7 +160,7 @@ $result = get_email_addresses($db, $current_mailout, $log_fp);
 if (sizeof($result) == 0) {
     write_to_log($log_fp, "\n\n--------COMPLETE--------");
     delete_current_mailout();
-    email_admin($mail, "<h2>ALL EMAILS SENT. Check ./logs/mailout_log_".$current_mailout.".txt for details<h2>");
+    email_admin($mail, "<h2>ALL EMAILS SENT. Check $log_dir/mailout_log_".$current_mailout.".txt for details<h2>");
     exit();
 }
 
@@ -168,7 +168,7 @@ $output = "";
 $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
 $host = "$protocol://".$_SERVER['HTTP_HOST'];
 
-$remove_path = $host.'/email_management/unsubscribe_dd.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->';
+$remove_path = $host.'/email_management/unsubscribe_tssc.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->';
 foreach ($result as $row) {
     try {
         $body = replace_tags($body_template, $row);
