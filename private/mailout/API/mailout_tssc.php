@@ -36,11 +36,10 @@ function get_email_addresses($db, $mailout_id, $log_fp) {
             $mailout_id = (int)$mailout_id;
             $mailing_table = "mailing_list";
         };
-        // TAKE THIS OUT BEFORE PRODUCTION
+        // TAKE THE '%thesadsongco' LINE OUT BEFORE PRODUCTION
         $query = "SELECT email, name, email_id
         FROM $mailing_table
         WHERE last_sent < ?
-        AND email LIKE '%thesadsongco.com'
         AND subscribed = 1
         AND error = 0
         ORDER BY domain
