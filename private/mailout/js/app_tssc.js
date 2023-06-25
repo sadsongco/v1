@@ -27,11 +27,11 @@ const updatePreviews = (value) => {
   htmlPreview.target = '_blank';
   htmlPreview.innerHTML = 'Preview HTML';
   const textPreview = document.createElement('a');
-  textPreview.href = `assets/mailout_bodies/tssc/text/${value}.txt`;
+  textPreview.href = `API/mailout_preview.php?prev=assets/mailout_bodies/tssc/text/${value}.txt`;
   textPreview.target = '_blank';
   textPreview.innerHTML = 'Preview Text';
   const subjectPreview = document.createElement('a');
-  subjectPreview.href = `assets/mailout_bodies/tssc/subject/${value}.txt`;
+  subjectPreview.href = `API/mailout_preview.php?prev=assets/mailout_bodies/tssc/subject/${value}.txt`;
   subjectPreview.target = '_blank';
   subjectPreview.innerHTML = 'Preview Subject';
 
