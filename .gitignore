@@ -1,4 +1,4 @@
 *.DS_Store
 *mailout_log*
 ./private/mailout/API/logs/
-*current_mailout*
+private/mailout/API/current_mailout*
