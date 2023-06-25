@@ -7,4 +7,4 @@ My old band Unbelievable Truth announced an Almost Here 25th Anniversary show, t
 If you want to hear about the announcement first then please subscribe to the Unbelievable Truth emailing list below, and you can join us on our website or your favoured social media to keep up with any further news. If you're getting this news twice because you're already on the UT list I can only apologise for wasting these precious minutes.
 
 Subscribe to the Unbelievable Truth Mailing List <!--{{host}}-->/email_management/subscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
-Unsubscribe from The Sad Song Co. Mailing List <!--{{host}}-->/email_management/unsubscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
+Unsubscribe from The Sad Song Co. Mailing List <!--{{host}}-->/email_management/unsubscribe_tssc.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
