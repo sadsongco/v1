@@ -23,15 +23,15 @@ const updatePreviews = (value) => {
   const previews = document.getElementById('previews');
   previews.innerHTML = '';
   const htmlPreview = document.createElement('a');
-  htmlPreview.href = `API/mailout_bodies/tssc/html/${value}.html`;
+  htmlPreview.href = `assets/mailout_bodies/tssc/html/${value}.html`;
   htmlPreview.target = '_blank';
   htmlPreview.innerHTML = 'Preview HTML';
   const textPreview = document.createElement('a');
-  textPreview.href = `API/mailout_bodies/tssc/text/${value}.txt`;
+  textPreview.href = `assets/mailout_bodies/tssc/text/${value}.txt`;
   textPreview.target = '_blank';
   textPreview.innerHTML = 'Preview Text';
   const subjectPreview = document.createElement('a');
-  subjectPreview.href = `API/mailout_bodies/tssc/subject/${value}.txt`;
+  subjectPreview.href = `assets/mailout_bodies/tssc/subject/${value}.txt`;
   subjectPreview.target = '_blank';
   subjectPreview.innerHTML = 'Preview Subject';
 
