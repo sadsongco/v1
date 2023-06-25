@@ -1,6 +1,6 @@
 <?php
 
-// cd /home/thesadso/unbelievabletruth.co.ukl/private/mailout/API/; /usr/local/bin/php -q mailout.php
+// cd /home/thesadso/unbelievabletruth.co.uk/private/mailout/API/; /usr/local/bin/php -q mailout_tssc.php
 
 include_once('../includes/replace_tags.php');
 

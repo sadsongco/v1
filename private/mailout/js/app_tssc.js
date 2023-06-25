@@ -23,7 +23,7 @@ const updatePreviews = (value) => {
   const previews = document.getElementById('previews');
   previews.innerHTML = '';
   const htmlPreview = document.createElement('a');
-  htmlPreview.href = `assets/mailout_bodies/tssc/html/${value}.html`;
+  htmlPreview.href = `API/mailout_preview.php?prev=assets/mailout_bodies/tssc/html/${value}.html`;
   htmlPreview.target = '_blank';
   htmlPreview.innerHTML = 'Preview HTML';
   const textPreview = document.createElement('a');
