@@ -113,6 +113,8 @@ $subject_path = "../assets/mailout_bodies/tssc/subject/";
 $current_mailout = file_get_contents('./current_mailout_tssc.txt');
 if ($current_mailout == '') exit();
 // create log
+$log_dir = './logs/';
+makeLogDir($log_dir);
 $log_dir = './logs/tssc';
 makeLogDir($log_dir);
 $log_fp = fopen("$log_dir/mailout_log_$current_mailout.txt", 'a');
