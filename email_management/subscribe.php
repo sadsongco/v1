@@ -12,7 +12,6 @@ if (isset ($_POST['add_name']) && $_POST['add_name'] == "Add Your Name") {
         $stmt->execute([$_POST['email']]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $db_id = $result[0]['email_id'];
-        echo $db_id."<br>";
         $secure_id = hash('ripemd128', $_POST['email'].$db_id.'AndyJasNigel');
         if ($secure_id != $_POST['check']) {
             throw new PDOException('Bad Check Code', 1176);
@@ -49,25 +48,30 @@ elseif (isset($_GET['email']) && $_GET['email'] != '' && isset($_GET['check']) &
         else {
             $stmt = $db->prepare("UPDATE ut_mailing_list SET subscribed=1 WHERE email=?");
             $stmt->execute([$_GET['email']]);
-            $stmt = $db->prepare("SELECT email_id FROM mailing_list WHERE email=?");
+            $stmt = $db->prepare("SELECT email_id, name FROM ut_mailing_list WHERE email=?");
             $stmt->execute([$_GET['email']]);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $id = 0;
-            if (isset($result) && isset($result[0]))
+            if (isset($result) && isset($result[0])) {
                 $id = $result[0]['email_id'];
+                $name = $result[0]['name'];
+            }
             $_GET['check'] = hash('ripemd128', $_GET['email'].$id.'AndyJasNigel');
             $message = '<p>That email is already on our list, thank you!</p>';
         }
     }
-    $message .= 'If you would like to add your name to your email on the Unbeleivable Truth mailing list so we can be more polite when we contact you, feel free to do so here:<br />
+    $protocol = 'http';
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') $protocol .= 's';
+    $host = "$protocol://".$_SERVER['HTTP_HOST'];
+    $message .= 'If you would like to add or update your name on the Unbeleivable Truth mailing list so we can be more polite when we contact you, feel free to do so here:<br />
         <form action = "'.$_SERVER['PHP_SELF'].'" method = "post">
-            <input type = "text" name = "name" size = "30" placeholder = "your name" />
+            <input type = "text" name = "name" size = "30" placeholder = "your name" value = '.$name.' />
             <input type="submit" name="add_name" value="Add Your Name" />
             <input type="hidden" name="check" value = "'.$_GET['check'].'" />
             <input type="hidden" name="email" value = "'.$_GET['email'].'" />
         </form>
         <footer>
-            If you want to unsubscribe click &nbsp;<a href="http://unbelievabletruth.co.uk/email_management/unsubscribe.php?email='.$_GET['email'].'&check='.$_GET['check'].'">HERE</a><br />
+            If you want to unsubscribe click &nbsp;<a href="'.$host.'/email_management/unsubscribe.php?email='.$_GET['email'].'&check='.$_GET['check'].'">HERE</a><br />
         </footer>
 ';
 }
