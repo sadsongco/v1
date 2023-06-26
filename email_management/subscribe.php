@@ -35,8 +35,8 @@ if (isset ($_POST['add_name']) && $_POST['add_name'] == "Add Your Name") {
 
 elseif (isset($_GET['email']) && $_GET['email'] != '' && isset($_GET['check']) && $_GET['check'] != '') {
     try {
-        $stmt = $db->prepare("INSERT INTO ut_mailing_list (email, name, domain, subscribed, date_added) VALUES (?, ?, SUBSTRING_INDEX(?, '@', -1), ?, NOW());");
-        $stmt->execute([$_GET['email'], '', $_GET['email'], 1]);
+        $stmt = $db->prepare("INSERT INTO ut_mailing_list (email, name, domain, subscribed, confirmed, date_added) VALUES (?, ?, SUBSTRING_INDEX(?, '@', -1), ?, ?, NOW());");
+        $stmt->execute([$_GET['email'], '', $_GET['email'], 1, 1]);
         $_GET['check'] = hash('ripemd128', $_GET['email'].$db->lastInsertId().'AndyJasNigel');
         $message = '<p>The email <span class = "email">'.$_GET['email'].'</span> has been added to the Unbelievable Truth mailing list.<br />';
     }
