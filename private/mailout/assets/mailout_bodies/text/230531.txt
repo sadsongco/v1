@@ -1,5 +1,3 @@
-You're getting this mail because you are on The Sad Song Co. mailing list. Unsubscribe options below, if you need them.
-
 Unbelievable Truth are proud to announce an Almost Here 25th Anniversary show, taking place at The Jericho Tavern, Oxford on 15th September 2023. The main set will see Andy Yorke (vocals, guitar), me (drums), Jason Moulster (bass), joined by long time live guitarist Jim Crosskey and keyboardist Richard Payne (The Bluetones / Dodgy) to play our 1998 album that we are all very proud of, and some of our favourite b-sides and extra tracks from those days.
 
 Tickets go on sale now from https://www.wegottickets.com/event/582843, 15 GBP advance. A professional marketing person would no doubt tell me to say here that "snap them up quick, they're going to sell like hot cakes!", but the fact is I can see all kinds of possibilities, from the show selling out in a couple of hours to 25 years later us playing to a handful of interested parties. But either way we're looking forward to the show greatly.
@@ -14,5 +12,5 @@ https://www.facebook.com/untruth.band/
 
 nigel x
 
-Subscribe to the Unbelievable Truth Mailing List https://<!--{{host}}-->/email_management/subscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
-Unsubscribe from The Sad Song Co. Mailing List https://<!--{{host}}-->/email_management/unsubscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
+Subscribe to the Unbelievable Truth Mailing List <!--{{host}}-->/email_management/subscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
+Unsubscribe from The Sad Song Co. Mailing List <!--{{host}}-->/email_management/unsubscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->
