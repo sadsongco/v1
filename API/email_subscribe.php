@@ -12,15 +12,6 @@ use PHPMailer\PHPMailer\Exception;
 require '../private/mailout/API/vendor/autoload.php';
 include_once('../private/includes/replace_tags.php');
 
-// function replace_tags($body_template, $row) {
-//     $row['secure_id'] = $row['check'];
-//     foreach ($row as $tag_name=>$tag_content) {
-//         if ($tag_name == 'name' && $tag_content == '') $tag_content = 'Music Friend';
-//         $body_template = str_replace("<!--{{".$tag_name."}}-->", $tag_content, $body_template);
-//     }
-//     return $body_template;
-// }
-
 function sendConfirmationEmail($row) {
     //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
@@ -32,16 +23,18 @@ function sendConfirmationEmail($row) {
 
         $body = replace_tags($body_template, $row);
         $text_body = replace_tags($text_template, $row);
+        require_once("../../secure/mailauth/ut.php");
 
+        // mail auth
         $mail->isSMTP();
-        $mail->Host = 'unbelievabletruth.co.uk';
+        $mail->Host = $mail_auth['host'];
         $mail->SMTPAuth = true;
         $mail->SMTPKeepAlive = false; //SMTP connection will not close after each email sent, reduces SMTP overhead
         $mail->Port = 25;
-        $mail->Username = 'info@unbelievabletruth.co.uk';
-        $mail->Password = "Wh0'sT0Kn0w?";
-        $mail->setFrom('info@unbelievabletruth.co.uk', 'Unbelievable Truth mailing list');
-        $mail->addReplyTo('info@unbelievabletruth.co.uk', 'Unbelievable Truth mailing list');
+        $mail->Username = $mail_auth['username'];
+        $mail->Password = $mail_auth['password'];
+        $mail->setFrom($mail_auth['from']['address'], $mail_auth['from']['name']);
+        $mail->addReplyTo($mail_auth['reply']['address'], $mail_auth['reply']['name']);
         //Recipients
         $mail->addAddress($row['email'], $row['name']);     //Add a recipient
 
@@ -78,14 +71,13 @@ if (isset($post['email']) && $post['email'] != '') {
         if ($e->getCode() == 23000) {
             $output = ['success'=> false, 'status'=>'exists'];
         } else {
-            $output = ['succes'=>false, 'status'=>'db_error'];
+            $output = ['success'=>false, 'status'=>'db_error'];
             error_log($e->getMessage());
         }
     }
 }
 
 echo json_encode($output);
-
 
 require_once("../../secure/scripts/ut_disconnect.php");
 

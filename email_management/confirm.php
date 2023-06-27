@@ -47,15 +47,18 @@ function sendLastMailout($row) {
         $body = replace_tags($body_template, $row);
         $text_body = replace_tags($text_template, $row);
 
+        require_once("../../secure/mailauth/ut.php");
+
+        // mail auth
         $mail->isSMTP();
-        $mail->Host = 'thesadsongco.com';
+        $mail->Host = $mail_auth['host'];
         $mail->SMTPAuth = true;
         $mail->SMTPKeepAlive = false; //SMTP connection will not close after each email sent, reduces SMTP overhead
         $mail->Port = 25;
-        $mail->Username = 'info@unbelievabletruth.co.uk';
-        $mail->Password = "Wh0'sT0Kn0w?";
-        $mail->setFrom('info@unbelievabletruth.co.uk', 'Unbelievable Truth mailing list');
-        $mail->addReplyTo('info@unbelievabletruth.co.uk', 'Unbelievable Truth mailing list');
+        $mail->Username = $mail_auth['username'];
+        $mail->Password = $mail_auth['password'];
+        $mail->setFrom($mail_auth['from']['address'], $mail_auth['from']['name']);
+        $mail->addReplyTo($mail_auth['reply']['address'], $mail_auth['reply']['name']);
         //Recipients
         $mail->addAddress($row['email'], $row['name']);     //Add a recipient
 

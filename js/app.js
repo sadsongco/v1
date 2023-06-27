@@ -18,7 +18,8 @@ const submitEmail = async (form) => {
       },
       body: JSON.stringify(postObj),
     });
-    return res.json();
+    // console.log(await res.text());
+    return await res.json();
   } catch (err) {
     console.error(err);
   }

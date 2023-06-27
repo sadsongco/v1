@@ -52,6 +52,7 @@ elseif (isset($_GET['email']) && $_GET['email'] != '' && isset($_GET['check']) &
             $stmt->execute([$_GET['email']]);
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $id = 0;
+            $name = '';
             if (isset($result) && isset($result[0])) {
                 $id = $result[0]['email_id'];
                 $name = $result[0]['name'];
