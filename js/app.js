@@ -30,9 +30,12 @@ submit.disabled = true;
 
 document.getElementById('emailList').addEventListener('submit', async (e) => {
   e.preventDefault();
+  submit.disabled = true;
+  submit.value = '... processing';
   const res = await submitEmail(e.target);
   if (res.status == 'db_error') {
     submit.value = 'there was an error, please try again';
+    submit.disabled = false;
     return;
   }
   if (res.status == 'exists') {
@@ -41,7 +44,6 @@ document.getElementById('emailList').addEventListener('submit', async (e) => {
   if (res.success) {
     submit.value = 'thank you! check email for confirmation';
   }
-  submit.disabled = true;
   document.getElementById('email').disabled = true;
   document.getElementById('name').disabled = true;
 });
