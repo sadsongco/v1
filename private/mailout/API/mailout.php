@@ -168,8 +168,7 @@ if (sizeof($result) == 0) {
 }
 
 $output = "";
-$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
-$host = "$protocol://".$_SERVER['HTTP_HOST'];
+$host = 'https://unbelievabletruth.co.uk';
 
 $remove_path = $host.'/email_management/unsubscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->';
 foreach ($result as $row) {
