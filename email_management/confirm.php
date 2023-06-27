@@ -13,11 +13,11 @@ use PHPMailer\PHPMailer\Exception;
 //Load Composer's autoloader
 require '../private/mailout/API/vendor/autoload.php';
 
-include_once('../private/includes/replace_tags.php');
+include_once('../private/mailout/includes/replace_tags.php');
 
 function getLatestMailout() {
     $latest_mailout = 0;
-    if ($handle = opendir('../private/mailout/API/mailout_bodies/html')) {
+    if ($handle = opendir('../private/mailout/assets/mailout_bodies/html')) {
         while (false !== ($entry = readdir($handle))) {
             if (substr($entry, 0, 1) != ".") {
                 $mailout_id = explode('.', $entry)[0];
@@ -34,7 +34,7 @@ function sendLastMailout($row) {
 
     $last_mailout = getLatestMailout();
     if ($last_mailout == 0) return null;
-    $bodies_path = '../private/mailout/API/mailout_bodies/';
+    $bodies_path = '../private/mailout/assets/mailout_bodies/';
     //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
 
@@ -86,7 +86,6 @@ if (isset($_GET) && isset($_GET['email'])) {
         $secure_id = hash('ripemd128', $_GET['email'].$email_id.'AndyJasNigel');
         if ($_GET['check'] != $secure_id) throw new PDOException('Bad check code', 1176);
         $row = $result[0];
-        $row['check'] = $secure_id;
         $stmt = $db->prepare('UPDATE ut_mailing_list SET confirmed = 1 WHERE email_id = ?');
         $stmt->execute([$email_id]);
         $message = 'Your email is confirmed, welcome to the email list!';

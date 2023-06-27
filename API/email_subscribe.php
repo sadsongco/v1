@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
 require '../private/mailout/API/vendor/autoload.php';
-include_once('../private/includes/replace_tags.php');
+include_once('../private/mailout/includes/replace_tags.php');
 
 function sendConfirmationEmail($row) {
     //Create an instance; passing `true` enables exceptions
@@ -63,8 +63,8 @@ if (isset($post['email']) && $post['email'] != '') {
     try {
         $stmt = $db->prepare("INSERT INTO ut_mailing_list (email, domain, name, last_sent, subscribed, date_added) VALUES (?, SUBSTRING_INDEX(?, '@', -1), ?, ?, ?, NOW())");
         $stmt->execute([$post['email'], $post['email'], $post['name'], 0, 1]);
-        $secure_id = hash('ripemd128', $post['email'].$db->lastInsertID().'AndyJasNigel');
-        sendConfirmationEmail(['email'=>$post['email'], 'name'=>$post['name'], 'check'=>$secure_id]);
+        // $secure_id = hash('ripemd128', $post['email'].$db->lastInsertID().'AndyJasNigel');
+        sendConfirmationEmail(['email'=>$post['email'], 'name'=>$post['name'], 'email_id'=>$db->lastInsertID()]);
         $output = ['success'=> true];
     }
     catch (PDOException $e) {
