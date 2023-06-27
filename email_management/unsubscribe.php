@@ -4,7 +4,7 @@ include_once("./includes/html_head.php");
 
 require_once("../../secure/scripts/ut_m_connect.php");
 
-$message = "<p>Email unsubscribe page. You can access this through the link provided in your email";
+$message = "<p>Unbelievable Truth email unsubscribe page. You can access this through the link provided in your email";
 
 if (isset($_GET['email']) && $_GET['email'] != '') {
     try {

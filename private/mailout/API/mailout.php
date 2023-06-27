@@ -1,6 +1,6 @@
 <?php
 
-// cd /home/thesadso/unbelievabletruth.co.ukl/private/mailout/API/; /usr/local/bin/php -q mailout.php
+// cd /home/thesadso/unbelievabletruth.co.uk/private/mailout/API/; /usr/local/bin/php -q mailout.php
 
 include_once('../includes/replace_tags.php');
 
@@ -20,7 +20,7 @@ function delete_current_mailout() {
 }
 
 function email_admin($mail, $msg) {
-    $mail->Subject = 'The Sad Song Co. mailout admin email';
+    $mail->Subject = 'Unbelievable Truth mailout admin email';
     $mail->msgHTML($msg);
     $mail->addAddress('info@thesadsongco.com', 'Info');
     $mail->send();
@@ -34,8 +34,9 @@ function get_email_addresses($db, $mailout_id, $log_fp) {
         }
         else {
             $mailout_id = (int)$mailout_id;
-            $mailing_table = "mailing_list";
+            $mailing_table = "ut_mailing_list";
         };
+        // TAKE THE '%thesadsongco' LINE OUT BEFORE PRODUCTION
         $query = "SELECT email, name, email_id
         FROM $mailing_table
         WHERE last_sent < ?
@@ -61,7 +62,7 @@ function mark_as_sent($db, $current_mailout, $row) {
         $stmt->execute([1, $row['email_id'], $row['email']]);
         return "\n--TEST-- :: Message sent: ".htmlspecialchars($row['email']);}
     try {
-        $stmt = $db->prepare("UPDATE mailing_list SET last_sent = ? WHERE email_id = ? AND email = ?");
+        $stmt = $db->prepare("UPDATE ut_mailing_list SET last_sent = ? WHERE email_id = ? AND email = ?");
         $stmt->execute([$current_mailout, $row['email_id'], $row['email']]);
         return 'Message sent: '.htmlspecialchars($row['email']);
     }
@@ -76,7 +77,7 @@ function mark_as_error($db, $row, $current_mailout) {
         $stmt->execute([$row['email_id'], $row['email']]);
         return "--TEST-- :: ERROR SENDING: ".$row['email'];}
     try {
-        $stmt = $db->prepare("UPDATE mailing_list SET error = 1 WHERE email_id = ? AND email = ?");
+        $stmt = $db->prepare("UPDATE ut_mailing_list SET error = 1 WHERE email_id = ? AND email = ?");
         $stmt->execute([$row['email_id'], $row['email']]);
         return 'ERROR SENDING: '.$row['email'];
     }
@@ -113,7 +114,9 @@ if ($current_mailout == '') exit();
 // create log
 $log_dir = './logs/';
 makeLogDir($log_dir);
-$log_fp = fopen("./logs/mailout_log_".$current_mailout.".txt", 'a');
+$log_dir = './logs/tssc';
+makeLogDir($log_dir);
+$log_fp = fopen("$log_dir/mailout_log_$current_mailout.txt", 'a');
 
 // set up PHP Mailer
 //Passing `true` enables PHPMailer exceptions
@@ -160,7 +163,7 @@ $result = get_email_addresses($db, $current_mailout, $log_fp);
 if (sizeof($result) == 0) {
     write_to_log($log_fp, "\n\n--------COMPLETE--------");
     delete_current_mailout();
-    email_admin($mail, "<h2>ALL EMAILS SENT. Check ./logs/mailout_log_".$current_mailout.".txt for details<h2>");
+    email_admin($mail, "<h2>ALL EMAILS SENT. Check $log_dir/mailout_log_".$current_mailout.".txt for details<h2>");
     exit();
 }
 
@@ -168,7 +171,7 @@ $output = "";
 $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
 $host = "$protocol://".$_SERVER['HTTP_HOST'];
 
-$remove_path = $host.'/email_management/unsubscribe_dd.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->';
+$remove_path = $host.'/email_management/unsubscribe.php?email=<!--{{email}}-->&check=<!--{{secure_id}}-->';
 foreach ($result as $row) {
     try {
         $body = replace_tags($body_template, $row);
