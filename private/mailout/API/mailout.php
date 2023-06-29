@@ -114,8 +114,6 @@ if ($current_mailout == '') exit();
 // create log
 $log_dir = './logs/';
 makeLogDir($log_dir);
-$log_dir = './logs/tssc';
-makeLogDir($log_dir);
 $log_fp = fopen("$log_dir/mailout_log_$current_mailout.txt", 'a');
 
 // set up PHP Mailer
