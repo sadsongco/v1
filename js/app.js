@@ -58,8 +58,8 @@ document.getElementById('email').addEventListener('input', (e) => {
   }
 });
 
-const announce = new Date(2023, 4, 29, 9);
-const onsale = new Date(2023, 4, 31, 9);
+const announce = new Date(2023, 6, 5, 10);
+const onsale = new Date(2023, 6, 7, 10);
 const today = new Date();
 
 if (today < announce) document.getElementById('date').style.display = 'flex';
