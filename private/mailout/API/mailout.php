@@ -40,6 +40,7 @@ function get_email_addresses($db, $mailout_id, $log_fp) {
         $query = "SELECT email, name, email_id
         FROM $mailing_table
         WHERE last_sent < ?
+        AND email LIKE '%sadsongco%'
         AND subscribed = 1
         AND error = 0
         ORDER BY domain
