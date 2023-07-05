@@ -16,6 +16,7 @@
 body {
   font-family: OpenSans, Inter, sans-serif;
   background: black;
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,4 +122,8 @@ section.socials {
 #announce,
 #onsale {
   display: none;
+}
+
+.booking a {
+  color: #cccccf;
 }
