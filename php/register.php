@@ -64,8 +64,8 @@ function SendConfirmationEmail ($email, $selector, $token, $m, $mail_auth) {
 try {
     $userId = $auth->register($_POST['email'], $_POST['password'], $_POST['username'], function ($selector, $token) {
         $m = new Mustache_Engine(array(
-            'loader' => new Mustache_Loader_FilesystemLoader('../templates'),
-            'partials_loader' => new Mustache_Loader_FilesystemLoader('../templates/partials')
+            'loader' => new Mustache_Loader_FilesystemLoader('./templates'),
+            'partials_loader' => new Mustache_Loader_FilesystemLoader('./templates/partials')
         ));
         require_once("../../secure/mailauth/ut.php");
         try {
