@@ -23,7 +23,9 @@ $m = new Mustache_Engine(array(
 
 try {
     $auth->login($_POST['email'], $_POST['password']);
-    echo $m->render('userLoggedIn', ["username"=>$auth->getUsername()]);
+    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
+    $host = "$protocol://".$_SERVER['HTTP_HOST'];
+    echo $m->render('userLoggedIn', ["username"=>$auth->getUsername(), "base_dir"=>$host]);
 }
 catch (\Delight\Auth\InvalidEmailException $e) {
     die('Wrong email address');
