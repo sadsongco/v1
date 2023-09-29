@@ -24,7 +24,8 @@ if ($auth->isLoggedIn()) {
 }
 
 else {
-    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
+    $protocol = 'http';
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') $protocol .= 's';
     $host = "$protocol://".$_SERVER['HTTP_HOST'];
 
     echo $m->render('userRegister', ["base_dir"=>$host]);

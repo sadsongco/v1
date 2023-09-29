@@ -30,7 +30,8 @@ catch (Exception $e) {
 
 
 function SendConfirmationEmail ($email, $selector, $token, $m, $mail_auth) {
-    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
+    $protocol = 'http';
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') $protocol .= 's';
     $host = "$protocol://".$_SERVER['HTTP_HOST'];
     $email_html = $m->render('confirmRegisterEmail', ["host"=>$host, "selector"=>$selector, "token"=>$token]);
     $email_txt = $m->render('confirmRegisterEmailTxt', ["host"=>$host, "selector"=>$selector, "token"=>$token]);
