@@ -1,0 +1,11 @@
+.callout {
+  height: auto;
+  margin-bottom: 2em;
+  mix-blend-mode: normal;
+}
+
+.userAreaContent {
+  margin: 2em;
+  padding: 1em;
+  background-color: rgba(0, 0, 0, 0.8);
+}

@@ -1,0 +1,9 @@
+      <form hx-post="/php/login.php" method="post" hx-target="#userModal">
+        <label for="userEmail">Email</label>
+        <input type="email" name="email" id="userEmail" autocomplete="email" required />
+        <label for="userPassword">Password</label>
+        <input type="password" name="password" id="userPassword" autocomplete="current-password" required />
+        <div class="spacer"></div>
+        <input type="submit" value="Log In" />
+      </form>
+      <a hx-post="php/registerForm.php" hx-target="#userModal">Register</a>

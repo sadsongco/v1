@@ -5,10 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/userLogin.css" />
+    <script src="/lib/htmx.min.js"></script>
     <script defer type="module" src="./js/app.js"></script>
     <title>Unbelievable Truth</title>
   </head>
   <body>
+    <div class="user" id="user" hx-get="php/registerForm.php" hx-target="#userModal">
+      <img src="assets/images/graphics/user.png" alt="User icon" />
+    </div>
+    <section class="userModal userHide" id="userModal"></section>
     <main>
       <section class="topspacer"></section>
       <section class="callout">
@@ -38,11 +44,11 @@
     </main>
     <footer>
       <section class="emailForm">
-        <label for="emailList">Join our email list for news:</label><br />
+        <h2>Join our email list for news:</h2>
         <form action="#" id="emailList">
-          <input type="text" id="email" placeholder="email address" /> <br />
-          <input type="text" id="name" placeholder="name (optional)" /> <br />
-          <input type="submit" id="emailSubmit" value="enter your email" />
+          <input type="text" id="email" placeholder="email address" autocomplete="email" /> <br />
+          <input type="text" id="name" placeholder="name (optional)" autocomplete="name" /> <br />
+          <input type="submit" id="emailSubmit" value="enter your email" autocomplete="email" />
         </form>
       </section>
       <section class="socials">
@@ -65,4 +71,5 @@
       <section class="booking">Booking Agent: <a href="mailto:debbie@lb-agency.net">debbie@lb-agency.net</a></section>
     </footer>
   </body>
+  <script defer src="js/toggleModal.js"></script>
 </html>

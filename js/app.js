@@ -64,7 +64,7 @@ const today = new Date();
 
 if (today < announce) document.getElementById('date').style.display = 'flex';
 else if (today > announce && today < onsale) {
-  for (let elId of ['show', 'venue', 'announce']) document.getElementById(elId).style.display = 'flex';
+  for (let elId of ['show', 'venue']) document.getElementById(elId).style.display = 'flex';
 } else if (today > onsale) {
-  for (let elId of ['show', 'venue', 'onsale']) document.getElementById(elId).style.display = 'flex';
+  for (let elId of ['show', 'venue']) document.getElementById(elId).style.display = 'flex';
 }
