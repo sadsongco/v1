@@ -21,12 +21,13 @@
   top: -20px;
   right: 0;
   transition: top 1s ease;
-  font-size: 0.7em;
-  width: clamp(8em, 10%, 12em);
+  font-size: 1em;
+  width: clamp(12em, 12%, 15em);
   padding: 8px;
   margin-right: 5px;
   background-color: rgba(100, 100, 100, 0.9);
   z-index: 4;
+  border-radius: 5px;
 }
 
 .userModal.userHide {
