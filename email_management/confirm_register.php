@@ -39,7 +39,7 @@ function addEmailToList($email) {
 }
 
 try {
-    // $auth->confirmEmailAndSignIn($_GET['selector'], $_GET['token']);
+    $auth->confirmEmailAndSignIn($_GET['selector'], $_GET['token']);
     addEmailToList($auth->getEmail());
     echo $m->render('emailConfirmed');
 }
