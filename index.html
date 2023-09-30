@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles/main.css" />
     <link rel="stylesheet" href="./styles/userLogin230929.css" />
+    <link rel="stylesheet" href="./styles/cookieConsent.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <script src="/lib/htmx.min.js"></script>
     <script defer type="module" src="./js/app.js"></script>
+    <script defer src="js/cookieConsent.js"></script>
+    <script defer src="js/toggleModal.js"></script>
     <title>Unbelievable Truth</title>
   </head>
   <body>
@@ -70,6 +74,13 @@
       </section>
       <section class="booking">Booking Agent: <a href="mailto:debbie@lb-agency.net">debbie@lb-agency.net</a></section>
     </footer>
+    <section class="cookieConsent consentHidden" id="cookieConsent">
+      <div class="cookieConsentInnerContainer">
+        <div class="closeConsent" id="closeConsent">
+          <i class="fa fa-close"></i>
+        </div>
+        <div class="cookieConsentMessage">The only cookies we store about you are essential ones that make the site work. We don't track you, or share any data, or try and figure out whether you would like to see an advert for squarespace. Click on the X to close this annoying box.</div>
+      </div>
+    </section>
   </body>
-  <script defer src="js/toggleModal.js"></script>
 </html>
