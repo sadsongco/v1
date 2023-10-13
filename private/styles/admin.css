@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;600&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -135,8 +137,6 @@ table {
   border-spacing: 0;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;600&display=swap');
-
 body {
   font-family: Inter, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   font-size: 1.2em;
@@ -167,6 +167,24 @@ main {
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
 }
+
+a {
+  color: #e9e9bb;
+}
+h1 {
+  font-size: 1.5em;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+}
+
+h2 {
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+  font-size: 1.2em;
+  font-weight: 600;
+}
 p {
   margin: 1em 0;
 }
@@ -196,4 +214,19 @@ footer {
 footer a {
   text-decoration: underline;
   color: #aaa;
+}
+
+form input {
+  display: block;
+  width: 31.25em;
+}
+
+form input[type='submit'] {
+  width: 10em;
+}
+
+.userFileUpload {
+  margin: 5px;
+  padding: 5px;
+  border-bottom: 1px solid white;
 }

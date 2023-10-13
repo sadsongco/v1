@@ -1,0 +1,11 @@
+<div class="audioPlayer">
+    {{#title}}
+        <h2>{{title}}</h2>
+    {{/title}}
+    {{#token}}
+        {{>streamAudio}}
+    {{/token}}
+    {{#notes}}
+        <p>{{{notes}}}</p>
+    {{/notes}}
+</div>

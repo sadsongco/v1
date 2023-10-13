@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/private/styles/admin.css" />
+    <script src="../lib/htmx.min.js"></script>
+    <script src="/private/js/addFileButtonManager.js" defer></script>
+    <script src="/private/js/addToBody.js" defer></script>
+
+    <title>Unbelievable Truth - admin page</title>
+  </head>
+  <body>
+    <main>
+      <h1>Unbelievable Truth</h1>
+      <h2>Admin Page</h2>
+      <section>
+        <form hx-encoding="multipart/form-data" hx-post="/private/php/add_user_area_files.php" hx-target="this">
+          <div id="userAreaFiles">
+            <input type="hidden" name="fileId" id="fileId" value="0" />
+            <button hx-get="/private/php/add_user_area_file.php" hx-target="#userAreaFiles" hx-swap="beforeend" hx-include="[id='fileId']" id="addFileButton">Add Files</button>
+          </div>
+          <input type="submit" value="Upload Files" />
+        </form>
+        <form hx-encoding="multipart/form-data" hx-post="/private/php/add_user_area_item.php" hx-target="this">
+          <input type="text" name="title" id="title" placeholder="User Area Item Title" hx-post="/private/php/article_preview.php" hx-trigger="keyup changed delay:1s" hx-target="#articlePreview" />
+          <textarea hx-post="/private/php/article_preview.php" hx-trigger="keyup changed delay:1s" hx-target="#articlePreview" name="body" id="body" cols="50" rows="20" placeholder="User Area Item Body"></textarea>
+          <input type="submit" value="Add User Area Item" />
+        </form>
+      </section>
+      <section>
+        <a href="/private/mailout/mailout.html">Send mailout</a>
+      </section>
+      <section id="articlePreview">ARTICLE PREVIEW</section>
+    </main>
+  </body>
+</html>

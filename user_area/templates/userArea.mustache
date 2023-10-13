@@ -32,9 +32,9 @@
         <div class="contentwrap">unbelievable truth</div>
       </section>
       <section class="userAreaContent">
-        <h2>The only thing here right now.</h2>
-        <p>We will develop this area more as time goes on. But for the time being, here's the track missing from the playlist of the setlist we played at our Oxford and London Almost Here 25th anniversary shows recently.</p>
-        <audio controls src="./assets/audio/fth.mp3" type="audio/mpg">Sadly your browser doesn't support the audio element</audio>
+        {{#articles}}
+          {{>article}}
+        {{/articles}}
       </section>
     </main>
     <footer>
