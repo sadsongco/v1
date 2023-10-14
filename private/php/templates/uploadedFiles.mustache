@@ -1,0 +1,15 @@
+{{#uploaded_files}}
+    <div class="fileUploaded">
+    {{#success}}
+        <p>
+            File {{filename}} uploaded. Add to article by copying and pasting {{>copyButton}}
+        </p>
+    {{/success}}
+    {{^success}}
+        <p class="error">{{message}}</p>
+        {{#tag}}
+            {{>copyButton}}
+        {{/tag}}
+    {{/success}}
+    </div>
+{{/uploaded_files}}

@@ -4,7 +4,7 @@ include(__DIR__."/../../php/includes/p_2.php");
 require_once(__DIR__."/../../../secure/scripts/ut_a_connect.php");
 
 try {
-    $query = "INSERT INTO articles VALUES (0, ?, ?);";
+    $query = "INSERT INTO articles VALUES (0, ?, ?, NOW());";
     $stmt = $db->prepare($query);
     $stmt->execute([$_POST['title'], $_POST['body']]);
 }

@@ -1,6 +1,9 @@
 <?php
 
 include("../../php/includes/p_2.php");
+// include_once(__DIR__."/includes/getHost.php");
+
+define("__HOST__", getHost());
 
 // database
 require_once("../../../secure/scripts/ut_a_connect.php");
@@ -14,7 +17,7 @@ catch (Exception $e) {
     die($e->getMessage());
 }
 
-define("MEDIA_PATH", __DIR__."/../assets/media/");
+define("MEDIA_PATH", __HOST__."/user_area/assets/media/");
 
 function getHost() {
     $protocol = 'http';
