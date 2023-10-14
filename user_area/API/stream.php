@@ -1,7 +1,6 @@
 <?php
-
 include("../../php/includes/p_2.php");
-// include_once(__DIR__."/includes/getHost.php");
+include_once(__DIR__."/includes/getHost.php");
 
 define("__HOST__", getHost());
 
@@ -17,20 +16,13 @@ catch (Exception $e) {
     die($e->getMessage());
 }
 
-define("MEDIA_PATH", __HOST__."/user_area/assets/media/");
-
-function getHost() {
-    $protocol = 'http';
-    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') $protocol .= 's';
-    return "$protocol://".$_SERVER['HTTP_HOST'];
-}
+define("MEDIA_PATH", dirname(__FILE__). "/../assets/media/");
 
 function removeExpiredStreamingTokens($db, $token) {
     $query = "DELETE FROM streaming_tokens WHERE timestamp < ?;";
     $stmt = $db->prepare($query);
     $stmt->execute([time()-(60*30)]); // remove timestamps longer than 30 minutes ago
 }
-
 
 // stop direct access if not authorised
 $host = getHost();
@@ -50,8 +42,10 @@ try {
 catch (PDOException $e) {
     echo $e->getMessage();
 }
+echo MEDIA_PATH.$filename;
 
 removeExpiredStreamingTokens($db, $_GET["track"]);
+
 echo file_get_contents(MEDIA_PATH.$filename);
 
 
