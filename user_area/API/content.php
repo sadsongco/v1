@@ -1,14 +1,14 @@
 <?php
 
 // database
-require_once("../../secure/scripts/ut_a_connect.php");
+require_once("../../../secure/scripts/ut_a_connect.php");
 
 define("IMAGE_UPLOAD_PATH", "./assets/images/");
 
-include(__DIR__."/../php/includes/p_2.php");
+include(__DIR__."/../../php/includes/p_2.php");
 
 // auth
-require __DIR__ . '/../php/vendor/autoload.php';
+require __DIR__ . '/../../php/vendor/autoload.php';
 try {
     $auth = new \Delight\Auth\Auth($db);
 }
@@ -17,17 +17,17 @@ catch (Exception $e) {
 }
 
 // templating
-require '../lib/mustache.php-main/src/Mustache/Autoloader.php';
+require '../../lib/mustache.php-main/src/Mustache/Autoloader.php';
 Mustache_Autoloader::register();
 
 $m = new Mustache_Engine(array(
-    'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/templates'),
-    'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/templates/partials')
+    'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/../templates'),
+    'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/../templates/partials')
 ));
 
 // getarticlemedia includes
-include(__DIR__."/api/includes/getArticleMedia.php");
-include(__DIR__."/api/includes/getHost.php");
+include(__DIR__."/includes/getArticleMedia.php");
+include(__DIR__."/includes/getHost.php");
 
 
 
@@ -49,6 +49,6 @@ foreach ($articles as &$article) {
 
 echo $m->render('userArea', ["base_dir"=>$host, "articles"=>$articles]);
 
-require_once("../../secure/scripts/ut_disconnect.php");
+require_once("../../../secure/scripts/ut_disconnect.php");
 
 ?>

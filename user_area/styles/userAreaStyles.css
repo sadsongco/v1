@@ -8,4 +8,36 @@
   margin: 2em;
   padding: 1em;
   background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.userAreaContent article {
+  background: #444;
+  padding: 2em;
+  width: 90%;
+  margin-bottom: 2em;
+}
+
+.userAreaContent article h1 {
+  font: OpenSansBold;
+  font-size: 1.7em;
+}
+
+.audioPlayer h2 {
+  font: OpenSans;
+  font-style: normal;
+  font-size: 1.3em;
+  color: red;
+}
+
+.userAreaContent article image {
+  max-width: 80%;
+}
+
+.articleDate {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8em;
+  padding: 1px;
 }

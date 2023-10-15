@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/imports.css" />
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/userLogin230929.css" />
+    <link rel="stylesheet" href="styles/userAreaStyles.css" />
+    <script src="../lib/htmx.min.js"></script>
+    <title>Unbelievable Truth</title>
+    <style>
+      .htmx-indicator {
+        opacity: 0;
+        transition: opacity 200ms ease-in;
+      }
+      .htmx-request .htmx-indicator {
+        opacity: 1;
+      }
+      .htmx-request.htmx-indicator {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="user" id="user" hx-get="{{base_dir}}/php/registerForm.php" hx-target="#userModal">
+      <img src="../assets/images/graphics/user.png" alt="User icon" />
+    </div>
+    <section class="userModal userHide" id="userModal"></section>
+    <main>
+      <section class="callout">
+        <div class="contentwrap">unbelievable truth</div>
+      </section>
+      <section class="userAreaContent" hx-get="API/content.php" hx-trigger="load" hx-swap="innerHTML"></section>
+    </main>
+    <footer>
+      <section class="socials">
+        <a href="https://www.facebook.com/untruth.band">
+          <img src="../assets/images/socials/fb.png" alt="Facebook logo" />
+        </a>
+        <a href="https://www.threads.net/@untruth_band">
+          <img src="../assets/images/socials/th.png" alt="Threads logo" />
+        </a>
+        <a href="https://twitter.com/untruth_band">
+          <img src="../assets/images/socials/tw.png" alt="Twitter logo" />
+        </a>
+        <a href="https://www.instagram.com/untruth_band/">
+          <img src="../assets/images/socials/ig.png" alt="Instagram logo" />
+        </a>
+        <a href="mailto:info@unbelievabletruth.co.uk">
+          <img src="../assets/images/socials/email.png" alt="Email logo" />
+        </a>
+      </section>
+      <section class="booking">Booking Agent: <a href="mailto:debbie@lb-agency.net">debbie@lb-agency.net</a></section>
+    </footer>
+
+    <script defer="" src="../js/toggleModal.js"></script>
+  </body>
+</html>
