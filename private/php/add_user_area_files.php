@@ -92,7 +92,6 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
         return fileExists($files["name"][$key], $table, $tag, $db);
     }
     $uploaded_file = $files["tmp_name"][$key];
-    echo "tmp path = $uploaded_file";
     try {
         $media_id = insertMediaDB($files, $key, $db, $table);
     }
@@ -133,7 +132,6 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
             }
             saveThumbnail($image, $files["name"][$key], $image_file_type);
         }
-        echo "copying $uploaded_file to ".$upload_path.str_replace(" ", "_", $files["name"][$key]);
         move_uploaded_file($uploaded_file, $upload_path.str_replace(" ", "_", $files["name"][$key]));
     }
     catch (Exception $e) {
