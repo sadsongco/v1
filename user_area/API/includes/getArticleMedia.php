@@ -2,8 +2,7 @@
 
 function makeUniqueToken($auth, $track) {
     echo "make unique token: ";
-    p_2($auth->getUsername());
-    p_2($track["filename"]);
+    p_2(hash_algos());
     echo hash('xxh64', $auth->getUsername().$track["filename"]);
     return hash('xxh64', $auth->getUsername().$track["filename"]);
 }
