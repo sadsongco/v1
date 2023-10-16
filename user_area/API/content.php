@@ -38,6 +38,7 @@ if (!$auth->isLoggedIn()) {
 
 $host = getHost();
 $articles = getArticles($db);
+
 foreach ($articles as &$article) {
     try {
         $article["body"] = getMedia($article["body"], $db, $auth, $m, $host);
