@@ -25,6 +25,10 @@
   font-size: 1.7em;
 }
 
+.userAreaContent a {
+  color: #dfdfd6;
+}
+
 .audioPlayer h2 {
   font: OpenSans;
   font-style: normal;
