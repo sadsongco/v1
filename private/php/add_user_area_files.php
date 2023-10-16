@@ -85,12 +85,14 @@ function saveThumbnail($image, $filename, $image_file_type) {
 }
 
 function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
+    if ($files["tmp_name"][$key] == "") die ("NO TMP_NAME:<br />..");
     $upload_path = $table == "images" ? IMAGE_UPLOAD_PATH : AUDIO_UPLOAD_PATH;
     $tag  = $table == "images" ? "i" : "a";
     if (file_exists($upload_path.$files["name"][$key])) {
         return fileExists($files["name"][$key], $table, $tag, $db);
     }
     $uploaded_file = $files["tmp_name"][$key];
+    echo "tmp path = $uploaded_file";
     try {
         $media_id = insertMediaDB($files, $key, $db, $table);
     }
@@ -131,6 +133,7 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
             }
             saveThumbnail($image, $files["name"][$key], $image_file_type);
         }
+        echo "copying $uploaded_file to ".$upload_path.str_replace(" ", "_", $files["name"][$key]);
         move_uploaded_file($uploaded_file, $upload_path.str_replace(" ", "_", $files["name"][$key]));
     }
     catch (Exception $e) {
@@ -172,6 +175,7 @@ if (!isset($_FILES) || !isset($_FILES["files"])) {
     }
     
 }
+
 echo $m->render("uploadedFiles", ["uploaded_files"=>$uploaded_files]);
 
 require_once(__DIR__."/../../../secure/scripts/ut_disconnect.php");
