@@ -36,6 +36,11 @@
   color: #aaa;
 }
 
+.audioPlayer p {
+  font-size: 0.8em;
+  color: #ccc;
+}
+
 .userAreaContent article img,
 .userAreaContent article audio {
   max-width: 80%;
