@@ -3,8 +3,8 @@
 function makeUniqueToken($auth, $track) {
     echo "make unique token: ";
     p_2(hash_algos());
-    echo hash('xxh64', $auth->getUsername().$track["filename"]);
-    return hash('xxh64', $auth->getUsername().$track["filename"]);
+    echo hash('sha1', $auth->getUsername().$track["filename"]);
+    return hash('sha1', $auth->getUsername().$track["filename"]);
 }
 
 function getMediaArr($table, $ids, $db) {
