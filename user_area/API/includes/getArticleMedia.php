@@ -1,9 +1,6 @@
 <?php
 
 function makeUniqueToken($auth, $track) {
-    echo "make unique token: ";
-    p_2(hash_algos());
-    echo hash('sha1', $auth->getUsername().$track["filename"]);
     return hash('sha1', $auth->getUsername().$track["filename"]);
 }
 
