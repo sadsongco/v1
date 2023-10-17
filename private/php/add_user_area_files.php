@@ -119,20 +119,24 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
                 $image = null;
         }
         if ($image) {
+            // resize images and save thumbnails
             $image_size = getimagesize($uploaded_file);
             if ($image_size[0] > MAX_IMAGE_WIDTH) {
                 try {
-                    if (!resizeImage($image, $uploaded_file, $image_file_type)) {
-                        return ["success"=>false, "message"=>"Failed to resize image"];
+                    if (!resizeImage($image, IMAGE_UPLOAD_PATH.$files["name"][$key], $image_file_type)) {
+                        throw new Exception("Failed to resize image");
                     }
+                    saveThumbnail($image, $files["name"][$key], $image_file_type);
+                    unlink($uploaded_file);
                 }
                 catch (Exception $e) {
-                    return ["success"=>false, "message"=>"Failed to resize image: ".$e->getMessage()];
+                    throw new Exception("Failed to save image: ".$e->getMessage());
                 }
             }
-            saveThumbnail($image, $files["name"][$key], $image_file_type);
+        } else {
+            // save audio
+            move_uploaded_file($uploaded_file, $upload_path.str_replace(" ", "_", $files["name"][$key]));
         }
-        move_uploaded_file($uploaded_file, $upload_path.str_replace(" ", "_", $files["name"][$key]));
     }
     catch (Exception $e) {
         return ["success"=>false, "message"=>"File copy error: ".$e->getMessage()];
