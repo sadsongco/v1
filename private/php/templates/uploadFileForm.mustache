@@ -12,6 +12,6 @@
                 >Add Files</button>
           </div>
           <div id="fileUploadStatus"></div>
-          <input type="submit" value="Upload Files" />
+          <input type="submit" value="Upload Files" onclick="startUploadProgress()" />
         </form>
-        <div hx-get="/private/php/file_upload_progress.php" hx-trigger="every 0.5s" hx-swap="innerHTML" hx-target="this"></div>
+        <div id="uploadProgress" hx-get="/private/php/file_upload_progress.php" hx-trigger="none" hx-swap="innerHTML" hx-target="this"></div>

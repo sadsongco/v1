@@ -3,7 +3,8 @@
 // database
 require_once("../../../secure/scripts/ut_a_connect.php");
 
-define("IMAGE_UPLOAD_PATH", "./assets/images/");
+define("RELATIVE_ROOT", "/../../../");
+define("IMAGE_UPLOAD_PATH", "/user_area/assets/images/");
 
 include(__DIR__."/../../php/includes/p_2.php");
 

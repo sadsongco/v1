@@ -46,7 +46,7 @@ function getMedia($content, $db, $auth, $m, $host) {
         foreach ($image_arr as $image) {
             $replace_str = "{{i::".$image["image_id"]."}}";
             $image["path"] = IMAGE_UPLOAD_PATH.$image["filename"];
-            $image["size_string"] = getimagesize(__DIR__."/../../".$image["path"])[3];
+            $image["size_string"] = getimagesize(__DIR__.RELATIVE_ROOT.$image["path"])[3];
             $replace_el = $m->render("imageTag", $image);
             $content = preg_replace("/$replace_str/", $replace_el, $content);
         }

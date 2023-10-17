@@ -240,3 +240,31 @@ form input[type='submit'] {
   font-family: 'Courier New', Courier, monospace;
   font-weight: bold;
 }
+
+.uploadProgressContainer {
+  padding: 5px;
+  width: 25%;
+  min-width: calc(100px + 8em);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 0.6em;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.uploadProgress {
+  width: 100px;
+  height: 20px;
+  /* border: 1px solid red; */
+  background-color: white;
+  display: grid;
+}
+
+.uploadProgressBar {
+  height: 20px;
+  width: var(--progress);
+  color: #fff;
+  background-color: blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

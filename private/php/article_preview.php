@@ -3,7 +3,8 @@
 // database
 require_once("../../../secure/scripts/ut_a_connect.php");
 
-define("IMAGE_UPLOAD_PATH", __DIR__."/../../user_area/assets/images/");
+define("RELATIVE_ROOT", "/../../..");
+define("IMAGE_UPLOAD_PATH", "/user_area/assets/images/");
 
 // auth
 require __DIR__ . '/../../php/vendor/autoload.php';
