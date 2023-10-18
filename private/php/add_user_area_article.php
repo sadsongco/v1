@@ -3,7 +3,7 @@
 include(__DIR__."/../../php/includes/p_2.php");
 require_once(__DIR__."/../../../secure/scripts/ut_a_connect.php");
 
-exit(p_2($_POST));
+// exit(p_2($_POST));
 
 try {
     $query = "INSERT INTO articles VALUES (0, ?, ?, NOW());";
