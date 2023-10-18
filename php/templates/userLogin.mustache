@@ -3,7 +3,9 @@
         <input type="email" name="email" id="userEmail" autocomplete="email" required />
         <label for="userPassword">Password</label>
         <input type="password" name="password" id="userPassword" autocomplete="current-password" required />
+        <label for="remember">Remember</label>
+        <input type="checkbox" id="remember" name="remember" />
         <div class="spacer"></div>
         <input type="submit" value="Log In" />
       </form>
-      <a hx-post="{{base_dir}}/php/registerForm.php" hx-target="#userModal">Register</a>
+      <a hx-post="{{base_dir}}/php/registerForm.php" hx-target="#userModal">Register</a> || <a hx-post="{{base_dir}}/php/resetPW.php" hx-target="#userModal">Reset Password</a>

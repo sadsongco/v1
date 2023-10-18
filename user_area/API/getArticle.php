@@ -3,7 +3,9 @@
 // database
 require_once("../../../secure/scripts/ut_a_connect.php");
 
-// utilities
+define("RELATIVE_ROOT", "/../../../");
+define("IMAGE_UPLOAD_PATH", "/user_area/assets/images/");
+
 include(__DIR__."/../../php/includes/p_2.php");
 
 // auth
@@ -24,21 +26,32 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/../templates/partials')
 ));
 
-function getArticles($db) {
-    $query = "SELECT article_id FROM articles ORDER BY added DESC;";
-    return $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
-}
+// getarticlemedia includes
+include(__DIR__."/includes/getArticleMedia.php");
+include(__DIR__."/includes/getHost.php");
+
+
 
 if (!$auth->isLoggedIn()) {
     header('Location: '.$host);
     die();
 }
 
-$articles = getArticles($db);
+$host = getHost();
 
-foreach ($articles AS $article) {
-    echo $m->render("articleLazy", ["article_id"=>$article["article_id"]]);
+try {
+    $query = "SELECT * FROM articles WHERE article_id = ?;";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$_GET['article_id']]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+catch (Exception $e) {
+    die("DATABASE ERROR: ".$e->getMessage());
+}
+$article = $result[0];
+$article["body"] = getMedia($article["body"], $db, $auth, $m, $host);
+
+echo $m->render("article", $article);
 
 require_once("../../../secure/scripts/ut_disconnect.php");
 

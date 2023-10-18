@@ -54,10 +54,4 @@ function getMedia($content, $db, $auth, $m, $host) {
     return nl2br($content);
 }
 
-function getArticles($db) {
-    $query = "SELECT title, body, DATE_FORMAT(added, '%D %b %Y') AS added FROM articles ORDER BY added DESC;";
-    return $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
-}
-
-
 ?>

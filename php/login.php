@@ -3,6 +3,9 @@
 // database
 require_once("../../secure/scripts/ut_a_connect.php");
 
+include("includes/p_2.php");
+define("REMEMBER_DURATION", (int) 60 * 60 * 24 * 30);
+
 // auth
 require __DIR__ . '/vendor/autoload.php';
 try {
@@ -22,7 +25,11 @@ $m = new Mustache_Engine(array(
 ));
 
 try {
-    $auth->login($_POST['email'], $_POST['password']);
+    $rememberDuration = null;
+    if (isset($_POST["remember"]) && $_POST['remember'] == "on") {
+        $rememberDuration = REMEMBER_DURATION;
+    } 
+    $auth->login($_POST['email'], $_POST['password'], $rememberDuration);
     $protocol = 'http';
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') $protocol .= 's';    $host = "$protocol://".$_SERVER['HTTP_HOST'];
     echo $m->render('userLoggedIn', ["username"=>$auth->getUsername(), "base_dir"=>$host]);

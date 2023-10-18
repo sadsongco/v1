@@ -40,6 +40,6 @@ catch (Exception $e){
     echo $e->getMessage();
 }
 
-echo $m->render('articlePreview', $article);
+echo $m->render('article', $article);
 
 ?>

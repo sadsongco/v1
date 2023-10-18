@@ -24,7 +24,7 @@
     </style>
   </head>
   <body>
-    <div class="user" id="user" hx-get="{{base_dir}}/php/registerForm.php" hx-target="#userModal">
+    <div class="user" id="user" hx-get="API/user.php" hx-target="#userModal" hx-trigger="load">
       <img src="../assets/images/graphics/user.png" alt="User icon" />
     </div>
     <section class="userModal userHide" id="userModal"></section>
@@ -32,8 +32,11 @@
       <section class="callout">
         <div class="contentwrap">unbelievable truth</div>
       </section>
-      <section class="userAreaContent" hx-get="API/content.php" hx-trigger="load" hx-swap="innerHTML">
+      <section class="userAreaHeader">
         <h2>Private area for users</h2>
+        <p>A place for us to put some music and thoughts and blogs and pictures and any old stuff. Soon to come also, commenting on articles and possibly some live chat things!</p>
+      </section>
+      <section class="userAreaContent" hx-get="API/content.php" hx-trigger="load" hx-swap="innerHTML">
         <p>No content here right now. Perhaps I'm just updating something. Check back soon!</p>
       </section>
     </main>

@@ -72,6 +72,7 @@
 }
 
 .userModal a {
+  font-size: 0.8em;
   color: #ff99;
   transition: color 0.4s ease-in-out;
 }

@@ -17,15 +17,11 @@
     <main>
       <h1>Unbelievable Truth</h1>
       <h2>Admin Page</h2>
-      <section>
-        <div hx-get="/private/php/user_area_file_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML"></div>
-        <form hx-encoding="multipart/form-data" hx-post="/private/php/add_user_area_article.php" hx-target="this">
-          <input type="text" name="title" id="title" placeholder="User Area Item Title" hx-post="/private/php/article_preview.php" hx-trigger="keyup changed delay:1s" hx-target="#articlePreview" />
-          <textarea hx-post="/private/php/article_preview.php" hx-trigger="keyup changed delay:1s" hx-target="#articlePreview" name="body" id="body" cols="50" rows="20" placeholder="User Area Item Body"></textarea>
-          <input type="submit" value="Add User Area Article" />
-        </form>
+      <section hx-get="/private/php/user_area_article_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML"></section>
+      <section id="articlePreview">
+        <h2>ARTICLE PREVIEW</h2>
+        <div id="articlePreviewContainer" class="articlePreview"></div>
       </section>
-      <section id="articlePreview">ARTICLE PREVIEW</section>
       <section>
         <a href="/private/mailout/mailout.html">Send mailout</a>
       </section>
