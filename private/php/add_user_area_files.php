@@ -66,7 +66,7 @@ function resizeImage($image, $file_path, $image_file_type) {
 
 function saveThumbnail($image, $filename, $image_file_type) {
     $thumbnail = imagescale($image, IMAGE_THUMBNAIL_WIDTH);
-    $file_path = IMAGE_UPLOAD_PATH."thumbnails/".str_replace(" ", "_", $filename);
+    $file_path = IMAGE_UPLOAD_PATH."thumbnails/".$filename;
     switch ($image_file_type) {
         case "jpg":
         case "jpeg":
@@ -88,6 +88,7 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
     if ($files["tmp_name"][$key] == "") die ("NO TMP_NAME:<br />..");
     $upload_path = $table == "images" ? IMAGE_UPLOAD_PATH : AUDIO_UPLOAD_PATH;
     $tag  = $table == "images" ? "i" : "a";
+    $files["name"][$key] = str_replace(" ", "_", $files["name"][$key]);
     if (file_exists($upload_path.$files["name"][$key])) {
         return fileExists($files["name"][$key], $table, $tag, $db);
     }
@@ -135,7 +136,7 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
             }
         } else {
             // save audio
-            move_uploaded_file($uploaded_file, $upload_path.str_replace(" ", "_", $files["name"][$key]));
+            move_uploaded_file($uploaded_file, $upload_path.$files["name"][$key]);
         }
     }
     catch (Exception $e) {
