@@ -63,7 +63,8 @@
 }
 
 .userModal form input[type='submit'] {
-  width: 8em;
+  width: auto;
+  max-width: 14em;
 }
 
 .username {
