@@ -42,11 +42,15 @@ try {
 catch (PDOException $e) {
     echo $e->getMessage();
 }
-echo MEDIA_PATH.$filename;
 
 removeExpiredStreamingTokens($db, $_GET["track"]);
 
-echo file_get_contents(MEDIA_PATH.$filename);
+header('Content-Type: audio/mpeg');
+header('Content-Disposition: inline;filename='.MEDIA_PATH.$filename.'');
+header('Content-length: '.filesize(MEDIA_PATH.$filename));
+header('Cache-Control: no-cache');
+header("Content-Transfer-Encoding: binary"); 
+readfile(MEDIA_PATH.$filename);
 
 
 require_once("../../../secure/scripts/ut_disconnect.php");
