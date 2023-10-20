@@ -26,6 +26,6 @@ $m = new Mustache_Engine(array(
 
 $host = getHost();
 
-echo $m->render("resetPW", ["base_dir"=>$host]);
+echo $m->render("requestPWreset", ["base_dir"=>$host]);
 
 ?>

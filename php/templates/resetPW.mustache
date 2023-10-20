@@ -1,7 +1,30 @@
-      <form hx-post="{{base_dir}}/php/confirmResetPW.php" method="post" hx-target="#userModal">
-        <label for="userEmail">Email</label>
-        <input type="email" name="email" id="userEmail" autocomplete="email" required />
-        <div class="spacer"></div>
-        <input type="submit" value="Reset Password" />
-      </form>
-      <a hx-post="{{base_dir}}/php/registerForm.php" hx-target="#userModal">Register</a> || <a hx-post="{{base_dir}}/php/loginForm.php" hx-target="#userModal">Log In</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{base_dir}}/styles/imports.css" />
+  <link rel="stylesheet" href="{{base_dir}}/styles/main.css" />
+  <script src="{{base_dir}}/lib/htmx.min.js"></script>
+  <title>Unbelievable Truth</title>
+</head>
+<body>
+  <main>
+      <section class="callout">
+        <div>unbelievable truth</div>
+      </section>
+    <section class="resetPW">
+      <h2>User area password reset</h2>
+      {{#resetPWForm}}
+        {{>resetPWForm}}
+      {{/resetPWForm}}
+      {{#passwordResetError}}
+        {{>PWerror}}
+      {{/passwordResetError}}
+      {{#passwordReset}}
+        {{>PWreset}}
+      {{/passwordReset}}
+    </section>
+  </main>
+</body>

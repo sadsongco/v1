@@ -12,6 +12,7 @@ main {
   width: 90%;
   background: #000 url('../assets/images/CroppedMedium.jpg') no-repeat fixed center top;
   background-size: cover;
+  min-height: 100vh;
 }
 
 a {
@@ -20,7 +21,7 @@ a {
 }
 
 .topspacer {
-  height: 85vh;
+  height: 45vh;
 }
 
 .show,
@@ -31,7 +32,7 @@ a {
   text-align: center;
   position: sticky;
   position: -webkit-sticky;
-  margin-bottom: 100vh;
+  margin-bottom: 40vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,6 +93,14 @@ form input {
 input:disabled {
   background-color: #222;
   color: #f88;
+}
+
+section.resetPW {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.resetPW input {
+  display: block;
 }
 
 section.socials {

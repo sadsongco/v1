@@ -4,6 +4,9 @@
 // database
 require_once("../../secure/scripts/ut_a_connect.php");
 
+// utitlities
+include(__DIR__."/../php/includes/baseDir.php");
+
 // templating system
 require '../lib/mustache.php-main/src/Mustache/Autoloader.php';
 Mustache_Autoloader::register();
@@ -22,49 +25,56 @@ catch (Exception $e) {
     die($e->getMessage());
 }
 
-if (isset($_POST["reset_password"]) && $_POST['password'] == $_POST['password_conf']) {
+$host = getHost();
+
+// new password submitted
+if (isset($_POST["reset_password"])) {
+    if ($_POST['password'] != $_POST['password_conf'])
+        die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>"Passwords don't match"]));
     try {
         $auth->resetPassword($_POST['selector'], $_POST['token'], $_POST['password']);
+        exit($m->render("resetPW", ["base_dir"=>$host, "passwordReset"=>true, "message"=>'Password has been reset']));
     
-        echo 'Password has been reset';
     }
     catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
-        die('Invalid token');
+        die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>'Invalid token']));
     }
     catch (\Delight\Auth\TokenExpiredException $e) {
-        die('Token expired');
+        die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>'Token expired']));
     }
     catch (\Delight\Auth\ResetDisabledException $e) {
-        die('Password reset is disabled');
+        die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>'Password reset is disabled']));
     }
     catch (\Delight\Auth\InvalidPasswordException $e) {
-        die('Invalid password');
+        die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>'Invalid password']));
     }
     catch (\Delight\Auth\TooManyRequestsException $e) {
-        die('Too many requests');
+        die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>'Too many requests']));
     }
     exit();
 }
+
 try {
     $auth->canResetPasswordOrThrow($_GET['selector'], $_GET['token']);
-
-    echo $m->render("resetPWForm", ["selector"=>$_GET['selector'], "token"=>$_GET['token']]);
+    
+    echo $m->render("resetPW", ["base_dir"=>$host, "resetPWForm"=> true, "selector"=>$_GET['selector'], "token"=>$_GET['token']]);
 }
 catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
-    die('Invalid token');
+    die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>'Invalid token']));
 }
 catch (\Delight\Auth\TokenExpiredException $e) {
-    die('Token expired');
+    die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>'Token expired']));
 }
 catch (\Delight\Auth\ResetDisabledException $e) {
-    die('Password reset is disabled');
+    die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>'Password reset is disabled']));
 }
 catch (\Delight\Auth\TooManyRequestsException $e) {
-    die('Too many requests');
+    die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>'Too many requests']));
 }
 catch (Exception $e) {
-    die($e->getMessage());
+    die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>$e->getMessage()]));
 }
+
 require_once("../../secure/scripts/ut_disconnect.php");
 
 ?>
