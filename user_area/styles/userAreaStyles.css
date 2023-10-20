@@ -20,7 +20,7 @@
   flex-direction: column;
 }
 
-.userAreaContent article {
+.articleContainer article {
   font-size: 0.9em;
   background: #444;
   padding: 1em;
@@ -28,7 +28,7 @@
   margin-bottom: 1em;
 }
 
-.userAreaContent article h1 {
+.articleContainer article h1 {
   font: OpenSansBold;
   font-size: 1.5em;
 }
