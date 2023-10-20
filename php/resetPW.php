@@ -26,8 +26,6 @@ $m = new Mustache_Engine(array(
 
 $host = getHost();
 
-echo __DIR__.'/templates';
-
-// echo $m->render("requestPWreset", ["base_dir"=>$host]);
+echo $m->render("requestPWReset", ["base_dir"=>$host]);
 
 ?>
