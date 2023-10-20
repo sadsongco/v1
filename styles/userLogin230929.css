@@ -21,7 +21,7 @@
   top: -20px;
   right: 0;
   transition: top 1s ease;
-  font-size: 1em;
+  font-size: 0.8em;
   width: clamp(12em, 12%, 15em);
   padding: 8px;
   margin-right: 5px;
