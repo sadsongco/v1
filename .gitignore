@@ -2,3 +2,6 @@
 *mailout_log*
 ./private/mailout/API/logs/
 private/mailout/API/current_mailout*
+user_area/assets/images/*
+user_area/assets/images/thumbnails/*
+user_area/assets/media/*
