@@ -73,7 +73,7 @@ try {
             echo "<p>Confirmation email sent to ".$_POST['email']."</p>";
         }
         catch (Exception $e) {
-            echo "Couldn't send confirmation email";
+            echo "Couldn't send confirmation email: ";
             echo $e->getMessage();
         }
     });

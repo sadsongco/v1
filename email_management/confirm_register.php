@@ -44,16 +44,16 @@ try {
     echo $m->render('emailConfirmed');
 }
 catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
-    die('Invalid token');
+    die ($m->render('emailConfirmed', ["error"=>true, "message"=>"Invalid token - make sure you're coming to this site from the link in your email"]));
 }
 catch (\Delight\Auth\TokenExpiredException $e) {
-    die('Token expired');
+    die ($m->render('emailConfirmed', ["error"=>true, "message"=>"Token expired - make sure you're coming to this site from the link in your email"]));
 }
 catch (\Delight\Auth\UserAlreadyExistsException $e) {
-    die('Email address already exists');
+    die ($m->render('emailConfirmed', ["error"=>true, "message"=>"Email address already exists"]));
 }
 catch (\Delight\Auth\TooManyRequestsException $e) {
-    die('Too many requests');
+    die ($m->render('emailConfirmed', ["error"=>true, "message"=>"Too many requests"]));
 }
 
 require_once("../../secure/scripts/ut_disconnect.php");
