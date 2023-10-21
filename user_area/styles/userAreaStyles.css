@@ -67,3 +67,33 @@
 .articleDate::after {
   content: '--';
 }
+
+.spinner {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 12px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner img {
+  max-width: 50px;
+}
+
+.htmx-indicator {
+  opacity: 0;
+  height: 0px;
+  max-height: 0px;
+  transition: height opacity max-height 1500ms ease-in;
+}
+.htmx-request .htmx-indicator {
+  opacity: 1;
+  height: 50px;
+  max-height: 50px;
+}
+.htmx-request.htmx-indicator {
+  opacity: 1;
+  height: 50px;
+  max-height: 50px;
+}

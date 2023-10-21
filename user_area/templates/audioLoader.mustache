@@ -1,1 +1,5 @@
-<div hx-post="{{base_dir}}/user_area/API/audioPlayer.php" hx-trigger="load" hx-vals={{track}} hx-target="this" hx-swap="outerHTML"></div>
+<div class="spinner htmx-indicator">
+    <img src="../assets/images/graphics/loading.gif" alt="loading spinner" />
+</div>
+
+<div hx-post="{{base_dir}}/user_area/API/audioPlayer.php" hx-trigger="load" hx-vals={{track}} hx-target="this" hx-swap="outerHTML" htmx-indicator=".spinner"></div>
