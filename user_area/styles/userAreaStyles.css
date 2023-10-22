@@ -69,9 +69,8 @@
 }
 
 .spinner {
-  background-color: rgba(0, 0, 0, 0.8);
   padding: 12px;
-  width: 100%;
+  width: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,6 +78,7 @@
 
 .spinner img {
   max-width: 50px;
+  max-height: 50px;
 }
 
 .htmx-indicator {
