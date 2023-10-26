@@ -3,10 +3,13 @@
 require_once(__DIR__."/../../../secure/scripts/ut_a_connect.php");
 
 include(__DIR__."/../../php/includes/p_2.php");
+include(__DIR__."/includes/returnBytes.php");
 define("IMAGE_UPLOAD_PATH", __DIR__."/../../user_area/assets/images/");
 define("AUDIO_UPLOAD_PATH", __DIR__."/../../user_area/assets/media/");
 define("MAX_IMAGE_WIDTH", 600);
 define("IMAGE_THUMBNAIL_WIDTH", 80);
+define("MAX_FILE_SIZE", return_bytes(ini_get("upload_max_filesize")));
+define("MAX_POST_SIZE", return_bytes(ini_get("post_max_size")));
 
 // templating
 require __DIR__.'/../../lib/mustache.php-main/src/Mustache/Autoloader.php';
@@ -16,7 +19,6 @@ $m = new Mustache_Engine(array(
     'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/templates'),
     'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/templates/partials')
 ));
-
 
 function insertMediaDB ($files, $key, $db, $table_name) {
     try {
@@ -85,6 +87,7 @@ function saveThumbnail($image, $filename, $image_file_type) {
 }
 
 function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
+    // this is for uploads too large - change to throw a reasonable error
     if ($files["tmp_name"][$key] == "") die ("NO TMP_NAME:<br />..");
     $upload_path = $table == "images" ? IMAGE_UPLOAD_PATH : AUDIO_UPLOAD_PATH;
     $tag  = $table == "images" ? "i" : "a";
@@ -150,7 +153,17 @@ if (!isset($_FILES) || !isset($_FILES["files"])) {
     $uploaded_files[] = ["success"=>false, "messsage"=>"No files uploaded"];
 } else {
     $files = $_FILES["files"];
+    $post_size = 0;
     foreach ($files["name"] as $key=>$filename) {
+        if ($files["size"][$key] > MAX_FILE_SIZE || $files["tmp_name"][$key] == "") {
+            $uploaded_files[] = ["success"=> false, "message"=>"File $filename is too big"];
+            break;
+        }
+        $post_size += $files["size"][$key];
+        if ($post_size > MAX_POST_SIZE) {
+            $uploaded_files[] = ["success"=> false, "message"=>"File upload size too big - try doing them one at a time"];
+            break;
+        }        
         $image_file_type = strtolower(pathinfo($filename,PATHINFO_EXTENSION));
         switch ($image_file_type) {
             case "jpg":
