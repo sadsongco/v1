@@ -1,10 +1,15 @@
+.commentAcc {
+  width: 86%;
+}
+
 .commentAccHead {
   width: 100%;
   height: auto;
-  background-color: blanchedalmond;
+  background-color: var(--headerBlockColour);
   color: #222;
   display: grid;
   grid-template-columns: 1fr 3em;
+  align-items: center;
 }
 
 .commentHeadMsg {
@@ -30,7 +35,55 @@
   transition: max-height 0.8s ease-in-out;
 }
 
+.commentContainer,
+.commentForm {
+  width: 80%;
+  border: var(--commentBoxOutline);
+  padding: 1em;
+  margin: 3px 0;
+}
+
+.commentContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.username {
+  width: 100%;
+  align-self: end;
+  border-bottom: var(--commentBoxOutline);
+  margin-bottom: 3px;
+}
+
+.articleDate {
+  text-align: end;
+}
+
+.commentBody {
+  grid-column: span 2;
+}
+
+.commentContainer:nth-child(odd) {
+  background-color: var(--listOdd);
+}
+
+.commentContainer:nth-child(even) {
+  background-color: var(--listEven);
+}
+
+.commentForm {
+  background-color: var(--transBlack);
+}
+
+.commentForm input {
+  max-width: 90%;
+}
+
 .collapsed {
+  border: none;
+  padding: 0;
+  margin: 0;
   max-height: 0;
   overflow: hidden;
 }

@@ -16,32 +16,42 @@ form input[type='submit'] {
 
 .userAreaHeader {
   padding: 1em;
-  background-color: rgba(255, 255, 220, 0.7);
+  background-color: var(--headerBlockColour);
   color: black;
 }
 
 .userAreaContent {
   margin: 0.5em;
   padding: 0.2em;
-  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.articleContainer article {
+.articleContainer {
+  width: 99%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1em 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.articleBody {
   font-size: 0.9em;
   background: #444;
   padding: 1em;
   width: 90%;
   margin-bottom: 1em;
+  display: grid;
+  grid-template-columns: 1fr 12em;
+  align-items: end;
 }
 
-.articleContainer article h1 {
-  font: OpenSansBold;
-  font-size: 1.5em;
+.articleContent {
+  grid-column: span 2;
 }
-
 .userAreaContent a {
   color: #dfdfd6;
 }
@@ -63,10 +73,25 @@ form input[type='submit'] {
   max-width: 80%;
 }
 
+.articleTitle,
 .articleDate {
+  width: 100%;
+  padding: 1px;
+  align-self: end;
+  border-bottom: 1px solid #999;
+  margin-bottom: 3px;
+}
+
+.articleTitle {
+  justify-self: start;
+  font: OpenSansBold;
+  font-size: 1.5em;
+}
+
+.articleDate {
+  justify-self: end;
   font-family: 'Courier New', Courier, monospace;
   font-size: 0.8em;
-  padding: 1px;
 }
 
 .articleDate::before {

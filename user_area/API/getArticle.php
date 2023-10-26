@@ -50,6 +50,7 @@ catch (Exception $e) {
 }
 $article = $result[0];
 $article["body"] = getMedia($article["body"], $db, $auth, $m, $host);
+$article["username"] = $auth->getUsername();
 
 echo $m->render("article", $article);
 
