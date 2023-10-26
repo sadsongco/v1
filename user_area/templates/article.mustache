@@ -4,4 +4,28 @@
         <div class="articleDate">{{added}}</div>
         <p>{{{body}}}</p>
     </article>
+    <div class="commentAcc">
+        <section class="commentAccHead">
+            <div class="commentHeadMsg">
+                Show comments
+            </div>
+            <div class="commentHeadShow" onclick="openAcc()">
+                +
+            </div>
+        </section>
+        <section class="commentAccHead hide">
+            <div class="commentHeadMsg">
+                Hide comments
+            </div>
+            <div class="commentHeadShow" onclick="closeAcc()">
+                -
+            </div>
+        </section>
+        <section class="commentsContainer collapsed">
+            {{>comments}}
+        </section>
+        <section class="commentForm collapsed">
+            {{>commentForm}}
+        </section>
+    </div>
 </section>

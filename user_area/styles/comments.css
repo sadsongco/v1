@@ -1,0 +1,40 @@
+.commentAccHead {
+  width: 100%;
+  height: auto;
+  background-color: blanchedalmond;
+  color: #222;
+  display: grid;
+  grid-template-columns: 1fr 3em;
+}
+
+.commentHeadMsg {
+  padding-left: 0.3em;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.commentHeadShow {
+  font-size: 3em;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.commentsContainer,
+.commentForm {
+  max-height: 100vh;
+  transition: max-height 0.8s ease-in-out;
+}
+
+.collapsed {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.hide {
+  display: none;
+}
