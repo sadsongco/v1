@@ -24,11 +24,6 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/../templates/partials')
 ));
 
-$output = ["comments"=>[
-    ["comment"=>"Comment 1 hi hi"],
-    ["comment"=>"Comment 2 yo yo"]
-]];
-
 $output = [];
 try {
     $query = "SELECT comment_id, DATE_FORMAT(comment_date, '%H:%i %e/%m/%y') AS comment_date, comment,
@@ -48,6 +43,10 @@ try {
 catch (Exception $e) {
     $output = ["success"=>false, "message"=>"Couldn't retrieve comments: ".$e->getMessage()];
 }
+
+foreach ($output["comments"] as &$comment_item) $comment_item["article_id"] = $_GET['article_id'];
+
+p_2($output);
 
 echo $m->render("comment", $output);
 
