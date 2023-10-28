@@ -24,29 +24,60 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/../templates/partials')
 ));
 
+function getReplies ($db, $article_id, $comment_id=null) {
+    try {
+        $no_reply_comments = "AND top_comment.reply IS NULL";
+        $params = [$_GET["article_id"], $_GET["article_id"]];
+        if ($comment_id) {
+            $no_reply_comments = "AND top_comment.reply = ? ";
+            $params[] = $comment_id;
+        }
+        $query = "SELECT
+            top_comment.comment_id,
+            DATE_FORMAT(top_comment.comment_date, '%H:%i %e/%m/%y') AS comment_date,
+            top_comment.comment,
+            users.username,
+            (
+                SELECT COUNT(*)
+                FROM comments AS reply_comments
+                WHERE reply_comments.article_id = ?
+                AND reply_comments.reply = top_comment.comment_id
+            ) AS no_replies
+        FROM comments AS top_comment
+        LEFT JOIN users ON users.id = top_comment.user_id
+        WHERE top_comment.article_id = ?
+        $no_reply_comments
+        AND top_comment.reply_to IS NULL
+        ORDER BY comment_date ASC;
+        ";
+        $stmt = $db->prepare($query);
+        $stmt->execute($params);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as &$comment_field) {
+            $comment_field["article_id"] = $article_id;
+            if ($comment_field["no_replies"] > 0) {
+                $comment_field["replies"] = getReplies($db, $article_id, $comment_field["comment_id"]);
+            }
+            else {
+                $comment_field["replies"] = null;
+            }
+        }
+        return ($result);
+    }
+    catch (Exception $e) {
+        throw new Exception($e->getMessage());
+    }
+}
+
 $output = [];
 try {
-    $query = "SELECT comment_id, DATE_FORMAT(comment_date, '%H:%i %e/%m/%y') AS comment_date, comment,
-        username
-        FROM comments
-        LEFT JOIN users ON users.id = comments.user_id
-        WHERE article_id = ?
-        AND reply IS NULL
-        AND reply_to IS NULL
-        ORDER BY comment_date ASC
-    ";
-    $stmt = $db->prepare($query);
-    $stmt->execute([$_GET["article_id"]]);
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $output = ["comments"=>$result];
+    $output = ["comments"=>getReplies($db, $_GET['article_id'])];
 }
 catch (Exception $e) {
     $output = ["success"=>false, "message"=>"Couldn't retrieve comments: ".$e->getMessage()];
 }
 
-foreach ($output["comments"] as &$comment_item) $comment_item["article_id"] = $_GET['article_id'];
-
-p_2($output);
+// p_2($output);
 
 echo $m->render("comment", $output);
 
