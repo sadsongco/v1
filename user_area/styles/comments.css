@@ -64,7 +64,7 @@
 }
 
 .replyContainer {
-  margin-left: 2em;
+  margin-left: 1em;
 }
 
 .commentContainer:nth-of-type(odd) {
@@ -97,7 +97,31 @@
 }
 
 .commentForm input {
-  max-width: 90%;
+  width: 90%;
+}
+
+.commentContainer input[type='submit'],
+.commentForm input[type='submit'],
+.replyForm {
+  font-family: OpenSans;
+  font-size: 0.7em;
+  width: auto;
+}
+
+.commentNotify {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.commentNotify label {
+  font-family: OpenSans;
+  font-size: 0.8em;
+  color: var(--commentBoxOutline);
+}
+
+input[type='checkbox'] {
+  max-width: 10px;
 }
 
 .collapsed {

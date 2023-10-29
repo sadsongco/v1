@@ -12,7 +12,10 @@
         <input type="hidden" name="comment_reply_id" value={{comment_reply_id}} />
         <input type="submit" value="Post Reply" />
     {{/comment_reply_id}}
-     <input type="checkbox" name="notify">Notify me about replies<br />
+        <div class="commentNotify">
+            <label for="notify_{{article_id}}_{{comment_reply_id}}">Notify me about replies</label>
+            <input type="checkbox" name="notify" id="notify_{{article_id}}_{{comment_reply_id}}">
+        </div>
     {{^comment_reply_id}}
         <input type="submit" value="Post Comment" />
     {{/comment_reply_id}}
