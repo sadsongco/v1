@@ -1,6 +1,8 @@
 <div class="commentContainer">
-    <div class="username">{{username}}</div>
-    <div class="articleDate">{{comment_date}}</div>
+    <div class="commentHead">
+        <div class="username">{{username}}</div>
+        <div class="commentDate">{{comment_date}}</div>
+    </div>
     <div class="commentBody">{{comment}}</div>
     <form hx-post="API/replyForm.php" hx-target="#commentReply_{{comment_id}}" hx-swap="outerHTML">
         <input type="hidden" name="replyTo_username" value="{{username}}" />
@@ -9,8 +11,10 @@
         <input type="hidden" name="article_id" value="{{article_id}}" />
         <input type="submit" value="Reply" />
     </form>
+    <div class="commentReply" id="commentReply_{{comment_id}}"></div>
 </div>
 {{#replies}}
-    {{>commentBody}}
+    <div class="replyContainer">
+        {{>commentBody}}
+    </div>
 {{/replies}}
-<div class="commentReply" id="commentReply_{{comment_id}}"></div>

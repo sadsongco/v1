@@ -1,7 +1,13 @@
 :root {
-  --headerBlockColour: rgba(255, 255, 220, 0.7);
-  --listEven: rgba(50, 40, 50, 0.7);
-  --listOdd: rgba(50, 50, 40, 0.7);
-  --transBlack: rgba(0, 0, 0, 0.5);
-  --commentBoxOutline: 1px solid rgba(200, 200, 200, 1);
+  --headerBlockColour: #ffffdcb3;
+  --headerTextColour: #222;
+  --listEven: #322832b3;
+  --listOdd: #323228b3;
+  --transBlack: #00000080;
+  --commentBoxOutline: 1px solid #b1b1b1;
+  --compColBrt1: #dbffed;
+  --compColBrt2: #dbfffe;
+  --compColBrt3: #dbdbff;
+  --compColBrt4: #fedbff;
+  --compColBrt5: #ffdbed;
 }

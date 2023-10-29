@@ -1,37 +1,48 @@
+/* **** Accordion to show comments ***** */
 .commentAcc {
   width: 86%;
 }
 
 .commentAccHead {
   width: 100%;
+  padding: 0.3em;
   height: auto;
   background-color: var(--headerBlockColour);
-  color: #222;
-  display: grid;
-  grid-template-columns: 1fr 3em;
-  align-items: center;
-}
-
-.commentHeadMsg {
-  padding-left: 0.3em;
-  height: 100%;
+  color: var(--headerTextColour);
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 }
 
 .commentHeadShow {
   font-size: 3em;
   font-weight: bold;
+}
+
+/* ***** comoments themseleves ***** */
+.commentHead {
+  width: 100%;
+  margin: 0.2em;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  justify-content: space-between;
+  border-bottom: var(--commentBoxOutline);
+}
+
+.commentDate {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.6em;
+  justify-self: flex-end;
+  align-self: flex-end;
+}
+
+.commentDate::before,
+.commentDate::after {
+  content: '--';
 }
 
 .commentsContainer,
 .commentForm {
-  max-height: 500vh;
+  max-height: 5000vh;
   transition: max-height 0.8s ease-in-out;
 }
 
@@ -44,55 +55,41 @@
 }
 
 .commentContainer {
-  grid-column: span 2;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-}
-
-.username {
-  width: 100%;
-  align-self: end;
-  border-bottom: var(--commentBoxOutline);
-  margin-bottom: 3px;
-}
-
-.articleDate {
-  text-align: end;
+  --indent: 0;
+  /* margin-left: var(--indent); */
 }
 
 .commentBody {
-  grid-column: span 2;
+  font-size: 0.8em;
 }
 
-.commentContainer {
-  --indent: 0;
-  margin-left: var(--indent);
+.replyContainer {
+  margin-left: 2em;
 }
 
-.commentContainer:nth-child(odd) {
+.commentContainer:nth-of-type(odd) {
   background-color: var(--listOdd);
 }
 
-.commentContainer:nth-child(even) {
+.commentContainer:nth-of-type(even) {
   background-color: var(--listEven);
 }
 
-.commentContainer:nth-child(2) {
-  --indent: 1em;
-  border: 1px solid red;
+.replyContainer:nth-child(1) {
+  --indent: 2vw;
+  border-left: 3px solid var(--compColBrt1);
 }
-.commentContainer:nth-child(3) {
-  --indent: 2em;
-  border: 1px solid blue;
+.replyContainer:nth-child(2) {
+  --indent: 4vw;
+  border-left: 3px solid var(--compColBrt2);
 }
-.commentContainer:nth-child(4) {
-  --indent: 3em;
-  border: 1px solid purple;
+.replyContainer:nth-child(3) {
+  --indent: 6vw;
+  border-left: 3px solid var(--compColBrt3);
 }
-.commentContainer:nth-child(n + 5) {
-  --indent: 4em;
-  border: 1px solid yellow;
+.replyContainer:nth-child(n + 4) {
+  --indent: 8vw;
+  border-left: 3px solid var(--compColBrt4);
 }
 
 .commentForm {
