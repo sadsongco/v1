@@ -1,3 +1,5 @@
         <section class="commentForm" id="commentForm_{{article_id}}">
             {{>commentForm}}
         </section>
+        <form id="replyToComment{{comment_reply_id}}"hx-swap-oob="true">
+        <input type="submit" value="Reply" disabled />

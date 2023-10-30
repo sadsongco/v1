@@ -113,9 +113,6 @@ $params = [
 
 try {
     $query = "INSERT INTO comments VALUES (0, :user_id, :article_id, NOW(), :reply, :reply_to, 0, :notify, 0, :comment);";
-    p_2($query);
-    p_2($params);
-    // exit();
     $stmt = $db->prepare($query);
     $stmt->execute($params);
 }

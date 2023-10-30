@@ -10,13 +10,13 @@
     {{#comment_reply_id}}
         <input type="text" name="comment" placeholder="reply as {{username}}" />
         <input type="hidden" name="comment_reply_id" value={{comment_reply_id}} />
-        <input type="submit" value="Post Reply" />
+        <input type="submit" value="Post Reply" onclick="()=>{this.disabled=true}" />
     {{/comment_reply_id}}
         <div class="commentNotify">
             <label for="notify_{{article_id}}_{{comment_reply_id}}">Notify me about replies</label>
             <input type="checkbox" name="notify" id="notify_{{article_id}}_{{comment_reply_id}}">
         </div>
     {{^comment_reply_id}}
-        <input type="submit" value="Post Comment" />
+        <input type="submit" value="Post Comment" onclick="()=>{this.disabled=true}" />
     {{/comment_reply_id}}
 </form>

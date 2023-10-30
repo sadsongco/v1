@@ -4,7 +4,7 @@
         <div class="commentDate">{{comment_date}}</div>
     </div>
     <div class="commentBody">{{comment}}</div>
-    <form hx-post="API/replyForm.php" hx-target="#commentReply_{{comment_id}}" hx-swap="outerHTML">
+    <form id="replyToComment{{comment_id}}" hx-post="API/replyForm.php" hx-target="#commentReply_{{comment_id}}" hx-swap="outerHTML">
         <input type="hidden" name="replyTo_username" value="{{username}}" />
         <input type="hidden" name="replyTo_body" value="{{comment}}" />
         <input type="hidden" name="comment_id" value="{{comment_id}}" />
