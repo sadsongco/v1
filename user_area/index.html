@@ -39,12 +39,12 @@
         <h2>Private area for users</h2>
         <p>A place for us to put some music and thoughts and blogs and pictures and any old stuff. Soon to come also, commenting on articles and possibly some live chat things!</p>
       </section>
-      <div class="spinner htmx-indicator">
-        <img src="../assets/images/graphics/loading.gif" alt="loading spinner" />
-      </div>
-      <section class="userAreaContent" hx-get="API/content.php" hx-trigger="load" hx-swap="innerHTML" hx-indicator=".spinner">
+      <section class="userAreaContent" hx-get="API/content.php" hx-trigger="load" hx-swap="innerHTML" hx-indicator="#spinnerMstr">
         <p>No content here right now. Perhaps I'm just updating something. Check back soon!</p>
       </section>
+      <div id="spinnerMstr" class="spinner htmx-indicator">
+        <img src="../assets/images/graphics/loading.gif" alt="loading spinner" />
+      </div>
     </main>
     <footer>
       <section class="socials">
