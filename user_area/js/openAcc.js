@@ -19,18 +19,3 @@ const closeAcc = () => {
   commentsContainer.classList.add('collapsed');
   commentForm.classList.add('collapsed');
 };
-
-const requestArticle = new URLSearchParams(window.location.search).get('article_id');
-
-if (requestArticle) {
-  htmx.onLoad(function (elt) {
-    if (elt.classList.contains('articleContainer')) {
-      const articleId = elt.dataset.articleId;
-      console.log(articleId);
-      if (articleId == requestArticle)
-        elt.scrollIntoView({
-          behaviour: 'smooth',
-        });
-    }
-  });
-}

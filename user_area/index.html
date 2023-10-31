@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="styles/userAreaStyles.css" />
     <link rel="stylesheet" href="styles/comments.css" />
     <script src="../lib/htmx.min.js"></script>
-    <script src="js/openAcc.js"></script>
+    <script defer src="js/getLinkParams.js"></script>
+    <script defer src="js/openAcc.js"></script>
     <title>Unbelievable Truth</title>
     <style>
       .htmx-indicator {
@@ -39,7 +40,7 @@
         <h2>Private area for users</h2>
         <p>A place for us to put some music and thoughts and blogs and pictures and any old stuff. Soon to come also, commenting on articles and possibly some live chat things!</p>
       </section>
-      <section class="userAreaContent" hx-get="API/content.php" hx-trigger="load" hx-swap="innerHTML" hx-indicator="#spinnerMstr">
+      <section class="userAreaContent" hx-get="API/content.php" hx-vals="js:{article_link:getArticleId(), show_comments:getShowComments()}" hx-trigger="load" hx-swap="innerHTML" hx-indicator="#spinnerMstr">
         <p>No content here right now. Perhaps I'm just updating something. Check back soon!</p>
       </section>
       <div id="spinnerMstr" class="spinner htmx-indicator">

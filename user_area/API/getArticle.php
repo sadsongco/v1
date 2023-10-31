@@ -48,9 +48,13 @@ try {
 catch (Exception $e) {
     die("DATABASE ERROR: ".$e->getMessage());
 }
+
+echo $_GET['show_comments'];
+
 $article = $result[0];
 $article["body"] = getMedia($article["body"], $db, $auth, $m, $host);
 $article["username"] = $auth->getUsername();
+$article["show_comments"] = $_GET['show_comments'] == 'true' ? true : false;
 
 echo $m->render("article", $article);
 

@@ -5,7 +5,12 @@
         <div class="articleContent">{{{body}}}</div>
     </article>
     <div class="commentAcc">
-        <section class="commentAccHead">
+        {{#show_comments}}
+            <section class="commentAccHead hide">
+        {{/show_comments}}
+        {{^show_comments}}
+            <section class="commentAccHead">
+        {{/show_comments}}
             <div class="commentHeadMsg">
                 Show comments
             </div>
@@ -13,7 +18,12 @@
                 +
             </div>
         </section>
-        <section class="commentAccHead hide">
+        {{#show_comments}}
+            <section class="commentAccHead">
+        {{/show_comments}}
+        {{^show_comments}}
+            <section class="commentAccHead hide">
+        {{/show_comments}}
             <div class="commentHeadMsg">
                 Hide comments
             </div>
@@ -21,7 +31,12 @@
                 -
             </div>
         </section>
-        <section class="commentsContainer collapsed">
+        {{#show_comments}}
+            <section class="commentsContainer">
+        {{/show_comments}}
+        {{^show_comments}}
+            <section class="commentsContainer collapsed">
+        {{/show_comments}}
             {{>comments}}
         </section>
         <section class="commentForm collapsed" id="commentForm_{{article_id}}">
