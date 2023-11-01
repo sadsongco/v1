@@ -61,7 +61,10 @@ function SendConfirmationEmail ($email, $selector, $token, $m, $mail_auth) {
     $mail->send();
 }
 
+$reserved_usernames = ["nigel", "Nigel", "andy", "Andy", "jase", "jas", "Jase", "Jas", "Jason", "NigelP", "NigelPowell", "AndyY", "AndyYorke", "JaseM", "JasM", "JasonM", "JaseMoulster", "JaseMoulster", "JasonMoulster", "sadsongco", "UnbelievableTruth", "UT"];
+
 try {
+    if (in_array($_POST['username'], $reserved_usernames)) throw new \Delight\Auth\UserAlreadyExistsException;
     $userId = $auth->register($_POST['email'], $_POST['password'], $_POST['username'], function ($selector, $token) {
         $m = new Mustache_Engine(array(
             'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/templates'),
@@ -87,7 +90,7 @@ catch (\Delight\Auth\InvalidPasswordException $e) {
     exit('Invalid password');
 }
 catch (\Delight\Auth\UserAlreadyExistsException $e) {
-   exit("That email is already registered!");
+   exit("That email or username is already registered!");
 }
 catch (\Delight\Auth\TooManyRequestsException $e) {
     error_log('Too many requests: '.$e->getMessage());
