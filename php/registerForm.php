@@ -27,8 +27,9 @@ else {
     $protocol = 'http';
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') $protocol .= 's';
     $host = "$protocol://".$_SERVER['HTTP_HOST'];
-
-    echo $m->render('userRegister', ["base_dir"=>$host]);
+    $target = "userModal";
+    if (isset($_GET['target'])) $target = $_GET['target'];    
+    echo $m->render('userRegister', ["base_dir"=>$host, "target"=>$target]);
 }
 
 

@@ -5,6 +5,7 @@ require_once("../../../secure/scripts/ut_a_connect.php");
 
 // utilities
 include(__DIR__."/../../php/includes/p_2.php");
+include(__DIR__."/includes/getHost.php");
 
 // auth
 require __DIR__ . '/../../php/vendor/autoload.php';
@@ -37,9 +38,10 @@ function getArticles($db, $article_link=false) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+$host = getHost();
+
 if (!$auth->isLoggedIn()) {
-    header('Location: '.$host);
-    die();
+    exit($m->render("userAreaLogin", ["base_dir"=>$host]));
 }
 
 $articles = getArticles($db, $_GET['article_link']);

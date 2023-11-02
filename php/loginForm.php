@@ -12,6 +12,8 @@ $m = new Mustache_Engine(array(
 ));
 
 $host = getHost();
-echo $m->render('userLogin', ["base_dir"=>$host]);
+$target = "userModal";
+if (isset($_GET['target'])) $target = $_GET['target'];
+echo $m->render('userLogin', ["base_dir"=>$host, "target"=>$target]);
 
 ?>
