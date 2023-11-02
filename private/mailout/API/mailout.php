@@ -59,7 +59,7 @@ function get_email_addresses($db, $mailout_id, $log_fp) {
 function mark_as_sent($db, $current_mailout, $row) {
     if ($current_mailout == 'test') {
         $stmt = $db->prepare("UPDATE test_mailing_list SET last_sent = ? WHERE email_id = ? AND email = ?");
-        $stmt->execute([0, $row['email_id'], $row['email']]);
+        $stmt->execute([1, $row['email_id'], $row['email']]);
         return "\n--TEST-- :: Message sent: ".htmlspecialchars($row['email']);}
     try {
         $stmt = $db->prepare("UPDATE ut_mailing_list SET last_sent = ? WHERE email_id = ? AND email = ?");
