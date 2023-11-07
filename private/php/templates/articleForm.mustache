@@ -2,6 +2,13 @@
         <form hx-encoding="multipart/form-data" hx-post="/private/php/add_user_area_article.php" hx-target="this">
           <input type="text" name="title" id="title" placeholder="User Area Item Title" hx-post="/private/php/article_preview.php" hx-trigger="keyup changed delay:1s" hx-target="#articlePreviewContainer" />
           <textarea hx-post="/private/php/article_preview.php" hx-trigger="keyup changed delay:1s" hx-target="#articlePreviewContainer" name="body" id="body" cols="50" rows="20" placeholder="User Area Item Body"></textarea><br />
-          <label for="articleDate">Article Live Date <span class="small">(will go live immediately if left blank)</span>:</label><input type="datetime-local" name="articleDate" id="articleDate" value="{{default_date}}" />
+          <label for="articleDate">Article Live Date <span class="small">(will go live immediately if left blank)</span>:</label>
+          <input type="datetime-local" name="articleDate" id="articleDate" value="{{default_date}}" />
+          <label for="articleTab">Tab</label>
+          <select name="articleTab" id="articleTab">
+            {{#tabs}}
+            <option value="{{tab_id}}">{{tab_name}}</option>
+            {{/tabs}}
+          </select>
           <input type="submit" value="Add User Area Article" />
         </form>

@@ -6,9 +6,9 @@ require_once(__DIR__."/../../../secure/scripts/ut_a_connect.php");
 // exit(p_2($_POST));
 
 try {
-    $query = "INSERT INTO articles VALUES (0, ?, ?, NOW());";
+    $query = "INSERT INTO articles VALUES (0, ?, ?, NOW(), ?);";
     $stmt = $db->prepare($query);
-    $stmt->execute([$_POST['title'], $_POST['body']]);
+    $stmt->execute([$_POST['title'], $_POST['body'], $_POST['articleTab']]);
 }
 catch (PDOException $e) {
     die ($e->getMessage());

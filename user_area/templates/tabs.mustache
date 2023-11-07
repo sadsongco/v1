@@ -1,0 +1,11 @@
+<div class="tabs">
+    {{#tabs}}
+        <input type="radio" name="tabs" id="tab_{{tab_id}}" {{#show_tab}}checked="checked"{{/show_tab}}>
+        <label for="tab_{{tab_id}}">{{tab_name}}</label>
+        <div class="tab">
+            {{#articles}}
+                {{>articleLazy}}
+            {{/articles}}
+        </div>
+    {{/tabs}}
+</div>
