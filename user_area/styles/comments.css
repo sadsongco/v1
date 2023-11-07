@@ -93,10 +93,6 @@
   border-left: 3px solid var(--compColBrt4);
 }
 
-.commentForm {
-  /* background-color: var(--transBlack); */
-}
-
 .commentForm input[type='text'] {
   min-width: 98%;
   font-size: 0.8em;
