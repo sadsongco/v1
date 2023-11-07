@@ -1,22 +1,10 @@
 <?php
-include("../../php/includes/p_2.php");
-include_once(__DIR__."/includes/getHost.php");
+
+require_once(__DIR__."/includes/userAreaIncludes.php");
 
 define("__HOST__", getHost());
 
-// database
-require_once("../../../secure/scripts/ut_a_connect.php");
-
-// auth
-require __DIR__ . '/../../php/vendor/autoload.php';
-try {
-    $auth = new \Delight\Auth\Auth($db);
-}
-catch (Exception $e) {
-    die($e->getMessage());
-}
-
-define("MEDIA_PATH", dirname(__FILE__). "/../assets/media/");
+define("MEDIA_PATH", __DIR__. "/../assets/media/");
 
 function removeExpiredStreamingTokens($db, $token) {
     $query = "DELETE FROM streaming_tokens WHERE timestamp < ?;";

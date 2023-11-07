@@ -1,0 +1,9 @@
+<div>
+    <div>You are logged in {{#username}}as <span class="username">{{username}}</span>{{/username}}</div>
+    <button hx-post="{{base_dir}}/php/logout.php" hx-target="#userModal">Log Out</button>
+</div>
+{{^user_area}}
+<div class="userEntry">
+    <a href="{{base_dir}}/user_area/">Enter User Area</a>
+</div>
+{{/user_area}}
