@@ -1,7 +1,7 @@
 body {
   font-family: OpenSans, Inter, sans-serif;
-  background: black;
-  color: white;
+  background: var(--stdBackground);
+  color: var(--stdColour);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,14 +10,14 @@ body {
 
 main {
   width: 90%;
-  background: #000 url('../assets/images/CroppedMedium.jpg') no-repeat fixed center top;
+  background: var(--stdBackground) url('../assets/images/CroppedMedium.jpg') no-repeat fixed center top;
   background-size: cover;
   min-height: 100vh;
 }
 
 a {
   text-decoration: underline;
-  color: #444;
+  color: (--anchorColour);
 }
 
 .topspacer {
@@ -26,8 +26,8 @@ a {
 
 .show,
 .callout {
-  background-color: #baacdd;
-  color: #000;
+  background-color: var(--AHlilac);
+  color: var(--stdBackground);
   font-family: OpenSans, Inter sans-serif;
   text-align: center;
   position: sticky;
@@ -70,7 +70,7 @@ footer {
   left: 0;
   right: 0; */
   padding: 1em;
-  background-color: #000;
+  background-color: var(--stdBackground);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,7 +78,6 @@ footer {
 }
 
 label {
-  color: #fff;
   font-family: OpenSansBold, Inter sans-serif;
   font-weight: 700;
   font-size: 1.1em;
@@ -91,12 +90,12 @@ form input {
 }
 
 input:disabled {
-  background-color: #222;
-  color: #f88;
+  background-color: var(--alertBackground);
+  color: var(--alertColour);
 }
 
 section.resetPW {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: var(--transBlack);
 }
 
 .resetPW input {
@@ -119,5 +118,5 @@ section.socials {
 }
 
 .booking a {
-  color: #cccccf;
+  color: var(--footerAnchorColour);
 }

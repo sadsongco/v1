@@ -1,14 +1,14 @@
 /* **** Accordion to show comments ***** */
 .commentAcc {
+  margin: 1em auto;
   width: 86%;
 }
 
 .commentAccHead {
-  width: 100%;
   padding: 0.3em;
-  height: auto;
-  background-color: var(--headerBlockColour);
-  color: var(--headerTextColour);
+  background-color: var(--headerBlockBackground);
+  color: var(--headerBlockColour);
+  border: 1px solid var(--commentBorder);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -68,11 +68,11 @@
   margin-left: 1em;
 }
 
-.commentContainer:nth-of-type(odd) {
+.commentContainer:nth-child(odd) {
   background-color: var(--listOdd);
 }
 
-.commentContainer:nth-of-type(even) {
+.commentContainer:nth-child(even) {
   background-color: var(--listEven);
 }
 
@@ -94,11 +94,12 @@
 }
 
 .commentForm {
-  background-color: var(--transBlack);
+  /* background-color: var(--transBlack); */
 }
 
-.commentForm input {
-  width: 90%;
+.commentForm input[type='text'] {
+  min-width: 98%;
+  font-size: 0.8em;
 }
 
 .commentContainer input[type='submit'],
@@ -119,6 +120,7 @@
   font-family: OpenSans;
   font-size: 0.8em;
   color: var(--commentBoxOutline);
+  background-color: inherit;
 }
 
 input[type='checkbox'] {

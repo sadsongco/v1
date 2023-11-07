@@ -11,65 +11,62 @@ form input[type='submit'] {
   max-width: 10em;
 }
 
+/* adjust common elements for user area */
 .callout {
   width: 100%;
   height: auto;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
   mix-blend-mode: normal;
+  position: relative;
 }
 
+/* specific user area elements */
 .userAreaHeader {
   padding: 1em;
-  background-color: var(--headerBlockColour);
-  color: black;
+  background-color: var(--headerBlockBackground);
+  color: var(--headerBlockColour);
 }
 
 .userAreaContent {
-  margin: 0.5em;
-  padding: 0.2em;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  margin-top: 0.3em;
 }
 
+/* articles */
 .articleContainer {
-  width: 99%;
+  background-color: var(--articleBackground);
+  border: 1px solid var(--articleBorder);
+}
+
+.articleHead {
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 1em 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--articleBorder);
+  margin-bottom: 3px;
 }
 
 .articleBody {
   font-size: 0.9em;
-  background: #444;
   padding: 1em;
-  width: 90%;
+  width: 94%;
+  margin: auto;
   margin-bottom: 1em;
-  display: grid;
-  grid-template-columns: 1fr 12em;
-  align-items: end;
 }
 
 .articleContent {
   grid-column: span 2;
-}
-.userAreaContent a {
-  color: #dfdfd6;
 }
 
 .audioPlayer h2 {
   font: OpenSans;
   font-style: normal;
   font-size: 1.3em;
-  color: #aaa;
 }
 
 .audioPlayer p {
   font-size: 0.8em;
-  color: #ccc;
 }
 
 .userAreaContent article img,
@@ -79,11 +76,6 @@ form input[type='submit'] {
 
 .articleTitle,
 .articleDate {
-  width: 100%;
-  padding: 1px;
-  align-self: end;
-  border-bottom: 1px solid #999;
-  margin-bottom: 3px;
 }
 
 .articleTitle {
@@ -149,10 +141,10 @@ form input[type='submit'] {
   padding: 1rem 2rem;
   margin-right: 0.2rem;
   cursor: pointer;
-  background: #333;
-  color: #222;
+  background-color: var(--tabHiddenBackground);
+  color: var(--tabHiddenColour);
   font-weight: bold;
-  transition: background ease 0.2s;
+  transition: background-color color ease 0.2s;
 }
 .tabs .tab {
   order: 99;
@@ -160,14 +152,15 @@ form input[type='submit'] {
   width: 100%;
   display: none;
   padding: 1rem;
-  color: #222;
-  background: #888;
+  color: var(--tabColour);
+  background: var(--tabBackground);
 }
 .tabs input[type='radio'] {
   display: none;
 }
 .tabs input[type='radio']:checked + label {
-  background: #888;
+  color: var(--tabColour);
+  background-color: var(--tabBackground);
 }
 .tabs input[type='radio']:checked + label + .tab {
   display: block;
@@ -182,5 +175,11 @@ form input[type='submit'] {
     width: 100%;
     margin-right: 0;
     margin-top: 0.2rem;
+  }
+  .articleHead {
+    flex-direction: column;
+  }
+  .articleDate {
+    align-self: flex-end;
   }
 }

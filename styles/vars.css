@@ -1,13 +1,39 @@
 :root {
-  --headerBlockColour: #ffffdcb3;
-  --headerTextColour: #222;
-  --listEven: #322832b3;
-  --listOdd: #323228b3;
+  --stdBackground: #000000;
+  --stdColour: #fff;
+
+  --anchorColour: #444;
+  --footerAnchorColour: #cccccf;
+
+  --AHlilac: #baacdd;
+
+  --headerBlockBackground: #ffffdcb3;
+  --headerBlockColour: #222;
+
+  --alertBackground: #222;
+  --alertColour: #f88;
+
+  --tabBackground: #efefef;
+  --tabColour: #282828;
+
+  --tabHiddenBackground: #2a2a35;
+  --tabHiddenColour: #9a9090;
+
+  --articleBackground: #fff9ff;
+  --articleBorder: #989;
+
+  --commentBorder: #797;
+
+  --listEven: #ddfffe;
+  --listOdd: #feeeff;
+
   --transBlack: #00000080;
+
   --commentBoxOutline: 1px solid #b1b1b1;
-  --compColBrt1: #dbffed;
-  --compColBrt2: #dbfffe;
-  --compColBrt3: #dbdbff;
-  --compColBrt4: #fedbff;
-  --compColBrt5: #ffdbed;
+
+  --compColBrt1: #590965;
+  --compColBrt2: #650944;
+  --compColBrt3: #652b09;
+  --compColBrt4: #446509;
+  --compColBrt5: #156509;
 }
