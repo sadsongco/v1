@@ -6,6 +6,9 @@
             {{#articles}}
                 {{>articleLazy}}
             {{/articles}}
+            {{^articles}}
+                <p>No articles for {{tab_name}} yet. Check back soon, we're probably updating right now!</p>
+            {{/articles}}
         </div>
     {{/tabs}}
 </div>

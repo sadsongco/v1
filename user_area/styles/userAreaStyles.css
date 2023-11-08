@@ -15,26 +15,28 @@ form input[type='submit'] {
 .callout {
   width: 100%;
   height: auto;
-  margin-bottom: 1em;
+  margin-bottom: 0.5rem;
   mix-blend-mode: normal;
   position: relative;
 }
 
 /* specific user area elements */
 .userAreaHeader {
-  padding: 1em;
+  padding: 0.5em 1em;
   background-color: var(--headerBlockBackground);
   color: var(--headerBlockColour);
 }
 
 .userAreaContent {
-  margin-top: 0.3em;
+  margin-top: 0.5rem;
 }
 
 /* articles */
 .articleContainer {
   background-color: var(--articleBackground);
-  border: 1px solid var(--articleBorder);
+  margin: 0.5rem 0;
+  padding-bottom: 0.5rem;
+  box-shadow: -3px -3px 0.5rem var(--articleShadow);
 }
 
 .articleHead {
@@ -44,22 +46,11 @@ form input[type='submit'] {
   justify-content: space-between;
   align-items: baseline;
   border-bottom: 1px solid var(--articleBorder);
-  margin-bottom: 3px;
 }
 
 .articleBody {
   font-size: 0.9em;
-  padding: 1em;
-  width: 94%;
-  margin: auto;
-  margin-bottom: 1em;
-}
-
-.articleContent {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: 0 0.5rem;
 }
 
 .audioPlayer h2 {
@@ -72,9 +63,9 @@ form input[type='submit'] {
   font-size: 0.8em;
 }
 
-.userAreaContent article img,
-.userAreaContent article audio {
-  max-width: 80%;
+.userAreaContent article audio,
+.userAreaContent article img {
+  max-width: 70vw;
 }
 
 .articleTitle {
@@ -154,7 +145,7 @@ form input[type='submit'] {
   flex-grow: 1;
   width: 100%;
   display: none;
-  padding: 1rem;
+  padding: 0 0.5rem;
   color: var(--tabColour);
   background: var(--tabBackground);
 }
@@ -174,6 +165,9 @@ form input[type='submit'] {
   .tabs label {
     order: initial;
   }
+  .tabs .tab {
+    padding: 0;
+  }
   .tabs label {
     width: 100%;
     margin-right: 0;
@@ -185,4 +179,42 @@ form input[type='submit'] {
   .articleDate {
     align-self: flex-end;
   }
+}
+
+/* blog image floats */
+
+.floatLeft,
+.floatRight,
+.floatCentered {
+  padding: 0.5em 1em;
+  margin-bottom: 1em;
+  background-color: var(--headerBlockBackground);
+  border: 1px solid var(--commentBorder);
+}
+
+.floatLeft {
+  float: left;
+  margin-right: 1em;
+  text-align: left;
+}
+
+.floatRight {
+  float: right;
+  margin-left: 1em;
+  text-align: right;
+}
+
+.floatCentered {
+  clear: both;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imgTitle {
+  font-family: OpenSansBold;
+}
+
+.imgNotes {
+  font-size: 0.7em;
 }

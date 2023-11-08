@@ -49,11 +49,13 @@ function getMedia($content, $db, $auth, $m, $host) {
             if (isset($image_ids[2][$key])) {
                 switch ($image_ids[2][$key]) {
                     case "l":
-                        $image["float"] = "left";
+                        $image["float"] = "floatLeft";
                         break;
                     case "r":
-                        $image["float"] = "right";
+                        $image["float"] = "floatRight";
                         break;
+                    default:
+                        $image["float"] = "floatCentered";
                 }
                 $replace_el = $m->render("imageTag", $image);
                 $content = preg_replace("/$replace_str/", $replace_el, $content);
