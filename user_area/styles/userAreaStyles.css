@@ -67,9 +67,16 @@ form input[type='submit'] {
   font-size: 0.8em;
 }
 
-.userAreaContent article audio,
-.userAreaContent article img {
+.userAreaContent article audio {
   max-width: 70vw;
+}
+.userAreaContent article img {
+  font-style: italic;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-width: max(70vw, 100%);
+  height: auto;
 }
 
 .articleTitle {

@@ -6,11 +6,11 @@ define("__HOST__", getHost());
 
 define("MEDIA_PATH", __DIR__. "/../assets/media/");
 
-function removeExpiredStreamingTokens($db, $token) {
-    $query = "DELETE FROM streaming_tokens WHERE timestamp < ?;";
-    $stmt = $db->prepare($query);
-    $stmt->execute([time()-(60*30)]); // remove timestamps longer than 30 minutes ago
-}
+// function removeExpiredStreamingTokens($db, $token) {
+//     $query = "DELETE FROM streaming_tokens WHERE timestamp < ?;";
+//     $stmt = $db->prepare($query);
+//     $stmt->execute([time()-(60*30)]); // remove timestamps longer than 30 minutes ago
+// }
 
 // stop direct access if not authorised
 $host = getHost();
@@ -31,7 +31,7 @@ catch (PDOException $e) {
     echo $e->getMessage();
 }
 
-removeExpiredStreamingTokens($db, $_GET["track"]);
+// removeExpiredStreamingTokens($db, $_GET["track"]);
 
 header('Content-Type: audio/mpeg');
 header('Content-Disposition: inline;filename='.MEDIA_PATH.$filename.'');

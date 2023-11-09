@@ -13,7 +13,14 @@ function getMediaArr($table, $id, $db) {
     return $result[0];
 }
 
+function removeExpiredStreamingTokens($db) {
+    $query = "DELETE FROM streaming_tokens WHERE timestamp < ?;";
+    $stmt = $db->prepare($query);
+    $stmt->execute([time()-(60*30)]); // remove timestamps longer than 30 minutes ago
+}
+
 function getMedia($content, $db, $auth, $m, $host) {
+    removeExpiredStreamingTokens($db);
     // Get audio
     preg_match_all('/{{a::([0-9])+}}/', $content, $audio_ids);
     if (sizeof($audio_ids[1]) > 0) {
@@ -42,6 +49,7 @@ function getMedia($content, $db, $auth, $m, $host) {
         foreach ($image_ids[1] as $key=>$image_id) {
             $image = getMediaArr("images", $image_id, $db);
             $image["path"] = IMAGE_UPLOAD_PATH.$image["filename"];
+            $image["thumbpath"] = IMAGE_UPLOAD_PATH."thumbnails/".$image["filename"];
             $image_metadata = getimagesize(__DIR__.RELATIVE_ROOT.$image["path"]);
             $image["size_string"] = $image_metadata[3];
             $image["aspect_ratio"] = $image_metadata[0] . "/".$image_metadata[1];
