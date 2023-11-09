@@ -1,5 +1,8 @@
-<section class="articleContainer" data-article-id={{article_id}} hx-on:load="console.log(this);">
+<section class="articleContainer {{#hide}}hidden{{/hide}}" data-article-id={{article_id}} hx-on:load="console.log(this);">
     <article class="articleBody">
+        <div class="shareArticle">
+            <img onclick="copyToClipboard(event, '{{host}}/user_area/?show_tab={{tab}}&article_id={{article_id}}')" class="imageLink" src="assets/graphics/shareBlk.png" alt="share article icon" hx-get="" hx-swap="none" hx-push-url="{{host}}/user_area/?show_tab={{tab}}&article_id={{article_id}}"/>
+        </div>
         <div class="articleHead">
             <div class="articleTitle">{{title}}</div>
             <div class="articleDate">{{added}}</div>

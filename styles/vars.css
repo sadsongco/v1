@@ -21,7 +21,7 @@
 
   --articleBackground: #fff9ff;
   --articleBorder: #989;
-  --articleShadow: #d7dfdf;
+  --articleShadow: -3px -3px 0.5rem #d7dfdf;
 
   --commentBorder: #797;
 
@@ -37,4 +37,10 @@
   --compColBrt3: #652b09;
   --compColBrt4: #446509;
   --compColBrt5: #156509;
+
+  --alertMsgBackground: #aaaaaae5;
+  --alertMsgColour: #600;
+
+  --alertOutPos: -4rem;
+  --alertInPos: 0.5rem;
 }

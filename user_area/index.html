@@ -13,6 +13,8 @@
     <script src="../lib/htmx.min.js"></script>
     <script defer src="js/getLinkParams.js"></script>
     <script defer src="js/openAcc.js"></script>
+    <script defer src="js/showAllArticles.js"></script>
+    <script defer src="js/copyToClipboard.js"></script>
     <title>Unbelievable Truth</title>
     <style>
       .htmx-indicator {
@@ -32,6 +34,7 @@
       <img src="../assets/images/graphics/user.png" alt="User icon" />
     </div>
     <section class="userModal userHide" id="userModal"></section>
+    <section class="alertMsgContainer alertHide" id="alertMsg">Temporary alert message</section>
     <main>
       <section class="callout">
         <div class="contentwrap">unbelievable truth</div>
@@ -40,7 +43,7 @@
         <h2>Private area for users</h2>
         <p>A place for us to put some music and thoughts and blogs and pictures and any old stuff. Soon to come also, commenting on articles and possibly some live chat things!</p>
       </section>
-      <section class="userAreaContent" hx-get="API/content.php" hx-vals="js:{article_link:getArticleId(), show_comments:getShowComments(), show_tab:getShowTab()}" hx-trigger="load" hx-swap="innerHTML" hx-indicator="#spinnerMstr"></section>
+      <section class="userAreaContent" hx-get="API/content.php" hx-vals="js:{show_tab:getTabId(), article_link:getArticleId(), show_comments:getShowComments(), show_tab:getShowTab()}" hx-trigger="load" hx-swap="innerHTML" hx-indicator="#spinnerMstr"></section>
       <div id="spinnerMstr" class="spinner htmx-indicator">
         <img src="../assets/images/graphics/loading.gif" alt="loading spinner" />
       </div>

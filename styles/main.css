@@ -20,6 +20,10 @@ a {
   color: (--anchorColour);
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 .topspacer {
   height: 45vh;
 }

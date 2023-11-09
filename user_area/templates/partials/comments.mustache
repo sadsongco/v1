@@ -1,2 +1,2 @@
-<div class="commentsContainer" hx-get="API/getComments.php?article_id={{article_id}}" hx-trigger="load, refreshComments from:body" hx-target="this" hx-swap="innerHTML">
+<div class="commentsContainer" hx-post="API/getComments.php" hx-vals='{"article_id":"{{article_id}}", "tab_id": "{{tab_id}}"}' hx-trigger="load, refreshComments from:body" hx-target="this" hx-swap="innerHTML">
 </div>

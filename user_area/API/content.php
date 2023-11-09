@@ -12,15 +12,10 @@ function getTabs($db) {
     }
 }
 
-function getArticles($db, $tab_id, $article_link=false) {
+function getArticles($db, $tab_id) {
     $params = [$tab_id];
-    $article_cond = "WHERE tab = ?";
-    if ($article_link != 'null') {
-        $article_cond .= " AND article_id = ? ";
-        $params[] = $article_link;
-    }
     try {
-        $query = "SELECT article_id FROM articles $article_cond ORDER BY added DESC;";
+        $query = "SELECT article_id FROM articles WHERE tab = ? ORDER BY added DESC;";
         $stmt = $db->prepare($query);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -37,12 +32,27 @@ if (!$auth->isLoggedIn()) {
 }
 
 $show_tab = $_GET["show_tab"] == "null" ? null : intval($_GET['show_tab']);
+$show_comments = $_GET["show_comments"] == 'true' ? true : false;
 
 try {
     $tabs = getTabs($db);
     foreach ($tabs AS &$tab) {
-        $tab['articles'] = getArticles($db, $tab['tab_id'], $_GET['article_link']);
-        if ($_GET['show_tab'] == $tab['tab_id']) $tab['show_tab'] = true;
+        $tab['articles'] = getArticles($db, $tab['tab_id']);
+        foreach ($tab['articles'] as &$article) {
+            $article['tab_id'] = $tab['tab_id'];
+            if ($_GET['article_link'] != "null") {
+                $article['hide'] = true;
+                if ($article['article_id'] == $_GET['article_link']) {
+                    $article['hide'] = false;
+                    $article['show_comments'] = $_GET['show_comments'];
+                }
+            }
+
+        }
+        if ($_GET['show_tab'] == $tab['tab_id']) {
+            $tab['show_tab'] = true;
+            if (isset($_GET['article_link'])) $tab['linked_article'] = true;
+        }
     }
 }
 catch (Exception $e) {
@@ -51,14 +61,10 @@ catch (Exception $e) {
 
 if (!$show_tab) $tabs[0]['show_tab'] = true;
 
-// exit(p_2($tabs));
-$show_comments = $_GET["show_comments"] == 'true' ? true : false;
 
-echo $m->render("tabs", ["tabs"=>$tabs, "show_comments"=>$show_comments]);
+// p_2($tabs);
 
-// foreach ($articles AS $article) {
-//     echo $m->render("articleLazy", ["article_id"=>$article["article_id"], "show_comments"=>$show_comments]);
-// }
+echo $m->render("tabs", ["tabs"=>$tabs]);
 
 require_once("../../../secure/scripts/ut_disconnect.php");
 

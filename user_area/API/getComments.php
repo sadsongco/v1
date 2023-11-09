@@ -4,10 +4,10 @@ require_once(__DIR__."/includes/userAreaIncludes.php");
 
 // define("RELATIVE_ROOT", "/../../../");
 
-function getReplies ($db, $article_id, $comment_id=null) {
+function getReplies ($db, $article_id, $tab_id, $comment_id=null) {
     try {
         $no_reply_comments = "AND top_comment.reply IS NULL";
-        $params = [$_GET["article_id"], $_GET["article_id"]];
+        $params = [$article_id, $article_id];
         if ($comment_id) {
             $no_reply_comments = "AND top_comment.reply = ? ";
             $params[] = $comment_id;
@@ -35,8 +35,9 @@ function getReplies ($db, $article_id, $comment_id=null) {
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($result as &$comment_field) {
             $comment_field["article_id"] = $article_id;
+            $comment_field["tab_id"] = $tab_id;
             if ($comment_field["no_replies"] > 0) {
-                $comment_field["replies"] = getReplies($db, $article_id, $comment_field["comment_id"]);
+                $comment_field["replies"] = getReplies($db, $article_id, $tab_id, $comment_field["comment_id"]);
             }
             else {
                 $comment_field["replies"] = null;
@@ -51,13 +52,11 @@ function getReplies ($db, $article_id, $comment_id=null) {
 
 $output = [];
 try {
-    $output = ["comments"=>getReplies($db, $_GET['article_id'])];
+    $output = ["comments"=>getReplies($db, $_POST['article_id'], $_POST['tab_id'])];
 }
 catch (Exception $e) {
     $output = ["success"=>false, "message"=>"Couldn't retrieve comments: ".$e->getMessage()];
 }
-
-// p_2($output);
 
 echo $m->render("comment", $output);
 

@@ -7,6 +7,7 @@ require_once(__DIR__."/includes/userAreaIncludes.php");
 $params = [
     "username"=>$auth->getUsername(),
     "article_id"=>$_POST['article_id'],
+    "tab_id"=>$_POST['tab_id'],
     "comment_reply_id"=>$_POST["comment_id"]
 ];
 

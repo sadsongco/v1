@@ -36,7 +36,11 @@ form input[type='submit'] {
   background-color: var(--articleBackground);
   margin: 0.5rem 0;
   padding-bottom: 0.5rem;
-  box-shadow: -3px -3px 0.5rem var(--articleShadow);
+  box-shadow: var(--articleShadow);
+}
+
+.articleContainer.hidden {
+  display: none;
 }
 
 .articleHead {
@@ -86,6 +90,15 @@ form input[type='submit'] {
 
 .articleDate::after {
   content: '--';
+}
+
+button.showAllArticles {
+  font-family: openSansBold;
+  background-color: var(--articleBackground);
+  border: 1px solid var(--articleBorder);
+  box-shadow: var(--articleShadow);
+  border-radius: 0;
+  margin: 0.5rem 0;
 }
 
 .clearBoth {
@@ -217,4 +230,64 @@ form input[type='submit'] {
 
 .imgNotes {
   font-size: 0.7em;
+}
+
+.shareArticle {
+  text-align: right;
+}
+
+.shareArticle img {
+  aspect-ratio: 1/1;
+  max-height: 28px;
+}
+
+.imageLink {
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.4s;
+}
+
+.imageLink:hover {
+  opacity: 1;
+}
+
+.alertMsgContainer {
+  position: fixed;
+  top: var(--alertOutPos);
+  left: 0.5rem;
+  max-width: 15em;
+  padding: 1em;
+  z-index: 10;
+  background-color: var(--alertMsgBackground);
+  color: var(--alertMsgColour);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+}
+
+.alertShow {
+  animation-name: showAlert;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes showAlert {
+  0% {
+    top: var(--alertOutPos);
+    opacity: 0;
+  }
+  25% {
+    top: var(--alertInPos);
+    opacity: 1;
+  }
+  75% {
+    top: var(--alertInPos);
+    opacity: 1;
+  }
+  100% {
+    top: var(--alertOutPos);
+    opacity: 0;
+  }
 }

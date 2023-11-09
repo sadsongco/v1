@@ -26,7 +26,7 @@ function getCommentNotify($db, $reply) {
     }
 }
 
-function sendNotification($db, $m, $user_id, $article_id) {
+function sendNotification($db, $m, $user_id, $article_id, $tab_id) {
     try {
         $query = "SELECT email FROM users WHERE id = ?;";
         $stmt = $db->prepare($query);
@@ -40,8 +40,8 @@ function sendNotification($db, $m, $user_id, $article_id) {
 
     require_once("../../../secure/mailauth/ut.php");
     $host = getHost();
-    $email_html = $m->render('replyNotificationEmailHTML', ["host"=>$host, "article_id"=>$article_id]);
-    $email_txt = $m->render('replyNotificationEmailTxt', ["host"=>$host, "article_id"=>$article_id]);
+    $email_html = $m->render('replyNotificationEmailHTML', ["host"=>$host, "article_id"=>$article_id, "tab_id"=>$tab_id]);
+    $email_txt = $m->render('replyNotificationEmailTxt', ["host"=>$host, "article_id"=>$article_id, "tab_id"=>$tab_id]);
     $subject = "Unbelievable Truth - there's a reply to your comment";
 
     // set up PHP Mailer
@@ -76,7 +76,7 @@ if (isset($_POST['notify'])) $notify = true;
 if (isset($_POST['comment_reply_id']) && intval($_POST['comment_reply_id']) != 0) {
     $reply = $_POST['comment_reply_id'];
     $email_notification = getCommentNotify($db, $reply);
-    if ($email_notification['notify'] == 1) sendNotification($db, $m, $email_notification['user_id'], $_POST['article_id']);
+    if ($email_notification['notify'] == 1) sendNotification($db, $m, $email_notification['user_id'], $_POST['article_id'], $_POST['tab_id']);
 }
 
 
