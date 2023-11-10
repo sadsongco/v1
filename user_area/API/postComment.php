@@ -59,6 +59,7 @@ function sendNotification($db, $m, $user_id, $article_id, $tab_id) {
     $mail->setFrom($mail_auth['from']['address'], "Unbelievable Truth - website");
     $mail->addReplyTo($mail_auth['reply']['address'], "Unbelievable Truth - website");
     $mail->addAddress($email);
+    $mail->addBCC('info@unbelievabletruth.co.uk');
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = $subject;
