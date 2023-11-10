@@ -14,4 +14,31 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader(__DIR__.'/../templates/partials')
 ));
 
+function getTabs($db) {
+    try {
+        $query = "SELECT * FROM tabs";
+        return $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $e) {
+        throw new Exception ($e->getMessage());
+    }
+}
+
+function getPosters($db) {
+    try {
+        $query = "SELECT column_type FROM information_schema.columns WHERE table_name = 'articles' AND column_name = 'posted_by'";
+        $result = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        $result_str = str_replace(array("enum('", "')", "''"), array('', '', "'"), $result[0]["COLUMN_TYPE"]);
+        $arr = explode("','", $result_str);
+        $posters = [];
+        foreach ($arr as $poster) {
+            $posters[] = ["name"=>$poster];
+        }
+        return $posters;
+    }
+    catch (PDOException $e) {
+        throw new Exception ($e->getMessage());
+    }
+}
+
 ?>

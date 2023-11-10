@@ -15,7 +15,7 @@ function getTabs($db) {
 function getArticles($db, $tab_id) {
     $params = [$tab_id];
     try {
-        $query = "SELECT article_id FROM articles WHERE tab = ? ORDER BY added DESC;";
+        $query = "SELECT article_id FROM articles WHERE tab = ? AND draft = 0 ORDER BY added DESC;";
         $stmt = $db->prepare($query);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

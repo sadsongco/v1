@@ -40,6 +40,8 @@ catch (Exception $e){
     echo $e->getMessage();
 }
 
+$article["preview"] = true;
+
 echo $m->render('article', $article);
 
 ?>

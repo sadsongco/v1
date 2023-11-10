@@ -3,10 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/vars.css" />
     <link rel="stylesheet" href="../styles/imports.css" />
     <link rel="stylesheet" href="/private/styles/admin.css" />
     <link rel="stylesheet" href="../user_area/styles/userAreaStyles.css" />
     <script src="../lib/htmx.min.js"></script>
+    <script src="/private/js/updateArticlePreview.js"></script>
     <script src="/private/js/addFileButtonManager.js" defer></script>
     <script src="/private/js/addToBody.js" defer></script>
     <script src="/private/js/copyToClipboard.js" defer></script>
@@ -17,12 +19,14 @@
     <main>
       <h1>Unbelievable Truth</h1>
       <h2>Admin Page</h2>
-      <section id="tabFormContainer" hx-get="/private/php/user_area_tab_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML"></section>
-      <section hx-get="/private/php/user_area_article_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML"></section>
+      <section hx-get="/private/php/user_area_file_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML"></section>
+      <section id="articleFormContainer" hx-get="/private/php/user_area_article_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML" hx-on::after-settle="updateArticlePreview()"></section>
+      <section hx-get="/private/php/user_area_edit_article_form.php" hx-trigger="load, refreshArticleList from:body" hx-target="this" hx-swap="innerHTML"></section>
       <section id="articlePreview">
         <h2>ARTICLE PREVIEW</h2>
         <div id="articlePreviewContainer" class="articlePreview"></div>
       </section>
+      <section id="tabFormContainer" hx-get="/private/php/user_area_tab_form.php" hx-trigger="load" hx-target="this" hx-swap="innerHTML"></section>
       <section>
         <a href="/private/mailout/mailout.html">Send mailout</a>
       </section>

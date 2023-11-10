@@ -1,6 +1,9 @@
 :root {
   --stdBackground: #000000;
   --stdColour: #fff;
+  --stdMarginSmall: 0.5rem;
+  --stdMarginMedium: 1rem;
+  --stdMarginBig: 1.8rem;
 
   --anchorColour: #444;
   --footerAnchorColour: #cccccf;
@@ -21,7 +24,7 @@
 
   --articleBackground: #fff9ff;
   --articleBorder: #989;
-  --articleShadow: -3px -3px 0.5rem #d7dfdf;
+  --articleShadow: -3px -3px var(--stdMarginSmall) #d7dfdf;
 
   --commentBorder: #797;
 
@@ -42,5 +45,5 @@
   --alertMsgColour: #600;
 
   --alertOutPos: -4rem;
-  --alertInPos: 0.5rem;
+  --alertInPos: var(--stdMarginSmall);
 }

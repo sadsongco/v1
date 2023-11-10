@@ -2,6 +2,7 @@
             <input type="hidden" name="{{session_upload_name}}" value="123" />
           <div id="userAreaFiles">
             <input type="hidden" name="fileId" id="fileId" value="0" />
+            <label for="addFileButton">Add a new image (jpg / png / gif) or music file (mp3)</label>
             <button
                 hx-get="/private/php/add_user_area_file.php"
                 hx-target="#fileUploadStatus"

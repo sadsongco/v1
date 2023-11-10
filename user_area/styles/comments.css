@@ -1,6 +1,6 @@
 /* **** Accordion to show comments ***** */
 .commentAcc {
-  margin: 0.5rem auto;
+  margin: var(--stdMarginSmall) auto;
   width: 86%;
 }
 
