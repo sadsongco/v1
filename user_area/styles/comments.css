@@ -95,7 +95,9 @@
 }
 
 .commentForm input[type='text'] {
-  min-width: 98%;
+  width: 50em;
+  max-width: 97%;
+  height: 3em;
   font-size: 0.8em;
 }
 
