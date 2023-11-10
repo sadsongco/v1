@@ -299,3 +299,8 @@ button.showAllArticles {
     opacity: 0;
   }
 }
+
+iframe {
+  max-width: 97%;
+  margin: auto;
+}
