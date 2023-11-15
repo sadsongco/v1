@@ -27,15 +27,18 @@ function getCommentNotify($db, $reply) {
 }
 
 function sendNotification($db, $m, $user_id, $article_id, $tab_id) {
-    try {
-        $query = "SELECT email FROM users WHERE id = ?;";
-        $stmt = $db->prepare($query);
-        $stmt->execute([$user_id]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $email = $result[0]['email'];
-    } catch (Exception $e) {
-        error_log($e->getMessage());
-        return;
+    $email = "info@unbelievabletruth.co.uk";
+    if ($user_id != "admin") {
+        try {
+            $query = "SELECT email FROM users WHERE id = ?;";
+            $stmt = $db->prepare($query);
+            $stmt->execute([$user_id]);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $email = $result[0]['email'];
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return;
+        }
     }
 
     require_once("../../../secure/mailauth/ut.php");
@@ -59,7 +62,6 @@ function sendNotification($db, $m, $user_id, $article_id, $tab_id) {
     $mail->setFrom($mail_auth['from']['address'], "Unbelievable Truth - website");
     $mail->addReplyTo($mail_auth['reply']['address'], "Unbelievable Truth - website");
     $mail->addAddress($email);
-    $mail->addBCC('info@unbelievabletruth.co.uk');
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = $subject;
@@ -79,6 +81,8 @@ if (isset($_POST['comment_reply_id']) && intval($_POST['comment_reply_id']) != 0
     $email_notification = getCommentNotify($db, $reply);
     if ($email_notification['notify'] == 1) sendNotification($db, $m, $email_notification['user_id'], $_POST['article_id'], $_POST['tab_id']);
 }
+
+sendNotification($db, $m, 'admin', $_POST['article_id'], $_POST['tab_id']);
 
 
 $params = [
