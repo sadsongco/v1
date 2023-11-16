@@ -23,12 +23,12 @@ function getAudio($audio_id, $db, $auth) {
     $track = getMediaArr("media", $audio_id, $db);
     $track["token"] = makeUniqueToken($auth, $track);
     try {
-        $query = "INSERT IGNORE INTO streaming_tokens VALUES (0, ?, ?, ?);";
+        $query = "INSERT INTO streaming_tokens VALUES (0, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE timestamp = ?;";
         $stmt = $db->prepare($query);
-        $stmt->execute([$track["token"], $track["media_id"], time()]);
+        $stmt->execute([$track["token"], $track["media_id"], time(), time()]);
     }
     catch (PDOException $e) {
-        if ($e->getCode() == 23000) throw new Exception("streaming token already exists");
         die($e->getMessage());
     }
     $track["title"] = str_replace(" ", "_", $track["title"]);
