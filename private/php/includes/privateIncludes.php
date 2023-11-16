@@ -29,7 +29,6 @@ function getPosters($db) {
         $query = "SELECT column_type FROM information_schema.columns WHERE table_name = 'articles' AND column_name = 'posted_by';";
         $result = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
         $result_str = str_replace(array("enum('", "')", "''"), array('', '', "'"), $result[0]["column_type"]);
-        echo $result_str;
         $arr = explode("','", $result_str);
         if (sizeof($arr) == 0) $arr = ["Nigel", "Andy", "Jason", "Admin"];
         $posters = [];
