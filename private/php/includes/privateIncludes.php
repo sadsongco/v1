@@ -30,6 +30,7 @@ function getPosters($db) {
         $result = $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
         $result_str = str_replace(array("enum('", "')", "''"), array('', '', "'"), $result[0]["COLUMN_TYPE"]);
         $arr = explode("','", $result_str);
+        if (sizeof($arr) == 0) $arr = ["Nigel", "Andy", "Jason", "Admin"];
         $posters = [];
         foreach ($arr as $poster) {
             $posters[] = ["name"=>$poster];
