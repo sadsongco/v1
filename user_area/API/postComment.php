@@ -41,7 +41,7 @@ function sendNotification($db, $m, $user_id, $article_id, $tab_id) {
         }
     }
 
-    require_once("../../../secure/mailauth/ut.php");
+    include("../../../secure/mailauth/ut.php");
     $host = getHost();
     $email_html = $m->render('replyNotificationEmailHTML', ["host"=>$host, "article_id"=>$article_id, "tab_id"=>$tab_id]);
     $email_txt = $m->render('replyNotificationEmailTxt', ["host"=>$host, "article_id"=>$article_id, "tab_id"=>$tab_id]);
@@ -73,6 +73,8 @@ function sendNotification($db, $m, $user_id, $article_id, $tab_id) {
 
 $reply = null;
 $notify = 0;
+
+exit(p_2($_POST));
 
 if (isset($_POST['notify'])) $notify = true;
 
