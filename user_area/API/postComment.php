@@ -74,8 +74,6 @@ function sendNotification($db, $m, $user_id, $article_id, $tab_id) {
 $reply = null;
 $notify = 0;
 
-exit(p_2($_POST));
-
 if (isset($_POST['notify'])) $notify = true;
 
 if (isset($_POST['comment_reply_id']) && intval($_POST['comment_reply_id']) != 0) {
