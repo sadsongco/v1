@@ -1,5 +1,14 @@
 const showAllArticles = (event) => {
+  // console.log(event.target.dataset.visibleArticle);
   event.target.remove();
+  // close open comment accordions
+  const commentExpanders = document.getElementsByClassName('commentAccExpand');
+  const commentCollapsers = document.getElementsByClassName('commentAccCollapse');
+  for (const commentExpander of commentExpanders) commentExpander.classList.remove('hide');
+  for (const commentCollapser of commentCollapsers) commentCollapser.classList.add('hide');
+  const commentContainers = document.getElementsByClassName('commentsContainer');
+  for (const commentContainer of commentContainers) commentContainer.classList.add('collapsed');
+  // show all articles
   const articleContainers = document.getElementsByClassName('articleContainer');
   for (const articleContainer of articleContainers) {
     articleContainer.classList.remove('hidden');

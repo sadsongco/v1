@@ -51,7 +51,7 @@ try {
         }
         if ($_GET['show_tab'] == $tab['tab_id']) {
             $tab['show_tab'] = true;
-            if (isset($_GET['article_link'])) $tab['linked_article'] = true;
+            if (isset($_GET['article_link'])) $tab['linked_article'] = $_GET['article_link'];
         }
     }
 }

@@ -4,7 +4,7 @@
         <label for="tab_{{tab_id}}">{{tab_name}}</label>
         <div class="tab">
             {{#linked_article}}
-                <button class="showAllArticles" onclick="showAllArticles(event)">Show All Articles</button>
+                <button class="showAllArticles" onclick="showAllArticles(event)" data-visible-article="{{linked_article}}">Show All Articles</button>
             {{/linked_article}}
             {{#articles}}
                 {{>articleLazy}}

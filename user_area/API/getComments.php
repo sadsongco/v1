@@ -34,6 +34,7 @@ function getReplies ($db, $article_id, $tab_id, $comment_id=null) {
         $stmt->execute($params);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($result as &$comment_field) {
+            $comment_field['comment'] = nl2br($comment_field['comment'], true);
             $comment_field["article_id"] = $article_id;
             $comment_field["tab_id"] = $tab_id;
             if ($comment_field["no_replies"] > 0) {
