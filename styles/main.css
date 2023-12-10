@@ -20,10 +20,6 @@ a {
   color: (--anchorColour);
 }
 
-br {
-  line-height: 125%;
-}
-
 button:hover {
   cursor: pointer;
 }

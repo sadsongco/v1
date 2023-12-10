@@ -2,6 +2,14 @@ a {
   cursor: pointer;
 }
 
+br.big {
+  display: block;
+  content: '';
+  margin-top: 0.5em;
+  line-height: 190%;
+  vertical-align: top;
+}
+
 form input {
   display: block;
   max-width: 20em;

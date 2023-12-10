@@ -92,7 +92,7 @@ function getMedia($content, $db, $auth, $m, $host) {
         preg_match_all('/{{i::([0-9])+(?:::)?(l|r)?.?}}/', $line, $image_ids);
         $line = trim($line);
         if ($line != "" && $nl_flag) {
-            $output .= "<br />$line";
+            $output .= "<br class='big'>$line";
             $nl_flag = true;
             continue;
         }
