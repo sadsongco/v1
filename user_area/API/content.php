@@ -4,7 +4,7 @@ require_once(__DIR__."/includes/userAreaIncludes.php");
 
 function getTabs($db) {
     try {
-        $query = "SELECT * FROM tabs";
+        $query = "SELECT * FROM tabs ORDER BY tab_id ASC;";
         return $db->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
     catch (PDOException $e) {

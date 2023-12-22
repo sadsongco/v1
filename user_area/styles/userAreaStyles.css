@@ -7,7 +7,6 @@ br.big {
   content: '';
   margin-top: 0.5em;
   line-height: 190%;
-  vertical-align: top;
 }
 
 form input {
