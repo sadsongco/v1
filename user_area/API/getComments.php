@@ -5,6 +5,7 @@ require_once(__DIR__."/includes/userAreaIncludes.php");
 // define("RELATIVE_ROOT", "/../../../");
 
 function getReplies ($db, $article_id, $tab_id, $comment_id=null) {
+    $reserved_usernames = ["nigel", "Nigel", "andy", "Andy", "jase", "jas", "Jase", "Jas", "Jason", "NigelP", "NigelPowell", "AndyY", "AndyYorke", "JaseM", "JasM", "JasonM", "JaseMoulster", "JaseMoulster", "JasonMoulster", "sadsongco", "UnbelievableTruth", "UT"];
     try {
         $no_reply_comments = "AND top_comment.reply IS NULL";
         $params = [$article_id, $article_id];
@@ -34,6 +35,7 @@ function getReplies ($db, $article_id, $tab_id, $comment_id=null) {
         $stmt->execute($params);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($result as &$comment_field) {
+            if (in_array($comment_field['username'], $reserved_usernames)) $comment_field['band_member'] = 'true';
             $comment_field['comment'] = nl2br($comment_field['comment'], true);
             $comment_field["article_id"] = $article_id;
             $comment_field["tab_id"] = $tab_id;

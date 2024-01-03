@@ -146,3 +146,14 @@ input[type='checkbox'] {
 .hide {
   display: none;
 }
+
+.band {
+  font-family: OpenSansBold;
+  color: var(--tabColour);
+}
+
+.band::after {
+  font-size: 0.4rem;
+  opacity: 0.5;
+  content: ' ::super important band member pathetic blue tick!::';
+}
