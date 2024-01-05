@@ -74,10 +74,10 @@ function sendNotification($db, $m, $user_id, $article_id, $tab_id) {
 $reply = null;
 $notify = 0;
 
-if (isset($_POST['notify'])) $notify = true;
+if (isset($_POST['notify'])) $notify = true; // doesn't need sanitisation? if it exists then it's true, otherwise false
 
 if (isset($_POST['comment_reply_id']) && intval($_POST['comment_reply_id']) != 0) {
-    $reply = $_POST['comment_reply_id'];
+    $reply = intval($_POST['comment_reply_id']); // is this a valid comment id?
     $email_notification = getCommentNotify($db, $reply);
     if ($email_notification['notify'] == 1) sendNotification($db, $m, $email_notification['user_id'], $_POST['article_id'], $_POST['tab_id']);
 }
@@ -87,11 +87,11 @@ sendNotification($db, $m, 'admin', $_POST['article_id'], $_POST['tab_id']);
 
 $params = [
     "user_id"=>$auth->getUserId(),
-    "article_id"=>$_POST['article_id'],
+    "article_id"=>intval($_POST['article_id']), // is this a valid article id?
     "reply"=>$reply,
     "reply_to"=>null,
     "notify"=>$notify,
-    "comment"=>$_POST['comment']
+    "comment"=>strip_tags($_POST['comment'])
 ];
 
 try {
