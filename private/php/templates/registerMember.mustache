@@ -1,0 +1,10 @@
+<form hx-post="/private/php/handle_register_member.php">
+    <select name="username">
+        {{#username_options}}
+            <option>{{username}}</option>
+        {{/username_options}}
+    </select>
+    <input type="email" name="email" placeholder="email" autocomplete="email"/>
+    <input type="password" name="password" placeholder="password" />
+    <input type="submit" value="register username" />
+</form>

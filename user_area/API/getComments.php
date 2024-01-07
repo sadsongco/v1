@@ -6,7 +6,7 @@ include_once(__DIR__."/../../php/includes/p_2.php");
 // define("RELATIVE_ROOT", "/../../../");
 
 function getReplies ($db, $article_id, $tab_id, $comment_id=null) {
-    $reserved_usernames = ["nigel", "Nigel", "andy", "Andy", "jase", "jas", "Jase", "Jas", "Jason", "NigelP", "NigelPowell", "AndyY", "AndyYorke", "JaseM", "JasM", "JasonM", "JaseMoulster", "JaseMoulster", "JasonMoulster", "sadsongco", "UnbelievableTruth", "UT"];
+    include(__DIR__."/../../../secure/env/ut_reserved_usernames.php");
     try {
         $no_reply_comments = "AND top_comment.reply IS NULL";
         $params = [$article_id, $article_id];
