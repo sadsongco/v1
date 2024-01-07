@@ -71,6 +71,15 @@ function sendNotification($db, $m, $user_id, $article_id, $tab_id) {
     $mail->send();
 }
 
+function validateArticleId($article_id, $db) {
+    $query = "SELECT COUNT(*) FROM articles WHERE article_id = ?;";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$article_id]);
+    $num_rows = $stmt->fetchColumn();
+    if ($num_rows > 0) return true;
+    throw new Exception("invalid article id");
+}
+
 $reply = null;
 $notify = 0;
 
@@ -87,7 +96,7 @@ sendNotification($db, $m, 'admin', $_POST['article_id'], $_POST['tab_id']);
 
 $params = [
     "user_id"=>$auth->getUserId(),
-    "article_id"=>intval($_POST['article_id']), // is this a valid article id?
+    "article_id"=>intval($_POST['article_id']),
     "reply"=>$reply,
     "reply_to"=>null,
     "notify"=>$notify,
@@ -95,6 +104,7 @@ $params = [
 ];
 
 try {
+    validateArticleId($_POST['article_id'], $db);
     $query = "INSERT INTO comments VALUES (0, :user_id, :article_id, NOW(), :reply, :reply_to, 0, :notify, 0, :comment);";
     $stmt = $db->prepare($query);
     $stmt->execute($params);

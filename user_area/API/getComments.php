@@ -1,7 +1,7 @@
 <?php
 
 require_once(__DIR__."/includes/userAreaIncludes.php");
-include_once(__DIR__."../php/includes/p_2.php");
+include_once(__DIR__."/../../php/includes/p_2.php");
 
 // define("RELATIVE_ROOT", "/../../../");
 
