@@ -48,7 +48,6 @@ function getReplies ($db, $article_id, $tab_id, $comment_id=null) {
                 $comment_field["replies"] = null;
             }
         }
-        p_2($result);
         return ($result);
     }
     catch (Exception $e) {
