@@ -1,6 +1,6 @@
-const showAllArticles = (event) => {
-  // console.log(event.target.dataset.visibleArticle);
-  event.target.remove();
+const showAllArticles = (target) => {
+  if (!target) return;
+  target.remove();
   // close open comment accordions
   const commentExpanders = document.getElementsByClassName('commentAccExpand');
   const commentCollapsers = document.getElementsByClassName('commentAccCollapse');

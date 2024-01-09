@@ -1,10 +1,10 @@
 <div class="tabs">
     {{#tabs}}
-        <input type="radio" name="tabs" id="tab_{{tab_id}}" {{#show_tab}}checked="checked"{{/show_tab}} hx-get="" hx-swap="none" hx-trigger="click" hx-push-url="{{host}}/user_area/?show_tab={{tab_id}}">
+        <input type="radio" name="tabs" id="tab_{{tab_id}}" hx-on:click="showAllArticles(document.getElementById('showAllArticlesButton'))" {{#show_tab}}checked="checked"{{/show_tab}} hx-get="" hx-swap="none" hx-trigger="click" hx-push-url="{{host}}/user_area/?show_tab={{tab_id}}">
         <label for="tab_{{tab_id}}">{{tab_name}}</label>
         <div class="tab">
             {{#linked_article}}
-                <button class="showAllArticles" onclick="showAllArticles(event)" data-visible-article="{{linked_article}}">Show All Articles</button>
+                <button id="showAllArticlesButton" class="showAllArticles" onclick="showAllArticles(event.target)" data-visible-article="{{linked_article}}">Show All Articles</button>
             {{/linked_article}}
             {{#articles}}
                 {{>articleLazy}}
