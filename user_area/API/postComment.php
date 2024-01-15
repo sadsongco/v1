@@ -80,13 +80,21 @@ function validateArticleId($article_id, $db) {
     throw new Exception("invalid article id");
 }
 
+function validateCommentId($comment_id, $db) {
+    $query = "SELECT EXISTS(SELECT 1 FROM comments WHERE comment_id = ? LIMIT 1)";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$comment_id]);
+    return $stmt->fetchColumn();
+}
+
 $reply = null;
 $notify = 0;
 
 if (isset($_POST['notify'])) $notify = true; // doesn't need sanitisation? if it exists then it's true, otherwise false
 
 if (isset($_POST['comment_reply_id']) && intval($_POST['comment_reply_id']) != 0) {
-    $reply = intval($_POST['comment_reply_id']); // is this a valid comment id?
+    if (!validateCommentId($_POST['comment_reply_id'], $db)) exit ('Invalid comment id');
+    $reply = intval($_POST['comment_reply_id']);
     $email_notification = getCommentNotify($db, $reply);
     if ($email_notification['notify'] == 1) sendNotification($db, $m, $email_notification['user_id'], $_POST['article_id'], $_POST['tab_id']);
 }
