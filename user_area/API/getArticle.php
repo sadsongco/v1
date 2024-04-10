@@ -28,7 +28,7 @@ try {
         LEFT JOIN tabs ON tab = tabs.tab_id
         WHERE article_id = ?;";
     $stmt = $db->prepare($query);
-    $stmt->execute([$_POST['article_id']]);
+    $stmt->execute([$_POST['article_id']]); // VALIDATE?
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 catch (Exception $e) {
@@ -39,7 +39,7 @@ catch (Exception $e) {
 $article = $result[0];
 $article["body"] = getMedia($article["body"], $db, $auth, $m, $host);
 $article["username"] = $auth->getUsername();
-$article["tab_id"] = $_POST["tab_id"];
+$article["tab_id"] = $_POST["tab_id"]; //VALIDATE POST below?
 $article["show_comments"] = $_POST['show_comments'] == 'true' ? true : false;
 $article["host"] = $host;
 if (isset($_POST['hide'])) $article["hide"] = $_POST['hide'];

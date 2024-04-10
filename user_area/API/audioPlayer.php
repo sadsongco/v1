@@ -11,7 +11,7 @@ $m = new Mustache_Engine(array(
     'partials_loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__).'/../templates/partials')
 ));
 
-$track = $_POST;
+$track = $_POST; //VALIDATE?
 $track["host"] = getHost();
 $track["title"] = str_replace("_", " ", $track["title"]);
 $track["notes"] = str_replace("_", " ", nl2br($track["notes"]));

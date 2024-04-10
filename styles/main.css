@@ -15,9 +15,10 @@ main {
   min-height: 100vh;
 }
 
-a {
+a,
+a:visited a:active {
   text-decoration: underline;
-  color: (--anchorColour);
+  color: var(--anchorColour);
 }
 
 button:hover {
@@ -25,7 +26,7 @@ button:hover {
 }
 
 .topspacer {
-  height: 45vh;
+  height: 15vh;
 }
 
 .show,
@@ -36,11 +37,11 @@ button:hover {
   text-align: center;
   position: sticky;
   position: -webkit-sticky;
-  margin-bottom: 40vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 6rem;
+  /* height: 6rem; */
 }
 
 .callout {
@@ -48,6 +49,7 @@ button:hover {
   font-weight: 700;
   font-size: clamp(1.3rem, 9vw, 4rem);
   top: 0;
+  margin-bottom: 15vh;
   mix-blend-mode: difference;
 }
 
@@ -57,16 +59,23 @@ button:hover {
 }
 
 .first {
-  top: 0;
+  top: 2.7em;
+  display: block;
 }
 
 .second {
-  top: 0;
+  top: 7.3em;
+  display: block;
 }
 
-.third {
-  top: 0;
+.contentwrap.heading {
+  font-family: OpenSansBold, Inter sans-serif;
+  font-weight: 700;
 }
+
+/* .third {
+  top: 0;
+} */
 
 footer {
   /* position: sticky;
