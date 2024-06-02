@@ -61,12 +61,7 @@ function getImage($image_id, $image_float, $db) {
     return $image;
 }
 
-function getMedia($content, $db, $auth, $m, $host) {
-    removeExpiredStreamingTokens($db);
-    $input_arr = explode("\n", $content);
-    $output = "";
-    $nl_flag = false;
-    foreach ($input_arr as $key=>$line) {
+function getMedia($line, $db, $auth, $m, $host) {
         // Get audio
         preg_match_all('/{{a::([0-9])+}}/', $line, $audio_ids);
         if (sizeof($audio_ids[1]) > 0) {
@@ -91,15 +86,48 @@ function getMedia($content, $db, $auth, $m, $host) {
         }
         preg_match_all('/{{i::([0-9])+(?:::)?(l|r)?.?}}/', $line, $image_ids);
         $line = trim($line);
-        if ($line != "" && $nl_flag) {
-            $output .= "<br class='big'>$line";
-            $nl_flag = true;
+        return $line;
+}
+
+function parseLinks($line, $m) {
+    $links = [];
+    preg_match_all('/({{link}}([^}]*){{\/link}})/', $line, $links);
+    $replacements = [];
+    foreach ($links[0] as $key=>$link) {
+        $replacements[] = ["search"=>$links[0][$key], "replace"=>$links[2][$key]];
+    }
+    if (sizeof($replacements)==0) return $line;
+    foreach ($replacements as $replace) {
+        // p_2($replace);
+        $replace_arr = explode("::", $replace['search']);
+        $replace_arr = (preg_replace('/{{\/?link}}/', "", $replace_arr));
+        if (sizeof($replace_arr) == 1) $link_text = $link_url = $replace_arr[0];
+        else {
+            $link_text = $replace_arr[0];
+            $link_url = $replace_arr[1];
+        }
+        $html_replace = $m->render('link', ["link_text"=>$link_text, "link_url"=>$link_url]);
+        $line = str_replace($replace["search"], $html_replace, $line);
+        // p_2($line);
+    }
+    return $line;
+}
+
+function parseBody($body, $db, $auth, $m, $host) {
+    $content = explode("\n", str_replace("\n\r", "\n", $body));
+    removeExpiredStreamingTokens($db);
+    $output = "<p>";
+    for ($x = 0; $x < sizeof($content); $x++) {
+        if ($content[$x] == "" || $content[$x] == "\n") continue;
+        $content[$x] = parseLinks($content[$x], $m);
+        $content[$x] = getMedia($content[$x], $db, $auth, $m, $host);
+        if ($x+1 < sizeof($content) && ($content[$x+1] == "" || $content[$x+1] == "\n")) {
+            $output .= trim($content[$x])."</p>\n<p>";
             continue;
         }
-        $output .= $line;
-        $nl_flag = true;
-
+        $output .= trim($content[$x])."<br />\n";
     }
+    $output .= "</p>";
     return $output;
 }
 

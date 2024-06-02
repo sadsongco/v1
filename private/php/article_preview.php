@@ -34,7 +34,7 @@ include(__DIR__."/../../php/includes/p_2.php");
 $host = getHost();
 $article = $_POST;
 try {
-    $article["body"] = getMedia($article["body"], $db, $auth, $m, $host);
+    $article["body"] = parseBody($article["body"], $db, $auth, $m, $host);
 }
 catch (Exception $e){
     echo $e->getMessage();

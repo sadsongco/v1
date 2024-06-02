@@ -37,7 +37,7 @@ catch (Exception $e) {
 
 
 $article = $result[0];
-$article["body"] = getMedia($article["body"], $db, $auth, $m, $host);
+$article["body"] = parseBody($article["body"], $db, $auth, $m, $host);
 $article["username"] = $auth->getUsername();
 $article["tab_id"] = $_POST["tab_id"]; //VALIDATE POST below?
 $article["show_comments"] = $_POST['show_comments'] == 'true' ? true : false;
