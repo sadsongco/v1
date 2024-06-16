@@ -46,6 +46,7 @@ function insertArticle($article_date) {
     return [$query, $params, $msg];
 }
 
+if (!isset($_POST['articleDate'])) $_POST['articleDate'] = $article_date;
 
 try {
     $article_date = date("Y-m-d H:i:s");
@@ -54,7 +55,7 @@ try {
     }elseif (isset($_POST['article_id'])) {
         $query_arr = updateArticle();
     } else {
-        $query_arr = insertArticle($article_date);
+        $query_arr = insertArticle($_POST['articleDate']);
     }    
     $stmt = $db->prepare($query_arr[0]);
     $stmt->execute($query_arr[1]);

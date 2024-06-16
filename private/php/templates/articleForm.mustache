@@ -1,4 +1,4 @@
-        {{#message}}<h2>{{msg}}{{/message}}
+        {{#message}}<h2>{{msg}}</h2>{{/message}}
         <form id="articleForm" hx-encoding="multipart/form-data" hx-post="/private/php/add_user_area_article.php" hx-target="this">
           <input type="text" name="title" id="title" placeholder="User Area Item Title" hx-post="/private/php/article_preview.php" hx-trigger="keyup changed delay:1s" hx-target="#articlePreviewContainer" {{#content}}value="{{title}}"{{/content}} />
           <textarea id="articleBody" hx-post="/private/php/article_preview.php" hx-trigger="keyup changed delay:1s, updatePreview" hx-target="#articlePreviewContainer" name="body" id="body" cols="50" rows="20" placeholder="User Area Item Body">{{#content}}{{body}}{{/content}}</textarea><br />
