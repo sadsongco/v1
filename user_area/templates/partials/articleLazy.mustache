@@ -2,7 +2,7 @@
     class="articleContainer"
     hx-post="API/getArticle.php"
     hx-vals='{"tab_id": {{tab_id}}, "article_id": "{{article_id}}"{{#show_comments}}, "show_comments":"{{show_comments}}"{{/show_comments}}{{#hide}}, "hide":"{{hide}}"{{/hide}}}'
-    hx-trigger="load"
+    hx-trigger="revealed"
     hx-target="this"
     hx-swap="outerHTML"
     hx-indicator="#spinner-{{article_id}}">

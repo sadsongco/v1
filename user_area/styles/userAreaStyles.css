@@ -44,6 +44,7 @@ form input[type='submit'] {
   margin: var(--stdMarginSmall) 0;
   padding-bottom: var(--stdMarginSmall);
   box-shadow: var(--articleShadow);
+  min-height: 100vh;
 }
 
 .articleContainer.hidden {
