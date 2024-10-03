@@ -3,6 +3,7 @@
 $current_mailout_file = './current_mailout.txt';
 $current_mailout = file_get_contents($current_mailout_file);
 if ($current_mailout == '') exit();
+date_default_timezone_set('Europe/London');
 
 // current mailout it set, carry on
 

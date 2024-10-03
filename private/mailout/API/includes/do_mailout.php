@@ -2,7 +2,6 @@
 
 include(__DIR__."/replace_tags.php");
 include(__DIR__."/mailout_create.php");
-date_default_timezone_set('Europe/London');
 
 /* *** FUNCTIONS *** */
 
@@ -37,7 +36,6 @@ function get_email_addresses($db, $mailout_id, $mailing_list_table, $log_fp) {
         WHERE last_sent < ?
         AND subscribed = 1
         AND error = 0
-        AND email LIKE '%sadsongco%'
         ORDER BY domain
         LIMIT 1";
         $stmt = $db->prepare($query);
