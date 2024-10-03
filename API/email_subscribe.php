@@ -10,19 +10,32 @@ use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
 require '../private/mailout/API/vendor/autoload.php';
-include_once('../private/mailout/includes/replace_tags.php');
+include_once('../../secure/secure_id/secure_id_ut.php');
+include_once('../email_management/includes/get_host.php');
+include_once('../private/mailout/api/includes/replace_tags.php');
 
 function sendConfirmationEmail($row) {
     //Create an instance; passing `true` enables exceptions
+    require '../lib/mustache.php-main/src/Mustache/Autoloader.php';
+    Mustache_Autoloader::register();
+
+    $m = new Mustache_Engine(array(
+        'loader' => new Mustache_Loader_FilesystemLoader('templates'),
+        'partials_loader' => new Mustache_Loader_FilesystemLoader('templates/partials')
+    ));
     $mail = new PHPMailer(true);
 
     try {
-        $body_template = file_get_contents('mail_bodies/confirm.html');
-        $text_template = file_get_contents('mail_bodies/confirm.txt');
+        $row['host'] = getHost();
+        $row['secure_id'] = generateSecureId($row['email'], $row['email_id']);
+        $body = $m->render('confirmationEmailHtml', $row);
+        $text_body = $m->render('confirmationEmailText', $row);
+        // $body_template = file_get_contents('mail_bodies/confirm.html');
+        // $text_template = file_get_contents('mail_bodies/confirm.txt');
         $subject = 'Unbelievable Truth - confirm your email';
 
-        $body = replace_tags($body_template, $row);
-        $text_body = replace_tags($text_template, $row);
+        // $body = replace_tags($body_template, $row);
+        // $text_body = replace_tags($text_template, $row);
         require_once("../../secure/mailauth/ut.php");
 
         // mail auth

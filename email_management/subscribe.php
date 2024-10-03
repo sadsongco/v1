@@ -6,6 +6,12 @@ require_once("../../secure/scripts/ut_m_connect.php");
 
 $message = "<p>Mailing list subscription page. Please access this through the link in your email.</p>";
 
+echo "SUBSCRIBE";
+
+p_2($_POST);
+
+exit();
+
 if (isset ($_POST['add_name']) && $_POST['add_name'] == "Add Your Name") {
     try {
         $stmt = $db->prepare("SELECT email_id FROM ut_mailing_list WHERE email=?;");

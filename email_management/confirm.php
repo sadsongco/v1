@@ -13,11 +13,11 @@ use PHPMailer\PHPMailer\Exception;
 //Load Composer's autoloader
 require '../private/mailout/API/vendor/autoload.php';
 
-include_once('../private/mailout/includes/replace_tags.php');
+include_once('../private/mailout/api/includes/replace_tags.php');
 
 function getLatestMailout() {
     $latest_mailout = 0;
-    if ($handle = opendir('../private/mailout/assets/mailout_bodies/html')) {
+    if ($handle = opendir('../private/mailout/assets/content')) {
         while (false !== ($entry = readdir($handle))) {
             if (substr($entry, 0, 1) != ".") {
                 $mailout_id = explode('.', $entry)[0];
@@ -89,7 +89,7 @@ if (isset($_GET) && isset($_GET['email'])) {
         $stmt = $db->prepare('UPDATE ut_mailing_list SET confirmed = 1 WHERE email_id = ?');
         $stmt->execute([$email_id]);
         $message = 'Your email is confirmed, welcome to the email list!';
-        sendLastMailout($row);
+        // TODO - SEND LATEST MAILOUT
     }
     catch (PDOException $e) {
         if ($e->getCode() ==1176) {

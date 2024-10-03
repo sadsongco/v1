@@ -57,14 +57,3 @@ document.getElementById('email').addEventListener('input', (e) => {
     submit.value = 'enter your email';
   }
 });
-
-// const announce = new Date('July 5, 2023 10:00:00 UTC+01:00');
-// const onsale = new Date('July 7, 2023 10:00:00 UTC+01:00');
-// const today = new Date();
-
-// if (today < announce) document.getElementById('date').style.display = 'flex';
-// else if (today > announce && today < onsale) {
-//   for (let elId of ['show', 'venue']) document.getElementById(elId).style.display = 'flex';
-// } else if (today > onsale) {
-//   for (let elId of ['show', 'venue']) document.getElementById(elId).style.display = 'flex';
-// }
