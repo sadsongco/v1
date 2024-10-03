@@ -34,7 +34,7 @@ $sent = null;
 $dd_sent = null;
 
 if ($current_mailout != "") {
-    $mailing_list = $current_mailout == "test" ? "test_mailing_list" : "mailing_list";
+    $mailing_list = $current_mailout == "test" ? "test_mailing_list" : "ut_mailing_list";
     $sent = getCompletedEmails($db, $mailing_list, $current_mailout);
     $sent['mailing_list'] = $mailing_list;
 }
