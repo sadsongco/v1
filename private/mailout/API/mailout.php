@@ -18,6 +18,5 @@ $from_name = "Unbelievable Truth mailing list";
 
 /* *** INCLUDES *** */
 
-// cd /home/thesadso/theexactopposite.uk/private/mailout/api/; /usr/local/bin/php -q mailout.php(?dd=true)
 require_once('includes/mailout_includes.php');
 require_once('includes/do_mailout.php');

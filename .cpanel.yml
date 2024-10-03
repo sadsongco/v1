@@ -2,7 +2,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/thesadso/theexactopposite.uk/
+    - export DEPLOYPATH=/home/thesadso/unbelievabletruth.co.uk/
     - /bin/cp -R API $DEPLOYPATH
     - /bin/cp -R assets $DEPLOYPATH
     - /bin/cp -R email_management $DEPLOYPATH
