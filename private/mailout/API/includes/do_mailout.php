@@ -2,6 +2,7 @@
 
 include(__DIR__."/replace_tags.php");
 include(__DIR__."/mailout_create.php");
+date_default_timezone_set('Europe/London');
 
 /* *** FUNCTIONS *** */
 
