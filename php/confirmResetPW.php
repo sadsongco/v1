@@ -14,7 +14,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
-require '../private/mailout/API/vendor/autoload.php';
+require '../private/mailout/api/vendor/autoload.php';
 
 // auth
 require __DIR__ . '/vendor/autoload.php';

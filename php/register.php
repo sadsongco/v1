@@ -14,7 +14,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
-require_once __DIR__.'/../private/mailout/API/vendor/autoload.php';
+require_once __DIR__.'/../private/mailout/api/vendor/autoload.php';
 
 // templating system
 require_once __DIR__.'/../lib/mustache.php-main/src/Mustache/Autoloader.php';
