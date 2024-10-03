@@ -1,8 +1,11 @@
 *.DS_Store
 *mailout_log*
-./private/mailout/API/logs/
-private/mailout/API/current_mailout*
+./private/mailout/api/logs
+private/mailout/api/current_mailout*
+private/mailout/assets/content
 user_area/assets/images/*
 user_area/assets/images/thumbnails/*
 user_area/assets/media/*
 php.ini
+/private/old_mailout
+assets/images/mailout_images

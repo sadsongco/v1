@@ -1,9 +1,9 @@
 const updateCurrentMailout = async (mailout) => {
-  const sendURL = `./api/set_current_mailout.php?mailout=${mailout}`;
+  const sendURL = `./api/dd_set_current_mailout.php?mailout=${mailout}`;
   emailsSent.appendChild(loading);
   const res = await fetch(sendURL);
   const output = await res.text();
-  const status = output === 'SUCCESS' ? `Mailout ${mailout} has started sending` : `There was an error, please try again`;
+  const status = output === 'SUCCESS' ? `Dive Dive Mailout ${mailout} has started sending` : `There was an error, please try again`;
   const newLine = document.createElement('p');
   newLine.innerHTML = status;
   loading.remove();
@@ -23,15 +23,15 @@ const updatePreviews = (value) => {
   const previews = document.getElementById('previews');
   previews.innerHTML = '';
   const htmlPreview = document.createElement('a');
-  htmlPreview.href = `assets/mailout_bodies/html/${value}.html`;
+  htmlPreview.href = `assets/dd_mailout_bodies/html/${value}.html`;
   htmlPreview.target = '_blank';
   htmlPreview.innerHTML = 'Preview HTML';
   const textPreview = document.createElement('a');
-  textPreview.href = `assets/mailout_bodies/text/${value}.txt`;
+  textPreview.href = `assets/dd_mailout_bodies/text/${value}.txt`;
   textPreview.target = '_blank';
   textPreview.innerHTML = 'Preview Text';
   const subjectPreview = document.createElement('a');
-  subjectPreview.href = `assets/mailout_bodies/subject/${value}.txt`;
+  subjectPreview.href = `assets/dd_mailout_bodies/subject/${value}.txt`;
   subjectPreview.target = '_blank';
   subjectPreview.innerHTML = 'Preview Subject';
 
@@ -43,7 +43,7 @@ const updatePreviews = (value) => {
 };
 
 const populateMailoutSelect = async () => {
-  const dataURL = './api/mailoutOptions.php';
+  const dataURL = './api/dd_mailoutOptions.php';
   const res = await fetch(dataURL);
   const mailoutOptions = await res.json();
   const select = document.getElementById('mailoutSelect');

@@ -306,3 +306,26 @@ input[type='checkbox'] {
 button {
   display: block;
 }
+
+.tag {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+}
+
+.textPreview,
+.subject {
+  margin: 1em 0;
+  background-color: white;
+  color: black;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.htmlPreview {
+  margin: 1em 0;
+  border: 2px solid white;
+}
+
+form label {
+  display: block;
+  margin-top: 0.5em;
+}

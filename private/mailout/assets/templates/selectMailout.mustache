@@ -1,0 +1,21 @@
+<section class="progress">
+  {{#current_mailout}}
+    <h2>Current mailout {{current_mailout}} is sending</h2>{{#sent}}<p>{{>sentEmails}}</p>{{/sent}}
+  {{/current_mailout}}
+</section>
+<section>
+<form hx-post="/private/mailout/api/set_mailout.php" id="mailoutForm">
+<label for="mailoutSelect">Select mailout to send</label>
+  <select
+    name="mailout"
+    id="mailoutSelect"
+    hx-get="/private/mailout/api/select_mailout_options.php"
+    hx-trigger="load, listChange, listChange from:body"
+    hx-on::after-settle="htmx.trigger('#previews', 'mailoutSelected')"
+    onchange="htmx.trigger('#previews', 'mailoutSelected')"
+  >
+  </select>
+  <input type="submit" value="Send This Mailout" id="submit" />
+</form>
+<section class="previews" id="previews" hx-get="/private/mailout/api/preview_mailout.php" hx-include="#mailoutSelect" hx-trigger="mailoutSelected">
+</section>

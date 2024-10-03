@@ -6,24 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../styles/admin.css" />
     <link rel="stylesheet" href="./styles/mailoutAdmin.css" />
-    <script async defer type="module" src="./js/app.js"></script>
-    <title>Unbelievable Truth Mailout</title>
+    <script src="../../lib/htmx.min.js"></script>
+    <script src="../../js/copyToClipboard.js"></script>
+    <title>UT Mailout</title>
   </head>
   <body>
     <main>
-      <h1>Unbelievable Truth mailout</h1>
-      <section class="selectMailout">
-        <form action="#" method="get" id="mailoutForm">
-          <select name="mailout" id="mailoutSelect"></select>
-          <input type="submit" value="Send This Mailout" id="submit" />
-        </form>
-        <section class="previews" id="previews"></section>
+      <h1>Unbelievable Truth - Mailout Management</h1>
+      <section>
+        <button hx-get="api/create_mailout_form.php" hx-target="#createMailout">Create New Mailout</button>
       </section>
-      <section class="emailsSent" id="emailsSent">
-        <div id="loading">
-          <img src="./assets/loading.gif" alt="loading spinner" />
-        </div>
-      </section>
+      <section id="createMailout"></section>
+      <section id="info"></section>
+      <section class="selectMailout" hx-get="api/select_mailout.php" hx-trigger="load, mailoutAdded from:body, errorsDeleted from:body"></section>
     </main>
     <footer id="foot"></footer>
   </body>
