@@ -9,8 +9,8 @@ body {
 }
 
 main {
-  width: 90%;
-  background: var(--stdBackground) url('../assets/images/CroppedMedium.jpg') no-repeat fixed center top;
+  width: 100%;
+  /* background: var(--stdBackground) url('../assets/images/CroppedMedium.jpg') no-repeat fixed center top; */
   background-size: cover;
   min-height: 100vh;
 }
@@ -31,6 +31,7 @@ button:hover {
 
 .show,
 .callout {
+  width: 100%;
   background-color: var(--AHlilac);
   color: var(--stdBackground);
   font-family: OpenSans, Inter sans-serif;
@@ -47,18 +48,18 @@ button:hover {
 .callout {
   font-family: OpenSansBold, Inter sans-serif;
   font-weight: 700;
-  font-size: clamp(1.3rem, 9vw, 4rem);
+  font-size: clamp(1rem, 8vw, 2.5rem);
   top: 0;
-  margin-bottom: 15vh;
-  mix-blend-mode: difference;
+  margin-bottom: 0.5rem;
+  /* mix-blend-mode: difference; */
 }
 
 .show {
   font-family: OpenSans, Inter sans-serif;
-  font-size: clamp(1rem, 5vw, 2.5em);
+  font-size: clamp(0.7rem, 3vw, 1.5em);
 }
 
-.first {
+/* .first {
   top: 2.7em;
   display: block;
 }
@@ -66,7 +67,7 @@ button:hover {
 .second {
   top: 7.3em;
   display: block;
-}
+} */
 
 .contentwrap.heading {
   font-family: OpenSansBold, Inter sans-serif;
@@ -83,11 +84,12 @@ footer {
   left: 0;
   right: 0; */
   padding: 1em;
-  background-color: var(--stdBackground);
+  background-color: var(--transBlack);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  z-index: 1;
 }
 
 label {
@@ -130,6 +132,37 @@ section.socials {
   display: none;
 }
 
+.booking {
+  flex-basis: 100%;
+}
+
 .booking a {
   color: var(--footerAnchorColour);
+}
+
+video {
+  object-fit: fill;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+.video-wrapper {
+  border: 2px solid #000;
+  width: 100%;
+  height: 100vh;
+  /* aspect-ratio: 16/9; */
+  position: relative;
+  overflow: visible;
+  z-index: -1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.emailForm h2 {
+  font-size: 1em;
 }
