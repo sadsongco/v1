@@ -155,12 +155,16 @@ video {
   /* aspect-ratio: 16/9; */
   position: relative;
   overflow: visible;
-  z-index: -1;
+  z-index: 1;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.emailForm {
+  z-index: 1;
 }
 
 .emailForm h2 {

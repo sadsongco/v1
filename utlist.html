@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/imports.css" />
+    <link rel="stylesheet" href="./styles/vars.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/userLogin230929.css" />
+    <link rel="stylesheet" href="./styles/cookieConsent.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="/lib/htmx.min.js"></script>
+    <script defer type="module" src="./js/app.js"></script>
+    <script defer src="./js/emailList.js"></script>
+    <title>Unbelievable Truth</title>
+  </head>
+  <body>
+    <div class="video-wrapper">
+      <video playsinline autoplay muted loop poster="assets/images/WebsiteBG.jpg">
+        <source src="assets/video/WebsiteBGsmall.mov" />
+        Your browser does not support the video tag.
+      </video>
+
+      <section class="callout">
+        <div class="contentwrap">unbelievable truth</div>
+      </section>
+      <section class="emailForm show">
+        <h2>Join our email list for news:</h2>
+        <form action="#" id="emailList">
+          <input type="text" id="email" placeholder="email address" autocomplete="email" /> <br />
+          <input type="text" id="name" placeholder="name (optional)" autocomplete="name" /> <br />
+          <input type="submit" id="emailSubmit" value="enter your email" autocomplete="email" />
+        </form>
+      </section>
+    </div>
+  </body>
+</html>
