@@ -1,0 +1,8 @@
+{{#items}}
+<div class="orderLine orderItemGrid" id="orderItem_{{item_id}}">
+  <input type=hidden name="orderItems[]" value={{item_id}} />
+  <div class="itemDetail">{{name}}</div>
+  <div class="itemDetail">&pound;{{price}}</div>
+  <button onclick="document.getElementById('orderItem_{{item_id}}').remove();">Remove From Order</button>
+</div>
+{{/items}}

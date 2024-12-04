@@ -1,0 +1,10 @@
+<div class="editOrder">
+    <a href = "php/print_order.php?order_id={{order_id}}" target="_blank" class="button">Generate PDF</a>
+    {{^dispatched}}
+    <a hx-get="php/order_dispatched.php?order_id={{order_id}}" hx-swap="none" class="button">Mark As Dispatched</a>
+    {{/dispatched}}
+    {{#dispatched}}
+    <a hx-get="php/order_dispatched.php?order_id={{order_id}}&undo=true" hx-swap="none" class="button">Mark As Not Dispatched</a>
+    {{/dispatched}}
+    <a hx-get="php/delete_order.php?order_id={{order_id}}" hx-confirm="Definitely delete order # {{sumup_id}}?" class="button">Delete Order</a>
+</div>

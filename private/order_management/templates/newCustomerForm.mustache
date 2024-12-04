@@ -1,0 +1,10 @@
+<form hx-post="php/add_new_customer.php" hx-target="#newCustomerMsg">
+  <input type="text" name="name" id="customer_name" placeholder="New Customer Name" autocomplete=true required />
+  <input type="text" name="address_1" id="customer_address_1" placeholder="Address 1" required />
+  <input type="text" name="address_2" id="customer_address_2" placeholder="Address 2" />
+  <input type="text" name="city" id="customer_city" placeholder="City" required />
+  <input type="text" name="postcode" id="customer_postcode" placeholder="Post Code" required />
+  <input type="text" name="country" id="customer_country" placeholder="Country" autocomplete=true required />
+  <input type="email" name="email" id="customer_email" placeholder="Email" autocomplete=true required />
+  <input type="submit" value="Add New Customer" />
+</form>

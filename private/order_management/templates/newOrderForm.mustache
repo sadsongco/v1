@@ -1,0 +1,18 @@
+<h2>Item List</h2>
+<form hx-post="php/add_item_to_order.php" hx-target="#items" hx-swap="beforeend" id="addItemForm">
+  {{#items}} {{>itemSelect}} {{/items}}
+  <input type="submit" value="Add Items To Order" id="add_item" />
+</form>
+
+<form hx-post="php/add_new_order.php" hx-target="#newOrderMsg" id="orderForm">
+  <input type="number" name="sumup_id" id="sumup_id" placeholder="sumup order ID" required />
+  <label for="orderDate">Order Date</label>
+  <input type="datetime-local" name="order_date" step="86400" id="orderDate" required />
+  <label for="customerId">Customer</label>
+  <select name="customer_id" id="customerId">
+    {{#customers}} {{> customerSelect }} {{/customers}}
+  </select>
+  <div id="items"></div>
+  <input type="submit" value="Submit Order" />
+</form>
+
