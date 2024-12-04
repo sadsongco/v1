@@ -1,7 +1,6 @@
 <?php
 
-require_once("secure/db_connect.php");
-include("includes/p_2.php");
+require_once(__DIR__."/includes/order_includes.php");
 
 $filter = "new";
 if (isset($_POST['orderFilter'])) $filter = $_POST['orderFilter'];
@@ -24,16 +23,6 @@ switch($filter) {
 
 
 if (isset($_POST['nameFilter'])) $filter_text = "WHERE name LIKE '%".$_POST['nameFilter']."%'";
-
-
-require '../lib/mustache.php-main/src/Mustache/Autoloader.php';
-Mustache_Autoloader::register();
-
-$m = new Mustache_Engine(array(
-    'loader' => new Mustache_Loader_FilesystemLoader('../templates'),
-    'partials_loader' => new Mustache_Loader_FilesystemLoader('../templates/partials')
-));
-
 
 try {
     $query = "SELECT Orders.order_id, Orders.sumup_id, Orders.dispatched, Orders.printed,
@@ -63,7 +52,3 @@ catch (PDOException $e) {
 $params["orders"] = $result;
 
 echo $m->render("orderList", $params);
-
-require_once("secure/db_disconnect.php");
-
-?>

@@ -1,7 +1,6 @@
 <?php
 
-require_once("secure/db_connect.php");
-include("includes/p_2.php");
+require_once(__DIR__."/includes/order_includes.php");
 require("includes/make_order_pdf.php");
 
 try {
@@ -45,6 +44,3 @@ try {
 catch (PDOException $e) {
     echo $e->getMessage();
 }
-
-require_once("secure/db_disconnect.php");
-?>

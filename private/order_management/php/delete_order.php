@@ -1,6 +1,6 @@
 <?php
 
-require_once("secure/db_connect.php");
+require_once(__DIR__."/includes/order_includes.php");
 
 try {
     $query = "DELETE FROM Order_items WHERE order_id = ?";
@@ -14,7 +14,4 @@ catch (PDOException $e) {
     echo $e->getMessage();
 }
 
-require_once("secure/db_disconnect.php");
 header ('HX-Trigger:updateOrderList');
-
-?>

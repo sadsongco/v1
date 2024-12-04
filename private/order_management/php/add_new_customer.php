@@ -1,7 +1,6 @@
 <?php
 
-require_once("secure/db_connect.php");
-include_once("includes/p_2.php");
+require_once(__DIR__."/includes/order_includes.php");
 
 try {
     $query = "INSERT INTO Customers VALUES (0, :name, :address_1, :address_2, :city, :postcode, :country, :email);";
@@ -17,7 +16,3 @@ catch (PDOException $e) {
 header ('HX-Trigger:updateOrderForm');
 header ('HX-Trigger-After-Settle:clearCustomerForm');
 echo "New Customer Added";
-
-require_once("secure/db_disconnect.php");
-
-?>

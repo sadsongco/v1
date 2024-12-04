@@ -40,7 +40,7 @@ class ORDER_PDF extends FPDF {
         $h = 15;
         $this->SetY(-$h);
         $this->setFillColor(...self::GREY);
-        $address = "Nigel Powell, 52 Claremont Road, Rugby, CV21 3LX, UK";
+        $address = "Unbelievable Truth, 52 Claremont Road, Rugby, CV21 3LX, UK";
         $email = "info@unbelievabletruth.co.uk";
         $this->SetTextColor(...self::BLACK);
         $this->Cell(0, $h, $address." :: ".$email, 'T', 0, 'C', true, 'mailto:info@unbelievabletruth.co.uk');

@@ -1,8 +1,5 @@
 <?php
 
-include_once("includes/p_2.php");
+require_once(__DIR__."/includes/order_includes.php");
 
 header ('HX-Trigger:editOrder');
-// p_2($_POST);
-
-?>

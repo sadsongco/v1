@@ -1,7 +1,6 @@
 <?php
 
-require_once("secure/db_connect.php");
-include_once("includes/p_2.php");
+require_once(__DIR__."/includes/order_includes.php");
 
 try {
     $query = "INSERT INTO Items VALUES (0, :name, :price);";
@@ -16,7 +15,3 @@ catch (PDOException $e) {
 
 header ('HX-Trigger:updateOrderForm');
 echo "New Item Added";
-
-require_once("secure/db_disconnect.php");
-
-?>

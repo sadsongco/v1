@@ -1,7 +1,6 @@
 <?php
 
-require_once("secure/db_connect.php");
-include("includes/p_2.php");
+require_once(__DIR__."/includes/order_includes.php");
 include("includes/make_label_pdf.php");
 
 $cond = "WHERE Orders.label_printed = false\n";
@@ -42,7 +41,3 @@ foreach ($result as $row) {
         echo $e->getMessage();
     }
 }
-
-require_once("secure/db_disconnect.php");
-
-?>

@@ -1,7 +1,6 @@
 <?php
 
-include_once("includes/p_2.php");
-require_once("secure/db_connect.php");
+require_once(__DIR__."/includes/order_includes.php");
 
 if (!isset($_POST["orderItems"])) {
     echo "Please add items to order before submitting";
@@ -9,9 +8,9 @@ if (!isset($_POST["orderItems"])) {
 }
 
 try {
-    $query = "INSERT INTO Orders VALUES (0, ?, ?, FALSE, FALSE, ?, FALSE);";
+    $query = "INSERT INTO Orders VALUES (0, ?, ?, ?, ?, FALSE, FALSE, ?, FALSE);";
     $stmt = $db->prepare($query);
-    $stmt->execute([$_POST["sumup_id"], $_POST["customer_id"], $_POST["order_date"]]);
+    $stmt->execute([$_POST["sumup_id"], $_POST["customer_id"], $_POST['shipping_method'], $_POST['shipping'], $_POST["order_date"]]);
     $order_id = $db->lastInsertId();
     foreach ($_POST["orderItems"] AS $item_id) {
         $query = "INSERT INTO Order_items VALUES (0, ?, ?)";
@@ -28,7 +27,3 @@ catch (PDOException $e) {
 
 header ('HX-Trigger:updateOrderList');
 header ('HX-Trigger-After-Settle:updateOrderForm');
-
-require_once("secure/db_disconnect.php");
-
-?>
