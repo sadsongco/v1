@@ -18,7 +18,8 @@ try {
     $auth = new \Delight\Auth\Auth($db);
 }
 catch (Exception $e) {
-    die($e->getMessage());
+    error_log($e);
+    exit("There has been a background error");
 }
 
 function addEmailToList($email) {
@@ -32,7 +33,7 @@ function addEmailToList($email) {
     }
     catch(PDOException $e) {
         if ($e->getCode() == 23000) return;
-        error_log($e->getMessage());
+        error_log($e);
     }
 
     require_once("../../secure/scripts/ut_disconnect.php");

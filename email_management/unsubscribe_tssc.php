@@ -24,7 +24,7 @@ if (isset($_GET['email']) && $_GET['email'] != '') {
     }
     catch(PDOException $e) {
         if ($e->getCode() != 1176) {
-            error_log($e->getMessage(), $e->getCode());
+            error_log($e);
             $message = "<p>Sorry, there was a background error</p>";
         }
         else {

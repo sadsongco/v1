@@ -36,7 +36,7 @@ function sendNotification($db, $m, $user_id, $article_id, $tab_id) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $email = $result[0]['email'];
         } catch (Exception $e) {
-            error_log($e->getMessage());
+            error_log($e);
             return;
         }
     }

@@ -22,7 +22,8 @@ try {
     $auth = new \Delight\Auth\Auth($db);
 }
 catch (Exception $e) {
-    die($e->getMessage());
+    error_log($e);
+    exit ("There has been a background error");
 }
 
 $host = getHost();
@@ -72,7 +73,7 @@ catch (\Delight\Auth\TooManyRequestsException $e) {
     die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>'Too many requests']));
 }
 catch (Exception $e) {
-    die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>$e->getMessage()]));
+    die($m->render("resetPW", ["base_dir"=>$host, "passwordResetError"=>true, "message"=>"There has been a background error"]));
 }
 
 require_once("../../secure/scripts/ut_disconnect.php");

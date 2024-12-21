@@ -1,30 +1,6 @@
-const validEmail = (mail) => {
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-    return true;
-  }
-  return false;
-};
+import { validEmail, submitEmail } from './modules/loader.js';
 
-const submitEmail = async (form) => {
-  const apiURL = './API/email_subscribe.php';
-  const email = document.getElementById('email').value;
-  const name = document.getElementById('name').value;
-  const postObj = { email: email, name: name };
-  try {
-    const res = await fetch(apiURL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postObj),
-    });
-    // return console.log(await res.text());
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-  }
-};
-
+// add event listeners for form submission
 window.onload = () => {
   const submit = document.getElementById('emailSubmit');
   submit.disabled = true;
@@ -34,6 +10,7 @@ window.onload = () => {
     submit.disabled = true;
     submit.value = '... processing';
     const res = await submitEmail(e.target);
+    console.log(res);
     if (res.status == 'db_error') {
       submit.value = 'there was an error, please try again';
       submit.disabled = false;
