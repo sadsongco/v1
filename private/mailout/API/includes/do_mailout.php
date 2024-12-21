@@ -122,13 +122,8 @@ catch (Exception $e) {
     email_admin($mail, "FATAL: missing email body file: ".$e->getMessage()." - messages stopped");
     exit();
 }
-$subject = $subject_id.array_shift($content);
-$heading = array_shift($content);
-$text_template = createTextBody($content);
-$html_template = createHTMLBody($content);
-$host = getHost();
 
-$mail->Subject = $subject;
+
 
 $result = get_email_addresses($db, $current_mailout, $mailing_list_table, $log_fp);
 
@@ -141,19 +136,24 @@ if (sizeof($result) == 0) {
 
 $output = "";
 
+include_once(__DIR__."/generate_mailout_content.php");
+$replacements = generateMailoutContent($content, $subject_id);
+$replacements['host'] = getHost();
+$replacements['remove_path'] = $remove_path;
+
+$mail->Subject = $replacements["subject"];
+
+
 foreach ($result as $row) {
     try {
-        $secure_id = generateSecureId($row['email'], $row['email_id']);
-        
-        $text_body = $m->render("textTemplate", ["heading"=>$heading, "content"=>$text_template, "host"=>$host, "remove_path"=>$remove_path, "name"=>$row['name'], "email"=>$row['email'], "secure_id"=>$secure_id]);
-        $html_body = $m->render("htmlTemplate", ["heading"=>$heading, "content"=>$html_template, "host"=>$host, "remove_path"=>$remove_path, "name"=>$row['name'], "email"=>$row['email'], "secure_id"=>$secure_id]);
-        $mail->msgHTML($html_body);
-        $mail->AltBody = $text_body;
+        $bodies = generateMailoutEmailContent($replacements, $row);
+        $mail->msgHTML($bodies["html_body"]);
+        $mail->AltBody = $bodies["text_body"];
         $mail->addAddress($row['email'], $row['name']);
     } catch (Exception $e) {
         $output .= "\n".mark_as_error($db, $mailing_list_table, $current_mailout, $row);
         $output .=  "\nInvalid address ".$row['email']." skipped";
-        $output .= "\nREMOVE: " . replace_tags($remove_path, $row);
+        $output .= "\nREMOVE: " . replaceTags($remove_path, $row);
         continue;
     }
     
@@ -164,7 +164,7 @@ foreach ($result as $row) {
     } catch (Exception $e) {
         $output .= "\n".mark_as_error($db, $mailing_list_table, $current_mailout, $row);
         $output .= "\nPHPMailer Error :: ".$mail->ErrorInfo;
-        $output .= "\nREMOVE: " . replace_tags($remove_path, $row);
+        $output .= "\nREMOVE: " . replaceTags($remove_path, $row);
         //Reset the connection to abort sending this message
         //The loop will continue trying to send to the rest of the list
         echo ($output);

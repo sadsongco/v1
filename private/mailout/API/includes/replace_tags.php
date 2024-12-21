@@ -1,5 +1,5 @@
 <?php
-function replace_tags($body_template, $row) {
+function replaceTags($body_template, $row) {
     $secure_id = generateSecureId($row['email'], $row['email_id']);
     $row['secure_id'] = $secure_id;
     $row['host'] = getHost();

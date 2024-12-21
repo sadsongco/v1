@@ -19,20 +19,20 @@ if (isset($_GET['preview_mailout'])) {
     if ($current_mailout == '') exit("Select a mailout to preview...");
     
     $content = file($content_path.$current_mailout.".txt");
-    
-    $subject = $subject_id.array_shift($content);
-    $heading = array_shift($content);
 }
 
 $email = "previewemail@preview.com";
 $id = 1;
 require(__DIR__."/../../../../secure/secure_id/secure_id_ut.php");
+include_once(__DIR__."/includes/generate_mailout_content.php");
+include_once(__DIR__."/includes/generate_mailout_email_content.php");
+
 $secure_id = generateSecureId($email, $id);
-$text_template = createTextBody($content);
-$html_template = createHTMLBody($content);
-$host = getHost();
+$replacements = generateMailoutContent($content, $subject_id);
+$replacements['host'] = getHost();
+$replacements['remove_path'] = $remove_path;
 
-$text_body = $m->render("textTemplate", ["heading"=>$heading, "content"=>$text_template, "host"=>$host, "remove_path"=>$remove_path, "name"=>"Preview Name", "email"=>$email, "secure_id"=>$secure_id]);
-$html_body = $m->render("htmlTemplate", ["heading"=>$heading, "content"=>$html_template, "host"=>$host, "remove_path"=>$remove_path, "name"=>"Preview Name", "email"=>$email, "secure_id"=>$secure_id]);
+$data = ["name"=>"Preview Name", "email"=>$email, "email_id"=>$id];
+$bodies = generateMailoutEmailContent($replacements, $data);
 
-echo $m->render('mailoutPreview', ["text_body"=>$text_body, "html_body"=>$html_body, "subject"=>$subject]);
+echo $m->render('mailoutPreview', $bodies);
