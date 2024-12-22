@@ -1,4 +1,8 @@
 <?php
+
+// Load Mustache
+require_once(__DIR__.'/../../../../lib/mustache.php-main/src/Mustache/Autoloader.php');
+Mustache_Autoloader::register();
 /* *** FUNCTIONS *** */
 function replaceHTMLLink($line) {
     $links = [];
