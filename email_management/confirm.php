@@ -18,6 +18,7 @@ include_once(__DIR__.'/includes/get_email_id_from_db.php');
 include_once(__DIR__.'/includes/confirm_email_in_db.php');
 include_once(__DIR__.'/includes/send_last_mailout.php');
 include_once(__DIR__.'/includes/set_last_mailout_sent.php');
+include_once(__DIR__.'/includes/add_download_token.php');
 
 $message = 'There was an error. Make sure you only access this page from your email link';
 
@@ -38,7 +39,12 @@ if (isset($_GET) && isset($_GET['email'])) {
         error_log($e);
         exit($message);
     }
-    $last_mailout_result = sendLastMailout($_GET, $secure_id);
+    if (!addDownloadToken($_GET['email'], $email_id_result['email_id'], $db)) {
+        $message .= "<br>There was an error adding a download token for you. Contact info@unbelievabletruth.co.uk for help";
+    }
+    $data = [...$_GET];
+    $data['email_id'] = $email_id_result['email_id'];
+    $last_mailout_result = sendLastMailout($data);
     if ($last_mailout_result["success"]) {
         setLastMailoutSent($email_id_result['email_id'], $last_mailout_result["last_mailout"], $db);
     }

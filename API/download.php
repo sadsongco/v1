@@ -23,23 +23,19 @@ $m = new Mustache_Engine(array(
 
 if (!isset($_GET['email']) || !isset($_GET['u_token'])) exit("Invalid request");
 
-if ($_GET['email'] == "nigel@thesadsongco.com") {
-    $token = "809";
-} else {
-    try {
-        $query = "SELECT email_id FROM ut_mailing_list WHERE email = ?;";
-        $stmt = $db->prepare($query);
-        $stmt->execute([$_GET['email']]);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    catch (PDOException $e) {
-        exit ("Database error: ".$e->getMessage());
-    }
-    
-    if ($stmt->rowCount() == 0) exit("email not found");
-    
-    $token = $result[0]['customer_id'];
+try {
+    $query = "SELECT email_id FROM ut_mailing_list WHERE email = ?;";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$_GET['email']]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+catch (PDOException $e) {
+    exit ("Database error: ".$e->getMessage());
+}
+
+if ($stmt->rowCount() == 0) exit("email not found");
+
+$token = $result[0]['email_id'];
 
 $u_token = makeUniqueToken($token, $_GET['email']);
 if ($u_token != $_GET['u_token']) exit("Invalid token");
@@ -56,7 +52,7 @@ catch (PDOException $e) {
     exit ("Sorry, there was a technical error. Please contact info@unbelievabletruth.co.uk");
 }
 
-if ($result == 0) exit("Token already downloaded");
+if ($result == 0) exit("Token already downloaded. Please contact info@unbelievabletruth.co.uk if you need help.");
 
 if ($result > 0) {
     header("Pragma: public");
@@ -72,7 +68,7 @@ if ($result > 0) {
 
 $query = "DELETE FROM download_tokens WHERE token = ?;";
 $stmt = $db->prepare($query);
-// $stmt->execute([$u_token]);
+$stmt->execute([$u_token]);
 if ($stmt->rowCount() < 1) {
-    exit ("Database error removing token");
+    exit ("Database error.");
 }
