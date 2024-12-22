@@ -3,6 +3,11 @@
 // Load Mustache
 require_once(__DIR__.'/../../../../lib/mustache.php-main/src/Mustache/Autoloader.php');
 Mustache_Autoloader::register();
+
+$m = new Mustache_Engine(array(
+    'loader' => new Mustache_Loader_FilesystemLoader(__DIR__.'/../../assets/templates'),
+    'partials_loader' => new Mustache_Loader_FilesystemLoader(__DIR__.'/../../assets/templates/partials')
+));
 /* *** FUNCTIONS *** */
 function replaceHTMLLink($line) {
     $links = [];
