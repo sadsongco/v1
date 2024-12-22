@@ -16,7 +16,7 @@ Mustache_Autoloader::register();
 require("./includes/get_host.php");
 include_once(__DIR__.'/get_latest_mailout.php');
 
-function sendLastMailout($row) {
+function sendLastMailout($row, $last_sent) {
 
     if (!isset($row['name'])) $row['name'] = '';
     
@@ -25,6 +25,7 @@ function sendLastMailout($row) {
     include_once(__DIR__."/../../private/mailout/api/includes/generate_mailout_email_content.php");
     
     $last_mailout = getLatestMailout();
+    if ($last_mailout == $last_sent) return ["success"=>true, "last_mailout"=>$last_mailout];
     if ($last_mailout == 0) throw new Exception("Test exception");
     $content_path = "../private/mailout/assets/content/";
     $remove_path = '/email_management/unsubscribe.php';

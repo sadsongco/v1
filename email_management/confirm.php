@@ -44,7 +44,7 @@ if (isset($_GET) && isset($_GET['email'])) {
     }
     $data = [...$_GET];
     $data['email_id'] = $email_id_result['email_id'];
-    $last_mailout_result = sendLastMailout($data);
+    $last_mailout_result = sendLastMailout($data, $email_id_result['last_sent']);
     if ($last_mailout_result["success"]) {
         setLastMailoutSent($email_id_result['email_id'], $last_mailout_result["last_mailout"], $db);
     }

@@ -4,7 +4,10 @@
 require_once(__DIR__.'/../../../../lib/mustache.php-main/src/Mustache/Autoloader.php');
 Mustache_Autoloader::register();
 
-
+$m = new Mustache_Engine(array(
+    'loader' => new Mustache_Loader_FilesystemLoader(__DIR__.'/../../assets/templates'),
+    'partials_loader' => new Mustache_Loader_FilesystemLoader(__DIR__.'/../../assets/templates/partials')
+));
 /* *** FUNCTIONS *** */
 function replaceHTMLLink($line) {
     $links = [];
@@ -55,10 +58,6 @@ function p_2($input) {
 
 function replaceImageTags($line) {
     global $m; global $db;
-    $m = new Mustache_Engine(array(
-        'loader' => new Mustache_Loader_FilesystemLoader(__DIR__.'/../../assets/templates'),
-        'partials_loader' => new Mustache_Loader_FilesystemLoader(__DIR__.'/../../assets/templates/partials')
-    ));
     $line = preg_replace_callback('/<!--{{i::([0-9]+)(::)?(l|r)?}}-->/',
     fn ($matches) => $m->render('articleImage', getImageData($db, $matches[1], isset($matches[3]) ? $matches[3] : null)),
     $line);
