@@ -9,3 +9,4 @@ user_area/assets/media/*
 php.ini
 /private/old_mailout
 assets/images/mailout_images
+private/assets/media/*

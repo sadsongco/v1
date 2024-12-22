@@ -31,8 +31,9 @@ button:hover {
 
 .show,
 .callout {
-  width: 100%;
-  background-color: var(--AHlilac);
+  width: 80%;
+  /* background-color: var(--AHlilac); */
+  background-image: linear-gradient(to right, var(--transparent), var(--AHlilac), var(--AHlilac), var(--AHlilac), var(--transparent));
   color: var(--stdBackground);
   font-family: OpenSans, Inter sans-serif;
   text-align: center;
@@ -56,7 +57,7 @@ button:hover {
 
 .show {
   font-family: OpenSans, Inter sans-serif;
-  font-size: clamp(0.7rem, 3vw, 1.5em);
+  font-size: clamp(1rem, 3vw, 1.6em);
 }
 
 /* .first {
@@ -68,6 +69,10 @@ button:hover {
   top: 7.3em;
   display: block;
 } */
+
+.contentwrap {
+  width: 80%;
+}
 
 .contentwrap.heading {
   font-family: OpenSansBold, Inter sans-serif;
@@ -84,7 +89,8 @@ footer {
   left: 0;
   right: 0; */
   padding: 1em;
-  background-color: var(--transBlack);
+  /* background-color: var(--transBlack); */
+  background-image: linear-gradient(to right, var(--transparent), var(--transBlack), var(--transBlack), var(--transBlack), var(--transparent));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -169,4 +175,11 @@ video {
 
 .emailForm h2 {
   font-size: 1em;
+}
+
+@media screen and (max-width: 480px) {
+  .show,
+  .callout {
+    width: 94%;
+  }
 }

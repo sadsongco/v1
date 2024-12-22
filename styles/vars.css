@@ -5,10 +5,11 @@
   --stdMarginMedium: 1rem;
   --stdMarginBig: 1.8rem;
 
-  --anchorColour: #444;
+  --anchorColour: #111;
   --footerAnchorColour: #cccccf;
 
-  --AHlilac: #baacddd0;
+  --AHlilac: #baacdd;
+  --transparent: #00000000;
 
   --headerBlockBackground: #ffffdcb3;
   --headerBlockColour: #222;

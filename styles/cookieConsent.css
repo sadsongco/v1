@@ -1,4 +1,5 @@
 .cookieConsent {
+  display: none;
   position: fixed;
   left: 0;
   bottom: 3px;
@@ -13,10 +14,12 @@
 }
 
 .cookieConsent.consentShow {
+  display: none;
   bottom: 3px;
 }
 
 .cookieConsent.consentHidden {
+  display: none;
   bottom: -10em;
 }
 
