@@ -11,8 +11,12 @@ catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 
-// var_dump($result);
+var_dump($result);
 
 $token = makeUniqueToken($result[0]['email_id'], $result[0]['email']);
+
+$query = "INSERT INTO download_tokens VALUES (NULL, ?, ?)";
+$stmt = $db->prepare($query);
+$stmt->execute([$result[0]['email_id'], $token]);
 
 echo $token;
