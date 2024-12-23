@@ -11,4 +11,8 @@ catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 
-var_dump($result);
+// var_dump($result);
+
+$token = makeUniqueToken($result[0]['email_id'], $result[0]['email']);
+
+echo $token;
