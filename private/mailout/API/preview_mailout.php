@@ -3,16 +3,17 @@
 require_once('includes/mailout_includes.php');
 require_once('includes/mailout_create.php');
 
+$subject_id = "[UNBELIEVABLE TRUTH]";
 if (isset($_GET['preview_mailout'])) {
-    $content = explode("\n", $_GET['content']);
     $subject = $_GET['subject'];
     $heading = $_GET['heading'];
+    $raw_content = "$subject\n$heading\n".$_GET['content'];
+    $content = explode("\n", $raw_content);
     $remove_path = null;
 } else {
     // paths to email data
     $content_path = "../assets/content/";
     $remove_path = '/email_management/unsubscribe.php';
-    $subject_id = "[UNBELIEVABLE TRUTH]";
     
     $current_mailout = $_GET['mailout'];
     
