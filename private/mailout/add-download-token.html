@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/admin.css" />
+    <link rel="stylesheet" href="./styles/mailoutAdmin.css" />
+    <script src="../../lib/htmx.min.js"></script>
+    <script src="../../js/copyToClipboard.js"></script>
+    <title>UT Mailout</title>
+  </head>
+  <body>
+    <section>
+      <button hx-get="api/insert_download_tokens.php">Add All Download Tokens</button>
+      <form hx-post="api/insert_one_download_token.php" hx-target="#info">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" />
+        <button type="submit">Add Token</button>
+      </form>
+    </section>
+    <section id="info"></section>
+  </body>
+</html>
