@@ -57,7 +57,7 @@ button:hover {
 
 .show {
   font-family: OpenSans, Inter sans-serif;
-  font-size: clamp(1rem, 3vw, 1.6em);
+  font-size: clamp(0.7rem, 2vw, 1.1em);
 }
 
 /* .first {
@@ -77,6 +77,18 @@ button:hover {
 .contentwrap.heading {
   font-family: OpenSansBold, Inter sans-serif;
   font-weight: 700;
+}
+
+.gigwrap {
+  display: grid;
+  grid-template-columns: 0.6fr 1fr 1fr;
+  justify-items: left;
+}
+
+.alert {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8em;
+  color: #823;
 }
 
 /* .third {
