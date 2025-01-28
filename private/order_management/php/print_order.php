@@ -6,7 +6,8 @@ require("includes/make_order_pdf.php");
 try {
     $query = "SELECT Orders.order_id, Orders.sumup_id,
                     Customers.name, Customers.address_1, Customers.address_2, Customers.city, Customers.postcode, Customers.country,
-                    DATE_FORMAT(Orders.order_date, '%D %M %Y') AS order_date
+                    DATE_FORMAT(Orders.order_date, '%D %M %Y') AS order_date,
+                    Orders.shipping, Orders.shipping_method
                 FROM Orders
                 LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
                 WHERE Orders.order_id = ?
