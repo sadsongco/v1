@@ -82,8 +82,7 @@ class ORDER_PDF extends FPDF {
         if (strtotime($order['order_date']) <  strtotime("6th October 2023")) {
             return 0;
         }
-        if ($order['country'] == "United Kingdom") return 5;
-        return 8;
+        return $order['shipping'];
     }
     
     function ShippingCell($shipping_cost) {
