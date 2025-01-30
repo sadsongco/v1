@@ -32,6 +32,7 @@ button:hover {
 .show,
 .callout {
   width: 80%;
+  padding: 0.3em;
   /* background-color: var(--AHlilac); */
   background-image: linear-gradient(to right, var(--transparent), var(--AHlilac), var(--AHlilac), var(--AHlilac), var(--transparent));
   color: var(--stdBackground);
@@ -72,6 +73,11 @@ button:hover {
 
 .contentwrap {
   width: 80%;
+}
+
+.callout .contentwrap img {
+  max-width: 90%;
+  height: auto;
 }
 
 .contentwrap.heading {
@@ -165,6 +171,7 @@ video {
   left: 0;
   height: 100%;
   width: 100%;
+  opacity: 0.3;
 }
 .video-wrapper {
   border: 2px solid #000;
