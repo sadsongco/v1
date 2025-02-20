@@ -117,6 +117,10 @@ section {
   padding: var(--stdMarginSmall);
   margin: var(--stdMarginBig) 0;
 }
+body main section {
+  padding: 0.5em;
+  margin-bottom: 0.3em;
+}
 
 section:nth-child(odd) {
   background-color: var(--tabBackground);
