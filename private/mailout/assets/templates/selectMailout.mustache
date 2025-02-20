@@ -17,5 +17,16 @@
   </select>
   <input type="submit" value="Send This Mailout" id="submit" />
 </form>
+  <button id="edit">Edit Mailout</button>
 <section class="previews" id="previews" hx-get="/private/mailout/api/preview_mailout.php" hx-include="#mailoutSelect" hx-trigger="mailoutSelected">
 </section>
+<script>
+  const editMailout = async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('mailoutSelect').value;
+    const res = await fetch('api/edit_mailout.php?id=' + id);
+    const out = await res.text();
+    document.getElementById('createMailout').innerHTML = out;
+  }
+  document.getElementById('edit').addEventListener("click", editMailout);
+</script>

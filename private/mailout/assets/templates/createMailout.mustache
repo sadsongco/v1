@@ -15,10 +15,14 @@
 </form>
 <form hx-post="api/save_mailout.php" id="createMailoutForm">
     <input type="hidden" name="filename" id="filename" value="{{filename}}" />
-    <input type="text" name="subject" placeholder="mailout subject" autofill="false" hx-get="api/preview_mailout.php" hx-trigger="input delay:3s" hx-target="#previews" hx-include="#createMailoutForm" />
-    <input type="text" name="heading" placeholder="mailout heading" hx-get="api/preview_mailout.php" hx-trigger="input delay:3s" hx-target="#previews" hx-include="#createMailoutForm" />
+    <input type="text" name="subject" placeholder="mailout subject" autofill="false" hx-get="api/preview_mailout.php" hx-trigger="input delay:3s" hx-target="#previews" hx-include="#createMailoutForm" value="{{subject}}"/>
+    <input type="text" name="heading" placeholder="mailout heading" hx-get="api/preview_mailout.php" hx-trigger="input delay:3s" hx-target="#previews" hx-include="#createMailoutForm" value="{{heading}}" />
     <label for="mailoutContent">Type the body of your mailout here</label>
-    <textarea name="content"  id="mailoutContent" rows="20" cols="80" placeholder="content" hx-get="api/preview_mailout.php" hx-trigger="input delay:3s" hx-target="#previews" hx-include="#createMailoutForm"></textarea>
+    <textarea name="content"  id="mailoutContent" rows="20" cols="80" placeholder="content" hx-get="api/preview_mailout.php" hx-trigger="input delay:3s" hx-target="#previews" hx-include="#createMailoutForm">
+        {{#body}}
+            {{body}}
+        {{/body}}
+    </textarea>
     <input type="hidden" name="preview_mailout" value="true">
     <input type="submit" value="Save New Mailout">
 </form>
