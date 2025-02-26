@@ -24,6 +24,7 @@
   const editMailout = async (e) => {
     e.preventDefault();
     const id = document.getElementById('mailoutSelect').value;
+    console.log('api/edit_mailout.php?id=' + id)
     const res = await fetch('api/edit_mailout.php?id=' + id);
     const out = await res.text();
     document.getElementById('createMailout').innerHTML = out;

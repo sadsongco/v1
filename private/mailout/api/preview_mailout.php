@@ -2,7 +2,8 @@
 
 require_once('includes/mailout_includes.php');
 require_once('includes/mailout_create.php');
-
+p_2($_GET);
+die();
 $subject_id = "[UNBELIEVABLE TRUTH]";
 if (isset($_GET['preview_mailout'])) {
     $subject = $_GET['subject'];

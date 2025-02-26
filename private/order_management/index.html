@@ -11,6 +11,12 @@
     <h1>Unbelievable Truth online shop admin page</h1>
     >
     <main>
+      <section>
+        <p>Royal Mail API</p>
+        <p>
+          <button hx-get="./php/test_royal_mail_api.php" hx-swap="outerHTML" hx-trigger="click">Test Royal Mail API</button>
+        </p>
+      </section>
       <h1>Add Items</h1>
       <div class="inForm" hx-get="./php/new_item_form.php" hx-trigger="load"></div>
       <div id="newItemMsg" class="msg"></div>
