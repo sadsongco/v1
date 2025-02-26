@@ -78,22 +78,33 @@ class EmailParser {
                     continue;
                 }
                 if (in_array("order-summary-table-order-total", $class_names)) {
-                    $this->order_details['totals'][trim($prev_node->textContent)] = $this->getOrderTotals($td);
+                    $this->order_details['totals'][trim($prev_node->textContent)] = $this->getOrderSubTotals($td);
+                    continue;
+                }
+                if (in_array("order-total-amount", $class_names)) {
+                    $this->order_details['totals']['vat'] = $this->getVAT($td);
+                    continue;
+                }
+                if (in_array("order-total-fullprice", $class_names)) {
+                    $this->order_details['totals']['total'] = (float)trim($td->nodeValue);
                     continue;
                 }
             }
             $spans = $this->dom->getElementsByTagName('span');
             foreach ($spans as $span) {
                 if ($span->className == "methods-details-method-name")
-                    $this->order_details["postage_method"] = trim($span->textContent);
+                    $this->order_details["postage_method"] = trim($this->removeNewlines($span->textContent));
             }
-            p_2($this->order_details);
-            // p_2($headings);
         }
 
         catch (Exception $e) {
             error_log($e);
+            throw new Exception($e);
         }
+    }
+
+    public function get() {
+        return $this->order_details;
     }
 
     /**
@@ -106,7 +117,6 @@ class EmailParser {
         foreach ($headings as $heading) {
             $class_list = $this->getClassList($heading);
             if (in_array("subheader-ordersubject-header", $class_list)) {
-                echo "Order number";
                 $order_no_arr = explode("#", $heading->nodeValue);
                 $order_no = (int)array_pop($order_no_arr);
             }
@@ -131,8 +141,8 @@ class EmailParser {
         if (trim($tmp_arr[0]) == '') return false;
         $name_arr['order_date'] = array_shift($tmp_arr);
         $name_arr['order_time'] = array_shift($tmp_arr);
-        foreach($tmp_arr as &$el) $el = trim($el); 
-        $name_arr['name'] = implode(' ', $tmp_arr);
+        foreach($tmp_arr as &$el) $el = trim($el);
+        $name_arr['name'] = $this->removeNewlines(implode(" ", $tmp_arr));
         return $name_arr;
     }
 
@@ -149,6 +159,13 @@ class EmailParser {
         $data = [];
         foreach ($divs as $div) {
             $data[] = $div->nodeValue;
+        }
+
+        if (sizeof($data) == 0) {
+            $ps = $td->getElementsByTagName('p');
+            foreach ($ps as $p) {
+                $data[] = $p->nodeValue;
+            }
         }
 
         return [
@@ -170,21 +187,21 @@ class EmailParser {
         foreach ($divs as $div) {
             $data[] = $div->nodeValue;
         }
-        if (sizeof($data) > 0) {
-            return [
-                "address" => $data[1],
-                "postcode" => $data[2],
-                "country" => $data[3]
-            ];
+        if (sizeof($data) == 0) {
+            $ps = $td->getElementsByTagName('p');
+            foreach ($ps as $p) {
+                $data[] = $p->nodeValue;
+            }
         }
-        $ps = $td->getElementsByTagName('p');
-        foreach ($ps as $p) {
-            $data[] = $p->nodeValue;
-        }
+        $tmp_arr = explode(" ", $this->removeNewlines($data[2]));
+        $postcode = strtoupper(array_shift($tmp_arr) . " " . array_shift($tmp_arr));
+        $town = implode(" ", $tmp_arr);
+
         return [
-            "address" => $data[1],
-            "postcode" => $data[2],
-            "country" => $data[3]
+            "address" => $this->removeNewLines($data[1]),
+            "town" => $town,
+            "postcode" => $postcode,
+            "country" => $this->removeNewlines($data[3])
         ];
     }
     
@@ -194,17 +211,14 @@ class EmailParser {
         foreach ($divs as $div) {
             $data[] = $div->nodeValue;
         }
-        if (sizeof($data) > 0) {
-            return [
-                "item" => $data[0],
-            ];
-        }
-        $ps = $td->getElementsByTagName('p');
-        foreach ($ps as $p) {
-            $data[] = $p->nodeValue;
+        if (sizeof($data) == 0) {
+            $ps = $td->getElementsByTagName('p');
+            foreach ($ps as $p) {
+                $data[] = $p->nodeValue;
+            }
         }
         return [
-            "item" => $data[0],
+            "item" => $this->removeNewlines($data[0]),
         ];
 
     }
@@ -213,13 +227,41 @@ class EmailParser {
         $price_arr = explode("x", $td->textContent);
         return [
             "amount"=>$price_arr[0],
-            "price"=>$price_arr[1]
+            "price"=>$this->removeNewlines($price_arr[1])
         ];
     }
 
-    private function getOrderTotals($td) {
+    private function getOrderSubTotals($td) {
         return (float)$td->textContent;
     }
+
+    private function getVAT($td) {
+        $divs = $td->getElementsByTagName('div');
+        foreach ($divs as $div) {
+            if ($div->className == "order-total-tax") {
+                $str = $div->textContent;
+                $str = str_replace("incl.", "", $str);
+                $str = str_replace("VAT", "", $str);
+                return (float)trim($str);
+            }
+        }
+        $ps = $td->getElementsByTagName('p');
+        foreach ($ps as $p) {
+            if ($p->className == "order-total-tax") {
+                $str = $p->textContent;
+                $str = str_replace("incl.", "", $str);
+                $str = str_replace("VAT", "", $str);
+                return (float)trim($str);
+            }
+        }
+    }
+
+    private function removeNewlines($str) {
+        $str = str_replace("\n", "", $str);
+        $str = str_replace("\r", " ", $str);
+        return $str;
+    }
+    
 
     private function getClassList($node) {
         return explode(" ", $node->className);

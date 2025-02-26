@@ -22,21 +22,25 @@ if ($mbox=imap_open( $authhost, $user, $pass )) {
         if ($id < 1) continue;
         $message = imap_fetchbody($mbox, $id + 1, '2');
         try {
-                $order_details = new EmailParser($message, $id);
-                $order_details->parse();
+                $orderDetailObj = new EmailParser($message, $id);
+                $orderDetailObj->parse();
+                $order_details = $orderDetailObj->get();
+                p_2($order_details);
         }
         catch (Exception $e) {
                 error_log($e);
+                echo $e->getMessage() . "<br>";
         }
     }
     imap_close($mbox);
 } else {
-        for ($id = 1; $id < 10; $id++) {
+        for ($id = 1; $id < 1000; $id++) {
                 $message = file_get_contents((base_path("../order_email_$id.html")));
                 if (!$message) break;
-                echo $message;
-                $order_details = new EmailParser($message, $id);
-                $order_details->parse();
+                $orderDetailObj = new EmailParser($message, $id);
+                $orderDetailObj->parse();
+                $order_details = $orderDetailObj->get();
+                p_2($order_details);
         }
 }
 

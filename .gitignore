@@ -10,3 +10,5 @@ php.ini
 /private/old_mailout
 assets/images/mailout_images
 private/assets/media/*
+./private/order_management/php/debug.log
+*.htaccess
