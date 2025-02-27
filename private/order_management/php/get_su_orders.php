@@ -26,12 +26,12 @@ if ($mbox=imap_open( $authhost, $user, $pass )) {
                 $orderDetailObj = new EmailParser($message, $id);
                 $orderDetailObj->parse();
                 $order_details = $orderDetailObj->get();
-                // try {
-                //         insertOrderIntoDatabase($order_details, $db);
-                // } catch (Exception $e) {
-                //         error_log($e);
-                //         echo "Couldn't insert order " . $order_details['order_no'] . " into database: " . $e->getMessage() . "<br>";
-                // }
+                try {
+                        insertOrderIntoDatabase($order_details, $db);
+                } catch (Exception $e) {
+                        error_log($e);
+                        echo "Couldn't insert order " . $order_details['order_no'] . " into database: " . $e->getMessage() . "<br>";
+                }
                 p_2($order_details);
         }
         catch (Exception $e) {
@@ -65,15 +65,26 @@ function isOrder($email) {
 
 function insertOrderIntoDatabase($order_details, $db) {
         try {
-                if (!checkIfCustomerExists($order_details['email'], $db)) insertNewCustomer($order_details, $db);
-                else echo "Customer exists<br>";
+                $customer_id = checkIfCustomerExists($order_details['email'], $db); 
+                if (!$customer_id) $customer_id = insertNewCustomer($order_details, $db);
+                $item_ids = [];
+                foreach ($order_details['items'] as $idx=>$item) {
+                    $item_details = checkIfItemExists($item['item'], $db);
+                    if (!$item_details['item_id']) {
+                        $item_id = insertNewItem($item['item'], $order_details['item_prices'][$idx]['price'], $db);
+                    }
+                    elseif ($item_details['item_id'] && $item_details['price'] != $order_details['item_prices'][$idx]['price']) {
+                        updateItem($item_details['item_id'], $order_details['item_prices'][$idx]['price'], $db);
+                    }
+                    $item_ids[] = $item_id;
+                }
         }
         catch (Exception $e) {
                 throw new Exception($e);
         }
 }
 
-function checkIfCustomerExists($email, $db) {
+function checkIfCustomerExists($email, $db) : int {
         try {
                 $query = "SELECT customer_id FROM Customers WHERE email = ?";
                 $stmt = $db->prepare($query);
@@ -98,7 +109,52 @@ function insertNewCustomer($order_details, $db) {
                         ucwords($order_details['country']),
                         $order_details['email']
                 ]);
+                return $db->last_insert_id;
         } catch (Exception $e) {
                 throw new Exception($e);
         }
 }
+
+function checkIfItemExists($item_name, $db) {
+    try {
+        $query = "SELECT item_id, price FROM Items WHERE name LIKE ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute(['%'. $item_name . '%']);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$result) return false;
+        $result['price'] = get_numeric($result['price']);
+        return $result;
+    }
+    catch (Exception $e) {
+        throw new Exception($e);
+    }
+}
+
+function insertNewItem($item_name, $item_price, $db) {
+    try {
+        $query = "INSERT INTO Items VALUES (NULL, ?, ?)";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$item_name, $item_price]);
+        return $db->last_insert_id;
+    } catch (Exception $e) {
+        throw new Exception($e);
+    }
+}
+
+function updateItem($item_id, $item_price, $db) {
+    try {
+        $query = "UPDATE Items SET price = ? WHERE item_id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$item_price, $item_id]);
+        return true;
+    } catch (Exception $e) {
+        throw new Exception($e);
+    }
+}
+
+function get_numeric($val) {
+        if (is_numeric($val)) {
+          return $val + 0;
+        }
+        return 0;
+      }

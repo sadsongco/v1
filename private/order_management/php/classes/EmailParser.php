@@ -29,7 +29,7 @@ class EmailParser {
         $message = str_replace("C2=A3", "", $message);
         $message = str_replace("=3D", "=", $message);
         $message = str_replace(" =", "", $message);
-        $message = str_replace(" 20", "", $message);    
+        // $message = str_replace(" 20", "", $message);    
         $message = str_replace(">=", ">", $message);
         $this->order_details = ["items"=>[], "item_prices"=>[]];
         $this->message = $message;
@@ -53,7 +53,6 @@ class EmailParser {
             $prev_node = null;
             foreach ($tds as $td) {
                 $class_names = $this->getClassList($td);
-                p_2($class_names);
                 if (in_array("subheader-ordersubject-wrapper", $class_names)) {
                     $this->order_details = array_merge($this->order_details, $this->getOrderDetails($td));
                     continue;    
@@ -113,20 +112,17 @@ class EmailParser {
      * @return array associative array with keys 'order_date', 'order_time', and 'name'
      */
     private function getOrderDetails($node) {
-        $order_details_array = [];
         $headings = $node->getElementsByTagName('h1');
         foreach ($headings as $heading) {
             $class_list = $this->getClassList($heading);
             if (in_array("subheader-ordersubject-header", $class_list)) {
                 $order_no_arr = explode("#", $heading->textContent);
                 $order_no = (int)array_pop($order_no_arr);
+                $name_string = $heading->nextSibling->textContent;
+                $name_array = $this->splitNameString($name_string);
             }
-            p_2($heading->nextSibling);
-            $name_string = $heading->nextSibling->textContent;
-            $name_array = $this->splitNameString($name_string);
-            if (!$name_array)  continue;
-            return ["order_no"=>$order_no, ...$name_array];
         }
+        return ["order_no"=>$order_no, ...$name_array];
     }
 
     /**
@@ -138,16 +134,14 @@ class EmailParser {
      * @return array An associative array with the extracted information.
      */
     private function splitNameString($string) {
-        echo "split name string: $string <br>";
         $name_arr = [];
         $string = $this->removeNewlines($string);
-        echo "split name string: $string <br>";
         $tmp_arr = explode(' ', $string);
         if (trim($tmp_arr[0]) == '') return false;
         $name_arr['order_date'] = array_shift($tmp_arr);
         $name_arr['order_time'] = array_shift($tmp_arr);
         foreach($tmp_arr as &$el) $el = trim($el);
-        echo "split name string: $el <br>";
+        foreach($tmp_arr as &$el) $el = ucwords($el);
         $name_arr['name'] = $this->removeNewlines(implode(" ", $tmp_arr));
         return $name_arr;
     }
@@ -232,8 +226,8 @@ class EmailParser {
     private function getItemPrices($td) {
         $price_arr = explode("x", $td->textContent);
         return [
-            "amount"=>$price_arr[0],
-            "price"=>$this->removeNewlines($price_arr[1])
+            "amount"=>$this->get_numeric(trim($price_arr[0])),
+            "price"=>$this->get_numeric(trim($this->removeNewlines($price_arr[1])))
         ];
     }
 
@@ -263,6 +257,7 @@ class EmailParser {
     }
 
     private function removeNewlines($str) {
+        if (!$str) return "";
         $str = str_replace("\n", "", $str);
         $str = str_replace("\r", " ", $str);
         return $str;
@@ -272,4 +267,11 @@ class EmailParser {
     private function getClassList($node) {
         return explode(" ", $node->className);
     }
+
+    private function get_numeric($val) {
+        if (is_numeric($val)) {
+          return $val + 0;
+        }
+        return 0;
+      }
 }
