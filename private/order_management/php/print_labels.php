@@ -35,7 +35,7 @@ foreach ($result as $row) {
     try {
         $query = "UPDATE Orders SET label_printed=true WHERE order_id = ?";
         $stmt = $db->prepare($query);
-        // $stmt->execute([$row["order_id"]]);
+        $stmt->execute([$row["order_id"]]);
     }
     catch (PDOException $e) {
         echo $e->getMessage();
