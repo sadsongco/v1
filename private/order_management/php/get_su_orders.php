@@ -9,9 +9,12 @@ use Parser\EmailParser;
 
 $dom = new DOMDocument();
 if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::PASSWORD )) {
-        echo "Prcessing orders...<br>";
+        $output = "Processing orders...<br>";
     $headers = imap_headers($mbox);
     $msgs = imap_check($mbox);
+    if ($msgs->Nmsgs == 0) {
+            exit("No new orders");
+    }
     $headers = imap_fetch_overview($mbox,"1:{$msgs->Nmsgs}",0);
 //     p_2($headers);
     foreach ($headers as $id=>$header) {
@@ -27,18 +30,20 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
                         insertOrderIntoDatabase($order_details, $db);
                 } catch (Exception $e) {
                         error_log($e);
-                        echo "Couldn't insert order " . $order_details['order_no'] . " into database: " . $e->getMessage() . "<br>";
+                        $output .= "Couldn't insert order " . $order_details['order_no'] . " into database: " . $e->getMessage() . "<br>";
                 }
-                echo "Order " . $order_details['order_no'] . " inserted into database.<br>";
+                $output .= "Order " . $order_details['order_no'] . " inserted into database.<br>";
                 imap_delete($mbox, $id + 1);
-                echo "Email for order " . $order_details['order_no'] . " deleted.<br>";
+                $output .= "Email for order " . $order_details['order_no'] . " deleted.<br>";
         }
         catch (Exception $e) {
                 error_log($e);
-                echo $e->getMessage() . "<br>";
+                $output .= $e->getMessage() . "<br>";
         }
     }
     imap_close($mbox, CL_EXPUNGE);
+    header ('HX-Trigger:updateOrderList');
+    echo $output;
 } else {
         for ($id = 1; $id < 1000; $id++) {
                 if (!$message) break;
@@ -74,8 +79,7 @@ function insertOrderIntoDatabase($order_details, $db) {
         } catch (Exception $e) {
                 $db->rollback();
                 error_log($e);
-                echo "Database update failed: " . $e->getMessage();
-                exit();
+                exit("Database update failed: " . $e->getMessage());
         }
         // $db->rollback();
         $db->commit();
