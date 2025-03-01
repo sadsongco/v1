@@ -5,6 +5,7 @@ use DOMDocument;
 use DOMElement;
 use Exception;
 
+error_reporting(E_ALL ^ E_WARNING);
 
 class EmailParser {
 
