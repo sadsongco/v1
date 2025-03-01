@@ -55,18 +55,6 @@ if ($mbox=imap_open( $authhost, $user, $pass )) {
                 $order_details = $orderDetailObj->get();        }
 }
 
-function isOrder($email) {
-        $tmp_arr = explode(" ", $email);
-        p_2($tmp_arr);
-        $header_arr = [];
-        foreach($tmp_arr as $el) {
-                if (trim($el) == "" || trim($el) == "U") continue;
-                $header_arr[] = $el;
-        }
-        if ($header_arr[2]== "New" && $header_arr[3] == "order") return true;
-        return false;
-}
-
 function insertOrderIntoDatabase($order_details, $db) {
         try {
                 $customer_id = checkIfCustomerExists($order_details['email'], $db); 
@@ -87,8 +75,8 @@ function insertOrderIntoDatabase($order_details, $db) {
         $db->beginTransaction();
         try {
                 $order_details['order_id'] = insertOrderIntoOrderTable($order_details, $db);
-                foreach ($order_details['items'] as $item) {
-                        insertItemIntoOrderTable($order_details, $item, $db);
+                foreach ($order_details['items'] as $order_item) {
+                        insertItemIntoOrderTable($order_details, $order_item, $db);
                 }
 
         } catch (Exception $e) {
@@ -97,6 +85,7 @@ function insertOrderIntoDatabase($order_details, $db) {
                 echo "Database update failed: " . $e->getMessage();
                 exit();
         }
+        // $db->rollback();
         $db->commit();
 }
 
@@ -169,12 +158,14 @@ function updateItem($item_id, $item_price, $db) {
 
 function insertOrderIntoOrderTable($order_details, $db) {
         try {
-        $query = "INSERT INTO Orders VALUES (NULL, ?, ?, ? , ?, ?, 0, NULL, ?, 0)";
+        $query = "INSERT INTO Orders VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, 0, NULL, ?, 0)";
         $params = [
                 $order_details['order_no'],
                 $order_details['customer_id'],
                 $order_details['postage_method'],
-                $order_details['totals']['shipping'],
+                $order_details['totals']['Subtotal'],
+                $order_details['totals']['Shipping'],
+                $order_details['totals']['vat'],
                 $order_details['totals']['total'],
                 $order_details['order_date']
         ];

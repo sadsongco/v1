@@ -14,7 +14,7 @@ $start_label = 1;
 if (isset($_POST["start_label"])) $start_label = $_POST["start_label"];
 
 try {
-    $query = "SELECT Orders.order_id, Orders.sumup_id,
+    $query = "SELECT Orders.order_id, Orders.sumup_id, Orders.shipping_method, FORMAT(Orders.shipping, 2) AS shipping,
     Customers.name, Customers.address_1, Customers.address_2, Customers.city, Customers.postcode, Customers.country
     FROM Orders
     LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
@@ -35,7 +35,7 @@ foreach ($result as $row) {
     try {
         $query = "UPDATE Orders SET label_printed=true WHERE order_id = ?";
         $stmt = $db->prepare($query);
-        $stmt->execute([$row["order_id"]]);
+        // $stmt->execute([$row["order_id"]]);
     }
     catch (PDOException $e) {
         echo $e->getMessage();

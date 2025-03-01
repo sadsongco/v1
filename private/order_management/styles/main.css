@@ -135,7 +135,7 @@ section.socials {
   padding-left: 2em;
   font-style: italic;
   display: grid;
-  grid-template-columns: 6fr 1fr;
+  grid-template-columns: 6fr 2fr 1fr;
 }
 
 .orderItemGrid {

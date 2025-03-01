@@ -7,8 +7,8 @@ $headers = [
     "Authorization: Bearer " . SU_API_KEY
 ];
 
-$trans_url = "https://api.sumup.com/v2.1/merchants/MCCHLZ27/transactions/history?limit=1&order=descending&changes_since=2025-01-01";
-$trans_url = "https://api.sumup.com/v0.1/me";
+$trans_url = "https://api.sumup.com/v2.1/merchants/MCCHLZ27/transactions/history?order=descending&changes_since=2025-01-01";
+// $trans_url = "https://api.sumup.com/v0.1/me";
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -4,7 +4,7 @@ require_once(__DIR__."/includes/order_includes.php");
 require("includes/make_order_pdf.php");
 
 try {
-    $query = "SELECT Orders.order_id, Orders.sumup_id,
+    $query = "SELECT Orders.order_id, Orders.sumup_id, Orders.subtotal, Orders.vat, Orders.total,
                     Customers.name, Customers.address_1, Customers.address_2, Customers.city, Customers.postcode, Customers.country,
                     DATE_FORMAT(Orders.order_date, '%D %M %Y') AS order_date,
                     Orders.shipping, Orders.shipping_method
@@ -16,7 +16,10 @@ try {
         $stmt->execute([$_GET["order_id"]]);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($result AS &$row) {
-        $sub_query = "SELECT Items.name, FORMAT(Items.price, 2) AS price
+        $sub_query = "SELECT Items.name, 
+                        Order_items.amount,
+                        FORMAT(Order_items.order_price * Order_items.amount, 2) AS item_total,
+                        FORMAT(Order_items.order_price, 2) AS price
                         FROM Order_items
                         LEFT JOIN Items ON Order_items.item_id = Items.item_id
                         WHERE Order_items.order_id = ?;";

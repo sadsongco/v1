@@ -4,14 +4,15 @@ require("../lib/fpdf.php");
 define('GBP',chr(163));
 
 class ORDER_PDF extends FPDF {
-    const LILAC = [179, 187, 252];
+    const LILAC = [100, 100, 100];
     const GREY = [220, 220, 220];
     const BLACK = [0, 0, 0];
     const ITEM_GREY = [80, 80, 80];
+    const HEADER_POS = [10, 10];
     const DATE_POS = [120, 28];
     const ADDRESS_POS = [120, 37];
     const ORDER_NO_POS = [25, 77];
-    const ITEM_POS = [25, 83];
+    const ITEM_POS = [25, 83, 145];
     const PRICE_X = -30;
     private $pw;
 
@@ -25,14 +26,10 @@ class ORDER_PDF extends FPDF {
     }
 
     function Header () {
-        $this->SetFont('opensansbold', '', 20);
-        $w = $this->GetStringWidth("unbelievable truth") + 6;
-        $h = 12;
-        $this->SetFillColor(...self::LILAC);
-        $this->Cell(0, $h, '', 0, 0, '', true);
+        $logo_url = __DIR__ . "/../../assets/images/ut-logo-black.png";
+        $w = 100;
         $this->SetX(($this->pw-$w)/2);
-        $this->SetTextColor(...self::BLACK);
-        $this->Cell($w, $h, "unbelievable truth", 0, 1, 'C', true);
+        $this->Image($logo_url, null, null, $w, 0, 'PNG', 'https://unbelievabletruth.co.uk');
     }
 
     function Footer () {
@@ -74,10 +71,13 @@ class ORDER_PDF extends FPDF {
         $this->SetTextColor(...self::ITEM_GREY);
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 8, iconv('UTF-8', "CP1250//TRANSLIT", $item["name"]), 0, 0, 'L');
+        $this->SetX(self::ITEM_POS[2]);
+        $amount = "{$item['amount']} @ ";
+        $this->Cell(0, 8, $amount . GBP.$item['price'], 0, 0, 'L');
         $this->SetX(self::PRICE_X);
-        $this->Cell(0, 8, GBP.$item["price"], 0, 1, 'R');
+        $this->Cell(0, 8, GBP.$item["item_total"], 0, 1, 'R');
     }
-
+    
     function GetShippingCost($order) {
         if (strtotime($order['order_date']) <  strtotime("6th October 2023")) {
             return 0;
@@ -85,6 +85,17 @@ class ORDER_PDF extends FPDF {
         return $order['shipping'];
     }
     
+    function SubTotalCell($subtotal) {
+        $this->setFont('opensansbold', '', 12);
+        $this->SetX(self::ITEM_POS[0]);
+        $this->Cell(0, 0, "Subtotal", 0, 0, 'L');
+        $this->setFont('opensansregular', '', 11);
+        $this->SetX(self::PRICE_X);
+        $money_format = new NumberFormatter("en_GB", NumberFormatter::DECIMAL);
+        $money_format->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
+        $this->Cell(0, 0, GBP.$money_format->format($subtotal), 0, 1, 'R');
+    }
+
     function ShippingCell($shipping_cost) {
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 0, "Postage and packing", 0, 0, 'L');
@@ -92,6 +103,15 @@ class ORDER_PDF extends FPDF {
         $money_format = new NumberFormatter("en_GB", NumberFormatter::DECIMAL);
         $money_format->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
         $this->Cell(0, 0, GBP.$money_format->format($shipping_cost), 0, 1, 'R');
+    }
+
+    function VatCell($vat) {
+        $this->SetX(self::ITEM_POS[0]);
+        $this->Cell(0, 0, "including VAT", 0, 0, 'L');
+        $this->SetX(self::PRICE_X);
+        $money_format = new NumberFormatter("en_GB", NumberFormatter::DECIMAL);
+        $money_format->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
+        $this->Cell(0, 0, GBP.$money_format->format($vat), 0, 1, 'R');
     }
 
     function TotalCell($total) {
@@ -107,7 +127,7 @@ class ORDER_PDF extends FPDF {
 
     }
 
-    function Note($text = "Thank you for buying from Unbelievable Truth.\nIt means a lot to us.\nLook out for news of new songs...") {
+    function Note($text = "Thank you for buying from Unbelievable Truth.\nIt means a lot to us.\nMake sure you're on our mailing list to get all the news first") {
         $this->SetX(self::ORDER_NO_POS[0]);
         $this->setFont('opensansregular', '', 9);
         $this->MultiCell(0, 7, iconv('UTF-8', "CP1250//TRANSLIT", $text), 0, 1);
@@ -128,9 +148,13 @@ class ORDER_PDF extends FPDF {
             $total += $item["price"];
         }
         $this->Spacer();
+        $this->SubTotalCell($order['subtotal']);
+        $this->Spacer();
         $shipping_cost = $this->GetShippingCost($order);
         $total += $shipping_cost;
         $this->ShippingCell($shipping_cost);
+        $this->Spacer();
+        $this->VatCell($order['vat']);
         $this->Spacer();
         $this->TotalCell($total);
         $this->Spacer(20);
