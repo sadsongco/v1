@@ -23,7 +23,6 @@ class EmailParser {
      * @return void
      */
     public function __construct($message, $id) {
-        file_put_contents(base_path("../order_email_$id.html"), $message);
         $this->dom = new DomDocument();
         $message = str_replace("=C2=A3", "", $message);
         $message = str_replace("C2=A3", "", $message);
@@ -101,6 +100,14 @@ class EmailParser {
             error_log($e);
             throw new Exception($e);
         }
+    }
+
+    public function rearrayItems() {
+        foreach ($this->order_details['items'] as $idx=>&$item) {
+            $item['amount'] = $this->order_details['item_prices'][$idx]['amount'];
+            $item['price'] = $this->order_details['item_prices'][$idx]['price'];
+        }
+        unset($this->order_details['item_prices']);
     }
 
     public function get() {
