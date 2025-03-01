@@ -1,22 +1,14 @@
 <?php
 
+require("../../../../secure/env/config.php");
+
 require(__DIR__ . "/classes/EmailParser.php");
 include(__DIR__ . "/includes/order_includes.php");
 
 use Parser\EmailParser;
 
-ini_set('display_errors', 'on');
-error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
-ini_set('error_log', "./debug.log");
-
-// PUT this info outside the web route before deploying
-$authhost="{unbelievabletruth.co.uk:993/imap/ssl/novalidate-cert}";
-$user="orders";
-
-$user="orders@unbelievabletruth.co.uk";
-$pass="HackMy0rders!";
 $dom = new DOMDocument();
-if ($mbox=imap_open( $authhost, $user, $pass )) {
+if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::PASSWORD )) {
         echo "Prcessing orders...<br>";
     $headers = imap_headers($mbox);
     $msgs = imap_check($mbox);
@@ -38,8 +30,8 @@ if ($mbox=imap_open( $authhost, $user, $pass )) {
                         echo "Couldn't insert order " . $order_details['order_no'] . " into database: " . $e->getMessage() . "<br>";
                 }
                 echo "Order " . $order_details['order_no'] . " inserted into database.<br>";
-                // imap_delete($mbox, $id + 1);
-                // echo "Email for order " . $order_details['order_no'] . " deleted.<br>";
+                imap_delete($mbox, $id + 1);
+                echo "Email for order " . $order_details['order_no'] . " deleted.<br>";
         }
         catch (Exception $e) {
                 error_log($e);
