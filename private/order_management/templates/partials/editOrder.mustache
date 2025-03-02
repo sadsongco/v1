@@ -6,5 +6,6 @@
     {{#dispatched}}
     <a hx-get="php/order_dispatched.php?order_id={{order_id}}&undo=true" hx-swap="none" class="button">Mark As Not Dispatched</a>
     {{/dispatched}}
+    <a hx-get="php/edit_order.php?order_id={{order_id}}" hx-target="#editOrder_{{order_id}}" class="button">Edit Order</a>
     <a hx-get="php/delete_order.php?order_id={{order_id}}" hx-confirm="Definitely delete order # {{sumup_id}}?" class="button">Delete Order</a>
 </div>

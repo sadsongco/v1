@@ -213,3 +213,7 @@ button:hover,
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+
+.orderLine {
+  border-bottom: 1px solid white;
+}
