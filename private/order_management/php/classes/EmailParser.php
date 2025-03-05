@@ -29,6 +29,7 @@ class EmailParser {
         $message = str_replace("C2=A3", "", $message);
         $message = str_replace("=3D", "=", $message);
         $message = str_replace(" =", "", $message);
+        $message = str_replace("<=", "<", $message);
         // $message = str_replace(" 20", "", $message);    
         $message = str_replace(">=", ">", $message);
         $this->order_details = ["items"=>[], "item_prices"=>[]];

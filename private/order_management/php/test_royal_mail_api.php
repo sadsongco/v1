@@ -30,15 +30,21 @@ try {
 }
 
 $rm_order = createRMOrder($order);
+// $rm_order = file_get_contents(base_path("../rm_example.json"));
+// $rm_order = json_decode($rm_order);
 $data = [
     "items"=>[
         $rm_order
     ]
 ];
 
-$post_data = json_encode($data);
-file_put_contents(base_path("../payload.json"), $post_data);
-$path = RM_BASE_URL."/orders?pageSize=10";
+// $post_data = json_decode($rm_order);
+
+file_put_contents(base_path("../payload.json"), json_encode($data));
+p_2($data);
+exit();
+
+$path = RM_BASE_URL."/orders";
 // $path = RM_BASE_URL."/version";
 $headers = [
     "Authorization: " . RM_API_KEY,
@@ -48,7 +54,7 @@ $headers = [
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $path);
 curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('items' => [$rm_order])));
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);

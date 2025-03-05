@@ -1,7 +1,11 @@
 <?php
 
+include_once(__DIR__."/order_includes.php");
+require_once(base_path("private/order_management/config.php"));
+
 function createRMOrder($data) {
     $data['order_date'] = jsFormatDate($data['order_date']);
+    $serviceCode = getServiceCode($data);
     $rm_order = [
         "orderReference"=>$data['order_id'] . $data['sumup_id'],
         "isRecipientABusiness"=>false,
@@ -10,7 +14,7 @@ function createRMOrder($data) {
             "fullName"=>$data['name'],
             "companyName"=>"",
             "addressLine1"=>$data['address_1'],
-            "addressLine2"=>$data['address_2'],
+            "addressLine2"=>$data['address_2'] ?? "",
             "addressLine3"=>"",
             "city"=>$data['city'],
             "county"=>"",
@@ -18,8 +22,7 @@ function createRMOrder($data) {
             "countryCode"=>"GB"
             ],
             "phoneNumber"=>"",
-            "emailAddress"=>$data['email'],
-            "addressBookReference"=>""
+            "emailAddress"=>$data['email']
         ],
         "sender"=>[
             "tradingName"=>"Unbelievable Truth",
@@ -28,23 +31,23 @@ function createRMOrder($data) {
         ],
         "billing"=>[
             "address"=>[
-                "fullName"=>$data['name'],
-                "companyName"=>"",
-                "addressLine1"=>$data['address_1'],
-                "addressLine2"=>$data['address_2'],
+                "fullName"=>"Nigel Powell",
+                "companyName"=>"Unbelievable Truth",
+                "addressLine1"=>"52 Claremont Road",
+                "addressLine2"=>"",
                 "addressLine3"=>"",
-                "city"=>$data['city'],
+                "city"=>"Rugby",
                 "county"=>"",
-                "postcode"=>$data['postcode'],
+                "postcode"=>"CV21 3LX",
                 "countryCode"=>"GB"
             ],
             "phoneNumber"=>"",
-            "emailAddress"=>$data['email'],
+            "emailAddress"=>"info@unbelievabletruth.co.uk",
         ],
         "packages"=>[
             [
                 "weightInGrams"=>1,
-                "packageFormatIdentifier"=>"box",
+                "packageFormatIdentifier"=>"small parcel",
                 "customPackageFormatIdentifier"=>"",
                 "dimensions"=>[
                 "heightInMms"=>450,
@@ -61,7 +64,7 @@ function createRMOrder($data) {
                         "customsDescription"=>"string",
                         "extendedCustomsDescription"=>"string",
                         "customsCode"=>"string",
-                        "originCountryCode"=>"str",
+                        "originCountryCode"=>"GBR",
                         "customsDeclarationCategory"=>"none",
                         "requiresExportLicence"=>false,
                         "stockLocation"=>"GB"
@@ -70,24 +73,20 @@ function createRMOrder($data) {
             ],
         ],
         "orderDate"=>$data['order_date'],
-        "plannedDespatchDate"=>"2019-08-24T14:15:22Z",
-        "specialInstructions"=>"",
         "subtotal"=>15,
         "shippingCostCharged"=>8,
         "otherCosts"=>0,
-        "customsDutyCosts"=>0,
         "total"=>23,
         "currencyCode"=>"GBP",
         "postageDetails"=>[
             "sendNotificationsTo"=>"sender",
-            "serviceCode"=>"CRL2",
-            "serviceRegisterCode"=>"st",
-            "consequentialLoss"=>0,
+            "serviceCode"=>"TOLP48",
+            "serviceRegisterCode"=>"",
             "receiveEmailNotification"=>true,
             "receiveSmsNotification"=>false,
             "guaranteedSaturdayDelivery"=>false,
-            "requestSignatureUponDelivery"=>true,
-            "isLocalCollect"=>true,
+            "requestSignatureUponDelivery"=>false,
+            "isLocalCollect"=>false,
             "safePlace"=>"",
             "department"=>"",
             "AIRNumber"=>"",
@@ -98,8 +97,8 @@ function createRMOrder($data) {
         ],
         "tags"=>[
             [
-              "key"=>"",
-              "value"=>""
+              "key"=>"string",
+              "value"=>"string"
             ]
         ],
         "label"=>[
@@ -107,11 +106,6 @@ function createRMOrder($data) {
             "includeCN"=>true,
             "includeReturnsLabel"=>true
         ],
-        "orderTax"=>0,
-        "containsDangerousGoods"=>false,
-        "dangerousGoodsUnCode"=>"",
-        "dangerousGoodsDescription"=>0,
-        "dangerousGoodsQuantity"=>0
     ];
     return $rm_order;
 }
@@ -119,4 +113,10 @@ function createRMOrder($data) {
 function jsFormatDate($date) {
     $dateObj = new DateTime($date);
     return date_format($dateObj, 'Y-m-d\TH:i:s\Z');
+}
+
+function getServiceCode($data) {
+    p_2($data);
+    $method = $data['shipping_method'];
+    $weight = $data['weight'];
 }
