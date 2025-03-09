@@ -93,6 +93,8 @@ function addItem($row, $db) {
     ?,
     ?,
     ?,
+    NULL,
+    NULL,
     NULL)";
     $params = [
         $row['Item name'],
@@ -107,7 +109,6 @@ function addItem($row, $db) {
         $stmt->execute($params);
     }
     catch (PDOException $e) {
-        p_2("Error: " . $e->getMessage());
         p_2("Error: " . $e->getMessage());
         p_2($query);
         p_2($params);
