@@ -66,16 +66,19 @@ function updateItem($row, $id, $db) {
             `packaging_weight` = NULL
         WHERE item_id = ?";
         $stmt = $db->prepare($query);
-        $stmt->execute([
+        $params = [
             $row['Description (Online Store and Invoices only)'],
             $row['Category'],
             $row['Image 1'],
             (float)$row['Shipping weight [kg] (Online Store only)'],
             $id
-        ]);
+        ];
+        $stmt->execute($params);
     }
     catch (PDOException $e) {
         p_2("Error: " . $e->getMessage());
+        p_2($query);
+        p_2($params);
         exit();
     }
 }
@@ -105,6 +108,9 @@ function addItem($row, $db) {
     }
     catch (PDOException $e) {
         p_2("Error: " . $e->getMessage());
+        p_2("Error: " . $e->getMessage());
+        p_2($query);
+        p_2($params);
         exit();
     }
 }
