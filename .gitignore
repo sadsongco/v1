@@ -13,3 +13,4 @@ private/assets/media/*
 ./private/order_management/php/debug.log
 *.htaccess
 *.log
+*.csv

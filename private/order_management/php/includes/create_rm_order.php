@@ -6,6 +6,10 @@ require_once(base_path("private/order_management/config.php"));
 function createRMOrder($data) {
     $data['order_date'] = jsFormatDate($data['order_date']);
     $serviceCode = getServiceCode($data);
+    $order_items = [];
+    foreach($data['items'] as $item) {
+        $order_items[] = createRMItem($item);
+    }
     $rm_order = [
         "orderReference"=>$data['order_id'] . $data['sumup_id'],
         "isRecipientABusiness"=>false,
@@ -46,29 +50,11 @@ function createRMOrder($data) {
         ],
         "packages"=>[
             [
-                "weightInGrams"=>1,
+                "weightInGrams"=>$data['weight'],
                 "packageFormatIdentifier"=>"small parcel",
                 "customPackageFormatIdentifier"=>"",
-                "dimensions"=>[
-                "heightInMms"=>450,
-                "widthInMms"=>240,
-                "depthInMms"=>35
-                ],
                 "contents"=>[
-                    [
-                        "name"=>"string",
-                        "SKU"=>"string",
-                        "quantity"=>1,
-                        "unitValue"=>15,
-                        "unitWeightInGrams"=>400,
-                        "customsDescription"=>"string",
-                        "extendedCustomsDescription"=>"string",
-                        "customsCode"=>"string",
-                        "originCountryCode"=>"GBR",
-                        "customsDeclarationCategory"=>"none",
-                        "requiresExportLicence"=>false,
-                        "stockLocation"=>"GB"
-                    ]
+                    $order_items
                 ]
             ],
         ],
@@ -80,7 +66,7 @@ function createRMOrder($data) {
         "currencyCode"=>"GBP",
         "postageDetails"=>[
             "sendNotificationsTo"=>"sender",
-            "serviceCode"=>"TOLP48",
+            "serviceCode"=>$serviceCode,
             "serviceRegisterCode"=>"",
             "receiveEmailNotification"=>true,
             "receiveSmsNotification"=>false,
@@ -116,7 +102,28 @@ function jsFormatDate($date) {
 }
 
 function getServiceCode($data) {
-    p_2($data);
     $method = $data['shipping_method'];
     $weight = $data['weight'];
+    foreach (SHIPPING_METHODS_MAP as $key => $value) {
+        if ($method == $value['postage_method'] && $weight >= $value['weight_min'] && $weight <= $value['weight_max'])
+            return $value['rm_code'];
+    }
+    return false;
+}
+
+function createRMItem($item) {
+    $rm_item = [
+        "name"=>$item['name'],
+        "quantity"=>$item['amount'],
+        "unitValue"=>$item['price'],
+        "unitWeightInGrams"=>$item['weight'] + $item['packaging_weight'],
+        "customsDescription"=>"string",
+        "extendedCustomsDescription"=>"string",
+        "customsCode"=>"string",
+        "originCountryCode"=>"GBR",
+        "customsDeclarationCategory"=>"none",
+        "requiresExportLicence"=>false,
+        "stockLocation"=>"GB"
+    ];
+    return $rm_item;
 }

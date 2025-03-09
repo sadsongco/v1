@@ -20,28 +20,40 @@ try {
         Customers.email
     FROM Orders
     LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
-    ORDER BY Orders.order_date DESC LIMIT 1";
+    WHERE `label_printed` = 0
+    ORDER BY Orders.order_date ASC";
     $stmt = $db->prepare($query);
     $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $order = $result[0];
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo $e->getMessage(); 
 }
 
-$rm_order = createRMOrder($order);
+$ship_items = [];
+
+foreach ($orders as $order) {
+    $order['items'] = getOrderItems($order, $db);
+    $order['weight'] = 0;
+    foreach ($order['items'] as $item) {
+        $order['weight'] += $item['weight'] * 1000; // item weight in grams
+    }
+    $ship_items[] = createRMOrder($order);
+}
+
+
 // $rm_order = file_get_contents(base_path("../rm_example.json"));
 // $rm_order = json_decode($rm_order);
 $data = [
     "items"=>[
-        $rm_order
+        ...$ship_items
     ]
 ];
-
+    
+p_2($data);
+exit();
 // $post_data = json_decode($rm_order);
 
 file_put_contents(base_path("../payload.json"), json_encode($data));
-p_2($data);
 exit();
 
 $path = RM_BASE_URL."/orders";
@@ -61,3 +73,20 @@ $response = curl_exec($ch);
 curl_close($ch);
 
 p_2(json_decode($response));
+
+function getOrderItems($order, $db) {
+    try {
+        $query = "SELECT
+            Order_items.order_price,
+            Order_items.amount,
+            Items.*
+        FROM Order_items
+        JOIN Items ON Order_items.item_id = Items.item_id
+        WHERE Order_items.order_id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->execute([$order["order_id"]]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}

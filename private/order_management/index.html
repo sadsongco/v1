@@ -47,6 +47,8 @@
         <label for="nameFilter">Filter By Name:</label>
         <input type="text" name="nameFilter" id="nameFilter" hx-post="./php/order_list.php" hx-trigger="keyup changed delay:0.5s" hx-target="#orderList" />
       </div>
+      <h1>Current Picking List</h1>
+      <div id="pickingList" class="pickingList" hx-get="./php/picking.php" hx-trigger="load, updateOrderList from:body"></div>
       <div id="orderList" hx-get="./php/order_list.php" hx-trigger="load, updateOrderList from:body"></div>
     </main>
   </body>

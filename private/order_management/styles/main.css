@@ -227,3 +227,22 @@ button:hover,
 .orderLine {
   border-bottom: 1px solid white;
 }
+.pickingList {
+  margin-bottom: 1em;
+}
+
+.pickingListRow {
+  display: grid;
+  grid-template-columns: 25em 3em;
+  column-gap: 0.5em;
+  row-gap: 0.3em;
+  padding: 0.5em;
+  margin-bottom: 0.1em;
+}
+
+.pickingListRow:nth-child(even) {
+  background-color: #444;
+}
+.pickingListRow:nth-child(odd) {
+  background-color: #777;
+}
