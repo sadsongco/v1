@@ -1,0 +1,15 @@
+<form hx-post="php/update_item_customs.php" hx-target="#item_update_result">
+    <div class="itemFormGrid">
+        <div>Item Name</div><div>Customs Description</div><div>Customs Code</div>
+    </div>
+    {{#items}}
+        <div class="itemFormGrid">
+            <input type="hidden" name="item_id[]" value="{{item_id}}">
+            <div>{{name}}</div>
+            <input type="text" name="customs_description[]" value="{{customs_description}}">
+            <input type="text" name="customs_code[]" value="{{customs_code}}">
+        </div>
+    {{/items}}
+    <input type="submit" value="update customs info"> 
+</form>
+<section id="item_update_result"></section>

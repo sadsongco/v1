@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/lib/htmx.min.js"></script>
+    <link rel="stylesheet" href="styles/main.css" />
+    <title>Unbelievable Truth - Shop</title>
+  </head>
+  <body>
+    <h1>Unbelievable Truth online shop admin page</h1>
+    <main>
+      <section id="items" hx-get="php/add_item_info.php" hx-trigger="load"></section>
+    </main>
+  </body>
+</html>

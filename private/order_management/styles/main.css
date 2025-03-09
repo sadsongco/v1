@@ -246,3 +246,14 @@ button:hover,
 .pickingListRow:nth-child(odd) {
   background-color: #777;
 }
+
+.itemFormGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 0.3em;
+  padding: 0.5em;
+}
+
+.itemFormGrid:nth-child(odd) {
+  background-color: #444;
+}
