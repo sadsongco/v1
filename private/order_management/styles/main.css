@@ -257,3 +257,21 @@ button:hover,
 .itemFormGrid:nth-child(odd) {
   background-color: #444;
 }
+
+.zebra {
+  width: 100%;
+  padding: 0.2em;
+  margin-bottom: 0.2em;
+}
+
+.zebra:nth-child(even) {
+  background-color: #444;
+}
+
+.zebra:nth-child(odd) {
+  background-color: #777;
+}
+
+.stdLink {
+  color: #d9d9ff;
+}

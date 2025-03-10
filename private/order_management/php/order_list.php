@@ -11,6 +11,9 @@ switch($filter) {
         $filter_text = " WHERE Orders.printed = 0 AND Orders.label_printed = 0 AND Orders.dispatched IS NULL ";
         break;
     case "printed":
+        $filter_text = " WHERE Orders.printed = 1 AND Orders.label_printed = 0 AND Orders.dispatched IS NULL ";
+        break;
+    case "label printed":
         $filter_text = " WHERE Orders.printed = 1 AND Orders.label_printed = 1 AND Orders.dispatched IS NULL ";
         break;
     case "dispatched":

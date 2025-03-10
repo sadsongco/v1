@@ -27,20 +27,15 @@
       <div class="inForm" hx-get="./php/new_order_form.php" hx-trigger="load, updateOrderForm from:body"></div>
       <div id="newOrderMsg" class="msg"></div>
       <h1>Orders</h1>
-      <div class="divider">
-        <form action="./php/print_labels.php" method="post" target="_blank" class="colForm">
-          <label for="startLabel">Start Label</label>
-          <input type="number" name="start_label" id="startLabel" max="8" min="1" value="1" />
-          <label for="orderId">Print label for specific order</label>
-          <input type="number" name="order_id" id="orderId" value="null" />
-          <input type="submit" class="button" value="Print Labels" />
-        </form>
-      </div>
+      <button hx-get="./php/submit_rm_orders.php" hx-target="#rmOutcomes">Submit Orders to Royal Mail</button>
+      <div id="rmOutcomes"></div>
+      <p>Go to <a class="stdLink" href="https://business.parcel.royalmail.com/orders/" target="_blank">Royal Mail Orders</a> to pay and download labels</p>
       <div>
         <label for="orderFilter">Filter Orders:</label>
         <select name="orderFilter" id="orderFilter" hx-post="./php/order_list.php" hx-trigger="change" hx-target="#orderList">
           <option value="all">All Orders</option>
-          <option value="printed">Printed</option>
+          <option value="printed">PDF Printed</option>
+          <option value="label printed">Label Printed</option>
           <option value="dispatched">Dispatched</option>
           <option value="new" selected>New Orders</option>
         </select>

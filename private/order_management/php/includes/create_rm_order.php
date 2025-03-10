@@ -10,8 +10,9 @@ function createRMOrder($data) {
     foreach($data['items'] as $item) {
         $order_items[] = createRMItem($item);
     }
+    $data['package_format'] = $data['weight'] < 250 ? "large letter" : "small parcel";
     $rm_order = [
-        "orderReference"=>$data['order_id'] . $data['sumup_id'],
+        "orderReference"=>$data['order_id'],
         "recipient"=>[
             "address"=>[
             "fullName"=>$data['name'],
@@ -22,7 +23,7 @@ function createRMOrder($data) {
             "city"=>$data['city'],
             "county"=>"",
             "postcode"=>$data['postcode'],
-            "countryCode"=>"GB"
+            "countryCode"=>$data['country_code']
             ],
             "phoneNumber"=>"",
             "emailAddress"=>$data['email']
@@ -33,31 +34,10 @@ function createRMOrder($data) {
             "emailAddress"=>"info@unbelievabletruth.co.uk",
             "addressBookReference"=>"001"
         ],
-        "billing"=>[
-            "address"=>[
-                "fullName"=>"Nigel Powell",
-                "companyName"=>"Unbelievable Truth",
-                "addressLine1"=>"52 Claremont Road",
-                "addressLine2"=>"",
-                "addressLine3"=>"",
-                "city"=>"Rugby",
-                "county"=>"Warwickshire",
-                "postcode"=>"CV21 3LX",
-                "countryCode"=>"GB"
-            ],
-            "phoneNumber"=>"07787 782550",
-            "emailAddress"=>"info@unbelievabletruth.co.uk",
-        ],
         "packages"=>[
             [
                 "weightInGrams"=>(string)$data['weight'],
-                "packageFormatIdentifier"=>"small parcel",
-                "customPackageFormatIdentifier"=>"1",
-                "dimensions"=>[
-                    "heightInMms"=>330,
-                    "widthInMms"=>330,
-                    "depthInMms"=>25
-                ],
+                "packageFormatIdentifier"=>$data['package_format'],
                 "contents"=>$order_items
             ],
         ],
@@ -99,9 +79,11 @@ function jsFormatDate($date) {
 }
 
 function getServiceCode($data) {
-    $method = $data['shipping_method'];
+    $method = trim($data['shipping_method']);
     $weight = $data['weight'];
     foreach (SHIPPING_METHODS_MAP as $key => $value) {
+        if (preg_match('/' . $value['postage_method'] .'/', $method) == 1 && $weight >= $value['weight_min'] && $weight <= $value['weight_max'])
+            return $value['rm_code'];
         if ($method == $value['postage_method'] && $weight >= $value['weight_min'] && $weight <= $value['weight_max'])
             return $value['rm_code'];
     }
@@ -118,7 +100,7 @@ function createRMItem($item) {
         "extendedCustomsDescription"=>$item['name'],
         "customsCode"=>$item['customs_code'],
         "originCountryCode"=>"GBR",
-        "customsDeclarationCategory"=>"none",
+        "customsDeclarationCategory"=>"SaleOfGoods",
         "requiresExportLicence"=>false,
         "stockLocation"=>"GB"
     ];

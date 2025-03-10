@@ -21,18 +21,22 @@ $csvFile = base_path('private/order_management/assets/csv/country-region-codes.c
 $csv = readCSV($csvFile);
 
 foreach ($csv as $row) {
-    p_2($row);
     $query = "SELECT country_id FROM countries WHERE name = ?";
     $stmt = $db->prepare($query);
     $stmt->execute([$row[0]]);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if (sizeof($result) > 0) {
-        echo "FOUND COUNTRY " . $row[0] . "<br>\n";
         $country_id = $result[0]['country_id'];
         $query = "UPDATE countries SET country_code = ?, country_code_3 = ? WHERE country_id = ?";
         $stmt = $db->prepare($query);
         $stmt->execute([$row[1], $row[2], $country_id]);
+        echo "UPDATED COUNTRY " . $row[0] . "<br>\n";
+        continue;
     }
+    $query = "INSERT INTO countries VALUES (NULL, ?, 1, ?, ?)";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$row[0], $row[1], $row[2]]);
+    echo "INSERTED COUNTRY " . $row[0] . "<br>\n";
 }
 
 // manual cleanup

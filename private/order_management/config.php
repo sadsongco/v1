@@ -1,18 +1,18 @@
 <?php
 
 define('SHIPPING_METHODS_MAP', [
-    'FIRST' => [
+    'FIRST_SMALL' => [
         "postage_method" => "First Class (1 - 2 days)",
         "weight_min" => 0,
         "weight_max" => 9999,
-        "rm_code" => "OLP1"
+        "rm_code" => "TOLP24"
     ],
 
     'SECOND' => [
         "postage_method" => "Second Class",
         "weight_min" => 0,
         "weight_max" => 9999,
-        "rm_code" => "OLP2"
+        "rm_code" => "TOLP48"
     ],
 
     'EUROPE_SMALL' => [
@@ -40,6 +40,6 @@ define('SHIPPING_METHODS_MAP', [
         "postage_method" => "Rest Of World",
         "weight_min" => 250,    
         "weight_max" => 9999,
-        "rm_code" => "ISIOLP",
+        "rm_code" => "ITROLP",
     ]
 ]);
