@@ -26,7 +26,7 @@ define('SHIPPING_METHODS_MAP', [
         "postage_method" => "Europe",
         "weight_min" => 250,    
         "weight_max" => 9999,
-        "rm_code" => "ISIOLP",
+        "rm_code" => "ITROLP",
     ],
 
     'REST_OF_WORLD_SMALL' => [
