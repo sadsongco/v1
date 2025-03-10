@@ -10,6 +10,9 @@ try {
         Orders.sumup_id,
         Orders.shipping_method,
         Orders.shipping,
+        Orders.subtotal,
+        Orders.vat,
+        Orders.total,
         Orders.order_date,
         Customers.name,
         Customers.address_1,
@@ -21,7 +24,8 @@ try {
     FROM Orders
     LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
     WHERE `label_printed` = 0
-    ORDER BY Orders.order_date ASC";
+    ORDER BY Orders.order_date ASC
+    LIMIT 5";
     $stmt = $db->prepare($query);
     $stmt->execute();
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,27 +38,29 @@ $ship_items = [];
 foreach ($orders as $order) {
     $order['items'] = getOrderItems($order, $db);
     $order['weight'] = 0;
-    foreach ($order['items'] as $item) {
-        $order['weight'] += $item['weight'] * 1000; // item weight in grams
+    foreach ($order['items'] as &$item) {
+        $item['weight'] *= 1000; // convert to grams from kg
+        $order['weight'] += $item['weight']; // total package weight
     }
     $ship_items[] = createRMOrder($order);
 }
 
-
-// $rm_order = file_get_contents(base_path("../rm_example.json"));
-// $rm_order = json_decode($rm_order);
 $data = [
     "items"=>[
         ...$ship_items
     ]
 ];
+
+// $rm_order = file_get_contents(base_path("../rm_example.json"));
+// $rm_order = file_get_contents(base_path("../payload.json"));
+// $data = json_decode($rm_order);
     
-p_2($data);
-exit();
+// p_2($data);
+// exit();
 // $post_data = json_decode($rm_order);
 
-file_put_contents(base_path("../payload.json"), json_encode($data));
-exit();
+// file_put_contents(base_path("../payload.json"), json_encode($data));
+// exit();
 
 $path = RM_BASE_URL."/orders";
 // $path = RM_BASE_URL."/version";
@@ -67,13 +73,24 @@ $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $path);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+// curl_setopt($ch, CURLOPT_POSTFIELDS, $rm_order);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 curl_close($ch);
-
 p_2(json_decode($response));
 
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $path);
+// curl_setopt($ch, CURLOPT_POST, true);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+// curl_setopt($ch, CURLOPT_POSTFIELDS, $rm_order);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
+p_2(json_decode($response));
 function getOrderItems($order, $db) {
     try {
         $query = "SELECT

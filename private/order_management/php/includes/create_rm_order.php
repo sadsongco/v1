@@ -12,7 +12,6 @@ function createRMOrder($data) {
     }
     $rm_order = [
         "orderReference"=>$data['order_id'] . $data['sumup_id'],
-        "isRecipientABusiness"=>false,
         "recipient"=>[
             "address"=>[
             "fullName"=>$data['name'],
@@ -31,7 +30,8 @@ function createRMOrder($data) {
         "sender"=>[
             "tradingName"=>"Unbelievable Truth",
             "phoneNumber"=>"07787 782550",
-            "emailAddress"=>"info@unbelievabletruth.co.uk"
+            "emailAddress"=>"info@unbelievabletruth.co.uk",
+            "addressBookReference"=>"001"
         ],
         "billing"=>[
             "address"=>[
@@ -41,45 +41,42 @@ function createRMOrder($data) {
                 "addressLine2"=>"",
                 "addressLine3"=>"",
                 "city"=>"Rugby",
-                "county"=>"",
+                "county"=>"Warwickshire",
                 "postcode"=>"CV21 3LX",
                 "countryCode"=>"GB"
             ],
-            "phoneNumber"=>"",
+            "phoneNumber"=>"07787 782550",
             "emailAddress"=>"info@unbelievabletruth.co.uk",
         ],
         "packages"=>[
             [
-                "weightInGrams"=>$data['weight'],
+                "weightInGrams"=>(string)$data['weight'],
                 "packageFormatIdentifier"=>"small parcel",
-                "customPackageFormatIdentifier"=>"",
-                "contents"=>[
-                    $order_items
-                ]
+                "customPackageFormatIdentifier"=>"1",
+                "dimensions"=>[
+                    "heightInMms"=>330,
+                    "widthInMms"=>330,
+                    "depthInMms"=>25
+                ],
+                "contents"=>$order_items
             ],
         ],
         "orderDate"=>$data['order_date'],
-        "subtotal"=>15,
-        "shippingCostCharged"=>8,
-        "otherCosts"=>0,
-        "total"=>23,
+        "plannedDespatchDate"=>"",
+        "subtotal"=>(float)$data['subtotal'],
+        "shippingCostCharged"=>(float)$data['shipping'],
+        "otherCosts"=>"0",
+        "total"=>(float)$data['total'],
         "currencyCode"=>"GBP",
         "postageDetails"=>[
             "sendNotificationsTo"=>"sender",
             "serviceCode"=>$serviceCode,
             "serviceRegisterCode"=>"",
-            "receiveEmailNotification"=>true,
+            "receiveEmailNotification"=>false,
             "receiveSmsNotification"=>false,
             "guaranteedSaturdayDelivery"=>false,
             "requestSignatureUponDelivery"=>false,
-            "isLocalCollect"=>false,
-            "safePlace"=>"",
-            "department"=>"",
-            "AIRNumber"=>"",
-            "IOSSNumber"=>"",
-            "requiresExportLicense"=>false,
-            "commercialInvoiceNumber"=>$data['order_id'] . $data['sumup_id'],
-            "commercialInvoiceDate"=>$data['order_date']
+            "isLocalCollect"=>false
         ],
         "tags"=>[
             [
@@ -88,9 +85,9 @@ function createRMOrder($data) {
             ]
         ],
         "label"=>[
-            "includeLabelInResponse"=>true,
-            "includeCN"=>true,
-            "includeReturnsLabel"=>true
+            "includeLabelInResponse"=>false,
+            "includeCN"=>false,
+            "includeReturnsLabel"=>false
         ],
     ];
     return $rm_order;
@@ -116,10 +113,10 @@ function createRMItem($item) {
         "name"=>$item['name'],
         "quantity"=>$item['amount'],
         "unitValue"=>$item['price'],
-        "unitWeightInGrams"=>$item['weight'] + $item['packaging_weight'],
-        "customsDescription"=>"string",
-        "extendedCustomsDescription"=>"string",
-        "customsCode"=>"string",
+        "unitWeightInGrams"=>$item['weight'],
+        "customsDescription"=>$item['customs_description'],
+        "extendedCustomsDescription"=>$item['name'],
+        "customsCode"=>$item['customs_code'],
         "originCountryCode"=>"GBR",
         "customsDeclarationCategory"=>"none",
         "requiresExportLicence"=>false,
