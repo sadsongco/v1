@@ -14,6 +14,7 @@ try {
     total,
     Customers.customer_id,
     name,
+    email,
     address_1,
     address_2,
     city,
