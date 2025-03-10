@@ -32,6 +32,7 @@ try {
     $query = "UPDATE Customers
     SET
     name = ?,
+    email = ?,
     address_1 = ?,
     address_2 = ?,
     city = ?,
@@ -40,6 +41,7 @@ try {
     WHERE customer_id = ?";
     $params = [
         $name,
+        $email,
         $address_1,
         $address_2,
         $city,
