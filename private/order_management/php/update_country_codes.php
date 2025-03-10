@@ -29,7 +29,7 @@ foreach ($csv as $row) {
     if (sizeof($result) > 0) {
         echo "FOUND COUNTRY " . $row[0] . "<br>\n";
         $country_id = $result[0]['country_id'];
-        $query = "UPDATE Countries SET country_code = ?, country_code_3 = ? WHERE country_id = ?";
+        $query = "UPDATE countries SET country_code = ?, country_code_3 = ? WHERE country_id = ?";
         $stmt = $db->prepare($query);
         $stmt->execute([$row[1], $row[2], $country_id]);
     }
