@@ -1,4 +1,6 @@
+<div id="editItem_{{item_id}}"></div>
 <div class="itemOption">
     <input type="checkbox" name="items[]" id="item_{{item_id}}" value="{{item_id}}|{{name}}|{{price}}" />
     <label class="itemLabel" for="item_{{item_id}}">{{name}} [&pound;{{price}}]</label>
+    <button hx-get="php/edit_item.php?item_id={{item_id}}" hx-target="#editItem_{{item_id}}">Edit Item</button>
 </div>
