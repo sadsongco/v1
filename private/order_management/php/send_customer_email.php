@@ -55,8 +55,7 @@ $mail->setFrom($mail_auth['from']['address'], $from_name);
 $mail->addReplyTo($mail_auth['reply']['address'], $from_name);
 
 $mail->Subject = $_POST['subject'];
-p_2($result);
-exit();
+
 ob_start();
 foreach ($result as $row) {
     $output = "";
