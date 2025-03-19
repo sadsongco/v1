@@ -42,7 +42,7 @@ require base_path('private/mailout/api/vendor/autoload.php');
 // set up PHP Mailer
 //Passing `true` enables PHPMailer exceptions
 $mail = new PHPMailer(true);
-p_2($mail_auth);
+// p_2($mail_auth);
 // mail auth
 $mail->isSMTP();
 $mail->Host = $mail_auth['host'];
