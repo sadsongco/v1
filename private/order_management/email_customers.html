@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/lib/htmx.min.js"></script>
+    <link rel="stylesheet" href="styles/main.css" />
+    <title>Unbelievable Truth - Order admin</title>
+  </head>
+  <body>
+    <h1>Unbelievable Truth online shop admin page</h1>
+    <main>
+      <section>
+        <p>Email Customers</p>
+        <div class="inForm">
+          <form hx-post="php/send_customer_email.php" hx-target="#emailMsg">
+            <label for="subject">Subject</label>
+            <input type="text" name="subject" id="subject" required /><br />
+            <label for="message">Message</label>
+            <textarea name="message" id="message" cols="60" rows="10" required></textarea><br />
+            <label for="test">Test: <input type="checkbox" name="test" /></label><br />
+            <input type="submit" value="Send" />
+          </form>
+          <div id="emailMsg" class="msg"></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
