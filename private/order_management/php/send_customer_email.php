@@ -72,6 +72,7 @@ foreach ($result as $row) {
     
     try {
         $mail->send();
+        sleep(10);
         //Mark it as sent in the DB
         $output .=  "\n<br>Email " . $row['email'] . " sent";
     } catch (Exception $e) {
@@ -88,7 +89,6 @@ foreach ($result as $row) {
     $mail->clearAttachments();
     echo $output;
     ob_flush();
-    sleep(10);
 }
 
 echo "<h1>All finished</h1>";
