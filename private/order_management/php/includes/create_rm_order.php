@@ -58,7 +58,7 @@ function createRMOrder($data) {
             "sendNotificationsTo"=>"recipient",
             "serviceCode"=>$serviceCode,
             "serviceRegisterCode"=>"",
-            "receiveEmailNotification"=>true,
+            "receiveEmailNotification"=>false,
             "receiveSmsNotification"=>false,
             "guaranteedSaturdayDelivery"=>false,
             "requestSignatureUponDelivery"=>false,
