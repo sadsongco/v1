@@ -10,7 +10,13 @@ function createRMOrder($data) {
     foreach($data['items'] as $item) {
         $order_items[] = createRMItem($item);
     }
-    $data['package_format'] = $data['weight'] < 250 ? "large letter" : "small parcel";
+    foreach (PACKAGE_FORMATS as $package_format) {
+        if ($data['weight'] > $package_format['min_weight'] && $data['weight'] <= $package_format['max_weight']) {
+            $data['package_format'] = $package_format['name'];
+            break;
+        }
+    }
+    // $data['package_format'] = $data['weight'] < 250 ? "large letter" : "small parcel";
     $rm_order = [
         "orderReference"=>$data['order_id'],
         "recipient"=>[

@@ -43,3 +43,21 @@ define('SHIPPING_METHODS_MAP', [
         "rm_code" => "ITROLP",
     ]
 ]);
+
+define('PACKAGE_FORMATS', [
+    "LARGE_LETTER" => [
+        "name" => "large letter",
+        "weight_min" => 0,
+        "weight_max" => 249,
+    ],
+    "SMALL_PARCEL" => [
+        "name" => "small parcel",
+        "weight_min" => 250,
+        "weight_max" => 1999,
+    ],
+    "MEDIUM_PARCEL" => [
+        "name" => "medium parcel",
+        "weight_min" => 2000,
+        "weight_max" => 9999,
+    ]
+]);

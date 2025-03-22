@@ -37,7 +37,6 @@ try {
 $ship_items = [];
 
 foreach ($orders as &$order) {
-    if ($order['country'] == "United States") $order['country'] = "USA";
     $order['country_code'] = getCountryCode($order['country'], $db);
     $order['items'] = getOrderItems($order, $db);
     $order['weight'] = 0;
