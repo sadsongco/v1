@@ -55,7 +55,7 @@ function createRMOrder($data) {
         "total"=>(float)$data['total'],
         "currencyCode"=>"GBP",
         "postageDetails"=>[
-            "sendNotificationsTo"=>"customer",
+            "sendNotificationsTo"=>"receiver",
             "serviceCode"=>$serviceCode,
             "serviceRegisterCode"=>"",
             "receiveEmailNotification"=>true,
