@@ -35,7 +35,6 @@ try {
 
 
 $ship_items = [];
-
 foreach ($orders as &$order) {
     $order['country_code'] = getCountryCode($order['country'], $db);
     $order['items'] = getOrderItems($order, $db);

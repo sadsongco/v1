@@ -11,7 +11,7 @@ function createRMOrder($data) {
         $order_items[] = createRMItem($item);
     }
     foreach (PACKAGE_FORMATS as $package_format) {
-        if ($data['weight'] > $package_format['min_weight'] && $data['weight'] <= $package_format['max_weight']) {
+        if ($data['weight'] > $package_format['weight_min'] && $data['weight'] <= $package_format['weight_max']) {
             $data['package_format'] = $package_format['name'];
             break;
         }
@@ -55,10 +55,10 @@ function createRMOrder($data) {
         "total"=>(float)$data['total'],
         "currencyCode"=>"GBP",
         "postageDetails"=>[
-            "sendNotificationsTo"=>"sender",
+            "sendNotificationsTo"=>"customer",
             "serviceCode"=>$serviceCode,
             "serviceRegisterCode"=>"",
-            "receiveEmailNotification"=>false,
+            "receiveEmailNotification"=>true,
             "receiveSmsNotification"=>false,
             "guaranteedSaturdayDelivery"=>false,
             "requestSignatureUponDelivery"=>false,
