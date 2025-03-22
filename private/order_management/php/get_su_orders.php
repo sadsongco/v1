@@ -16,6 +16,7 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
             exit("No new orders");
     }
     $headers = imap_fetch_overview($mbox,"1:{$msgs->Nmsgs}",0);
+//     p_2($headers);
     foreach ($headers as $id=>$header) {
             $subject = imap_mime_header_decode($header->subject);
             if (strtolower($subject[0]->text) != "new order") continue;
@@ -32,7 +33,7 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
                         $output .= "Couldn't insert order " . $order_details['order_no'] . " into database: " . $e->getMessage() . "<br>";
                 }
                 $output .= "Order " . $order_details['order_no'] . " inserted into database.<br>";
-                // imap_delete($mbox, $id + 1);
+                imap_delete($mbox, $id + 1);
                 $output .= "Email for order " . $order_details['order_no'] . " deleted.<br>";
         }
         catch (Exception $e) {
@@ -40,8 +41,8 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
                 $output .= $e->getMessage() . "<br>";
         }
     }
-//     imap_close($mbox, CL_EXPUNGE);
-    imap_close($mbox);
+    imap_close($mbox, CL_EXPUNGE);
+//     imap_close($mbox);
     header ('HX-Trigger:updateOrderList');
     echo $output;
 } else {
@@ -54,6 +55,13 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
 
 function insertOrderIntoDatabase($order_details, $db) {
         try {
+                if ($order_details['country'] == "United States") {
+                        $zip = getZipFromPostcode($order_details['postcode']);
+                        $order_details['country'] = "USA";
+                        $order_details['postcode'] = $zip['places'][0]['state abbreviation'] . " " . $zip['post code'];
+                        $order_details['town'] = $zip['places'][0]['place name'];
+                }
+
                 $customer_id = checkIfCustomerExists($order_details['email'], $db); 
                 if (!$customer_id) $customer_id = insertNewCustomer($order_details, $db);
                 $order_details['customer_id'] = $customer_id;
@@ -71,12 +79,6 @@ function insertOrderIntoDatabase($order_details, $db) {
         }
         $db->beginTransaction();
         try {
-                if ($order_details['country'] == "United States") {
-                        $zip = getZipFromPostcode($order_details['postcode']);
-                        $order_details['country'] = "USA";
-                        $order_details['postcode'] = $zip['places'][0]['state abbreviation'] . " " . $zip['post code'];
-                        $order_details['town'] = $zip['places'][0]['place name'];
-                }
                 $order_details['order_id'] = insertOrderIntoOrderTable($order_details, $db);
                 foreach ($order_details['items'] as $order_item) {
                         insertItemIntoOrderTable($order_details, $order_item, $db);
