@@ -32,19 +32,21 @@
       <p>Go to <a class="stdLink" href="https://business.parcel.royalmail.com/orders/" target="_blank">Royal Mail Orders</a> to pay and download labels</p>
       <div>
         <label for="orderFilter">Filter Orders:</label>
-        <select name="orderFilter" id="orderFilter" hx-post="./php/order_list.php" hx-trigger="change" hx-target="#orderList">
-          <option value="all">All Orders</option>
-          <option value="printed">PDF Printed</option>
-          <option value="label printed">Label Printed</option>
-          <option value="dispatched">Dispatched</option>
-          <option value="new" selected>New Orders</option>
-        </select>
-        <label for="nameFilter">Filter By Name:</label>
+        <form id="orderFilterForm">
+          <select name="orderFilter" id="orderFilter" hx-post="./php/order_list.php" hx-trigger="change" hx-target="#orderList">
+            <option value="all">All Orders</option>
+            <option value="printed">PDF Printed</option>
+            <option value="label printed">Label Printed</option>
+            <option value="dispatched">Dispatched</option>
+            <option value="new" selected>New Orders</option>
+          </select>
+          <label for="nameFilter">Filter By Name:</label>
+        </form>
         <input type="text" name="nameFilter" id="nameFilter" hx-post="./php/order_list.php" hx-trigger="keyup changed delay:0.5s" hx-target="#orderList" />
       </div>
       <h1>Current Picking List</h1>
       <div id="pickingList" class="pickingList" hx-get="./php/picking.php" hx-trigger="load, updateOrderList from:body"></div>
-      <div id="orderList" hx-get="./php/order_list.php" hx-trigger="load, updateOrderList from:body"></div>
+      <div id="orderList" hx-post="./php/order_list.php" hx-trigger="load, updateOrderList from:body" hx-include="#orderFilterForm"></div>
     </main>
   </body>
 </html>
