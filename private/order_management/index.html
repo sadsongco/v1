@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/lib/htmx.min.js"></script>
+    <script>
+      const copyLinkToClipboard = (e) => {
+        navigator.clipboard.writeText(e.target.previousElementSibling.innerText);
+      };
+      const disableButton = (e) => {
+        e.target.disabled = true;
+        e.target.classList.add('disabled');
+      };
+    </script>
     <link rel="stylesheet" href="styles/main.css" />
     <title>Unbelievable Truth - Order admin</title>
   </head>
@@ -14,10 +23,10 @@
       <section>
         <p>SumUp Orders</p>
         <p>
-          <button hx-get="./php/get_su_orders.php" hx-swap="outerHTML" hx-trigger="click">Get Orders From SumUp</button>
+          <button hx-get="./php/get_su_orders.php" hx-swap="outerHTML" hx-trigger="click" onclick="disableButton(event)">Get Orders From SumUp</button>
         </p>
       </section>
-      <h1>Add Items</h1>
+      <!-- <h1>Add Items</h1>
       <div class="inForm" hx-get="./php/new_item_form.php" hx-trigger="load"></div>
       <div id="newItemMsg" class="msg"></div>
       <h1>Add Customers</h1>
@@ -25,9 +34,10 @@
       <div id="newCustomerMsg" class="msg"></div>
       <h1>Create Order</h1>
       <div class="inForm" hx-get="./php/new_order_form.php" hx-trigger="load, updateOrderForm from:body"></div>
-      <div id="newOrderMsg" class="msg"></div>
+      <div id="newOrderMsg" class="msg"></div> -->
       <h1>Orders</h1>
-      <button hx-get="./php/submit_rm_orders.php" hx-target="#rmOutcomes">Submit Orders to Royal Mail</button>
+      <button hx-get="./php/get_rm_orders.php" hx-target="#rmOutcomes" onclick="disableButton(event)">Update Orders from Royal Mail</button>
+      <button hx-get="./php/submit_rm_orders.php" hx-target="#rmOutcomes" onclick="disableButton(event)">Submit Orders to Royal Mail</button>
       <div id="rmOutcomes"></div>
       <p>Go to <a class="stdLink" href="https://business.parcel.royalmail.com/orders/" target="_blank">Royal Mail Orders</a> to pay and download labels</p>
       <div>

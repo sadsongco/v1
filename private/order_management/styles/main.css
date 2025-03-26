@@ -178,6 +178,11 @@ button,
   max-width: fit-content;
 }
 
+.button.disabled {
+  color: #aaa;
+  background-color: #777;
+}
+
 input[type='number'],
 input[type='datetime-local'] {
   max-width: 14em;

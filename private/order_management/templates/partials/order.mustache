@@ -1,6 +1,8 @@
 <div class="orderContainer">
   <div id="editOrder_{{order_id}}" class="editOrderForm"></div>
   <div class="order" id="order_{{order_id}}">
+    <div class="orderLine orderTitle">Order Date</div>
+    <div class="orderLine">{{order_date}}</div>
     <div class="orderLine orderTitle">Sumup ID</div>
     <div class="orderLine">{{sumup_id}}</div>
     <div class="orderLine orderTitle">Name</div>
@@ -8,6 +10,13 @@
     <div class="orderLine orderTitle">Address</div>
     <div class="orderLine">{{address_1}}, {{#address_2}}{{address_2}}, {{/address_2}}{{city}} {{postcode}}, {{country}}</div>
     {{#items}}{{>item}}{{/items}}
+  </div>
+  <div class="orderLinks">
+    <div class="orderLine">
+    {{#dispatched}}
+      Dispatched on {{dispatched}}. Tracking link <a href="https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}" target="_blank">https://www.royalmail.com/track-your-item#/tracking-results/{{rm_tracking_number}}</a>&nbsp;<button onclick="copyLinkToClipboard(event)">Copy Link</button>
+    {{/dispatched}}
+    </div>
   </div>
   {{>editOrder}}
 </div>

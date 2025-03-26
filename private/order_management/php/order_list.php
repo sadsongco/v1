@@ -28,8 +28,20 @@ switch($filter) {
 if (isset($_POST['nameFilter'])) $filter_text = "WHERE name LIKE '%".$_POST['nameFilter']."%'";
 
 try {
-    $query = "SELECT Orders.order_id, Orders.sumup_id, Orders.dispatched, Orders.printed,
-                    Customers.name, Customers.address_1, Customers.address_2, Customers.city, Customers.postcode, Customers.country
+    $query = "SELECT
+                    Orders.order_id,
+                    Orders.sumup_id,
+                    Orders.dispatched,
+                    Orders.printed,
+                    DATE_FORMAT(Orders.dispatched, '%e/%c/%y %k:%i') AS dispatched,
+                    DATE_FORMAT(Orders.order_date, '%D %M %Y') AS order_date,
+                    Orders.rm_tracking_number,
+                    Customers.name,
+                    Customers.address_1,
+                    Customers.address_2,
+                    Customers.city,
+                    Customers.postcode,
+                    Customers.country
                 FROM Orders
                 JOIN Customers ON Orders.customer_id = Customers.customer_id
                 $filter_text

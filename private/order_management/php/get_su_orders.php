@@ -16,11 +16,11 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
             exit("No new orders");
     }
     $headers = imap_fetch_overview($mbox,"1:{$msgs->Nmsgs}",0);
-//     p_2($headers);
     foreach ($headers as $id=>$header) {
             $subject = imap_mime_header_decode($header->subject);
             if (strtolower($subject[0]->text) != "new order") continue;
         $message = imap_fetchbody($mbox, $id + 1, '2');
+        $message = imap_utf8(imap_qprint($message));
         try {
                 $orderDetailObj = new EmailParser($message, $id);
                 $orderDetailObj->parse();
@@ -33,7 +33,7 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
                         $output .= "Couldn't insert order " . $order_details['order_no'] . " into database: " . $e->getMessage() . "<br>";
                 }
                 $output .= "Order " . $order_details['order_no'] . " inserted into database.<br>";
-                imap_delete($mbox, $id + 1);
+                // imap_delete($mbox, $id + 1);
                 $output .= "Email for order " . $order_details['order_no'] . " deleted.<br>";
         }
         catch (Exception $e) {
@@ -42,7 +42,6 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
         }
     }
     imap_close($mbox, CL_EXPUNGE);
-//     imap_close($mbox);
     header ('HX-Trigger:updateOrderList');
     echo $output;
 } else {
@@ -56,12 +55,25 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
 function insertOrderIntoDatabase($order_details, $db) {
         try {
                 if ($order_details['country'] == "United States") {
-                        $zip = getZipFromPostcode($order_details['postcode']);
+                        $zip = getZipFromPostcode($order_details['postcode'], 'us');
                         $order_details['country'] = "USA";
                         $order_details['postcode'] = $zip['places'][0]['state abbreviation'] . " " . $zip['post code'];
                         $order_details['town'] = $zip['places'][0]['place name'];
                 }
 
+                if ($order_details['city'] == "") {
+                        $query = "SELECT country_code FROM countries WHERE name = ?";
+                        $stmt = $db->prepare($query);
+                        $stmt->execute([$order_details['country']]);
+                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                        $country_code = $result['country_code'];
+                        if ($country_code != "") {
+                                $zip = getZipFromPostcode($order_details['postcode'], $country_code);
+                                $order_details['postcode'] = $zip['post code'];
+                                $order_details['town'] = $zip['places'][0]['place name'];
+                        }
+                }
                 $customer_id = checkIfCustomerExists($order_details['email'], $db); 
                 if (!$customer_id) $customer_id = insertNewCustomer($order_details, $db);
                 $order_details['customer_id'] = $customer_id;
@@ -162,7 +174,7 @@ function updateItem($item_id, $item_price, $db) {
 
 function insertOrderIntoOrderTable($order_details, $db) {
         try {
-        $query = "INSERT INTO Orders VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, 0, NULL, ?, 0)";
+        $query = "INSERT INTO Orders VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, 0, NULL, ?, 0, NULL, NULL, NULL)";
         $params = [
                 $order_details['order_no'],
                 $order_details['customer_id'],
@@ -210,9 +222,9 @@ function get_numeric($val) {
         return 0;
       }
 
-function getZipFromPostcode($postcode) {
+function getZipFromPostcode($postcode, $country_code='us') {
         preg_match('/\d{5}(-\d{4})?\b/', $postcode, $zip);
-        $endpoint = "https://api.zippopotam.us/us/";
+        $endpoint = "https://api.zippopotam.us/$country_code/";
         $ch = curl_init($endpoint . $zip[0]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
@@ -221,3 +233,37 @@ function getZipFromPostcode($postcode) {
         // $postcode = $json->places[0]->place_name;
         return $place_details;
 }
+
+function to_utf8( $string ) {
+
+        // From http://w3.org/International/questions/qa-forms-utf-8.html
+        
+            if ( preg_match('%^(?:
+        
+              [\x09\x0A\x0D\x20-\x7E]            # ASCII
+        
+            | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
+        
+            | \xE0[\xA0-\xBF][\x80-\xBF]         # excluding overlongs
+        
+            | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
+        
+            | \xED[\x80-\x9F][\x80-\xBF]         # excluding surrogates
+        
+            | \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+        
+            | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+        
+            | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+        
+        )*$%xs', $string) ) {
+        
+                return $string;
+        
+            } else {
+        
+                return iconv( 'CP1252', 'UTF-8', $string);
+        
+            }
+        
+        }

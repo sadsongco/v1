@@ -25,13 +25,6 @@ class EmailParser {
      */
     public function __construct($message, $id) {
         $this->dom = new DomDocument();
-        $message = str_replace("=C2=A3", "", $message);
-        $message = str_replace("C2=A3", "", $message);
-        $message = str_replace("=3D", "=", $message);
-        $message = str_replace(" =", "", $message);
-        $message = str_replace("<=", "<", $message);
-        // $message = str_replace(" 20", "", $message);    
-        $message = str_replace(">=", ">", $message);
         $this->order_details = ["items"=>[], "item_prices"=>[]];
         $this->message = $message;
     }

@@ -74,9 +74,18 @@ $order_outcomes = [];
 
 if (isset($responseObj->createdOrders)) {
     foreach($responseObj->createdOrders as $successful_order) {
-        $query = "UPDATE `Orders` SET `label_printed` = 1 WHERE `order_id` = ?";
+        $query = "UPDATE `Orders`
+        SET `label_printed` = 1,
+        `rm_order_identifier` = ?,
+        `rm_created` = ?
+        WHERE `order_id` = ?";
         $stmt = $db->prepare($query);
-        $stmt->execute([(int)$successful_order->orderReference]);
+        $params = [
+            (int)$successful_order->orderIdentifier,
+            $successful_order->createdOn,
+            (int)$successful_order->orderReference,
+        ];
+        $stmt->execute($params);
         if ($stmt->rowCount() == 0) {
             $order_outcomes[] = "FAILED to update database for " . $successful_order->orderReference . " : " . $db->error;
             continue;
