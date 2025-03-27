@@ -27,12 +27,14 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
                 $orderDetailObj->rearrayItems();
                 $order_details = $orderDetailObj->get();
                 try {
-                        insertOrderIntoDatabase($order_details, $db);
+                        $missing_info = insertOrderIntoDatabase($order_details, $db);
                 } catch (Exception $e) {
                         error_log($e);
                         $output .= "Couldn't insert order " . $order_details['order_no'] . " into database: " . $e->getMessage() . "<br>";
+                        continue;
                 }
                 $output .= "Order " . $order_details['order_no'] . " inserted into database.<br>";
+                if ($missing_info) $output .= "THIS ORDER IS MISSING INFO.<br>";
                 // imap_delete($mbox, $id + 1);
                 $output .= "Email for order " . $order_details['order_no'] . " deleted.<br>";
         }
@@ -53,15 +55,19 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
 }
 
 function insertOrderIntoDatabase($order_details, $db) {
+        $missing_info = false;
         try {
                 if ($order_details['country'] == "United States") {
-                        $zip = getZipFromPostcode($order_details['postcode'], 'us');
                         $order_details['country'] = "USA";
-                        $order_details['postcode'] = $zip['places'][0]['state abbreviation'] . " " . $zip['post code'];
-                        $order_details['town'] = $zip['places'][0]['place name'];
+                        $zip = getZipFromPostcode($order_details['postcode'], 'us');
+                        if (empty($zip)) $missing_info = true;
+                        else {
+                                $order_details['postcode'] = $zip['places'][0]['state abbreviation'] . " " . $zip['post code'];
+                                $order_details['town'] = $zip['places'][0]['place name'];
+                        }
                 }
-
-                if ($order_details['city'] == "") {
+                
+                if ($order_details['town'] == "") {
                         $query = "SELECT country_code FROM countries WHERE name = ?";
                         $stmt = $db->prepare($query);
                         $stmt->execute([$order_details['country']]);
@@ -70,12 +76,16 @@ function insertOrderIntoDatabase($order_details, $db) {
                         $country_code = $result['country_code'];
                         if ($country_code != "") {
                                 $zip = getZipFromPostcode($order_details['postcode'], $country_code);
-                                $order_details['postcode'] = $zip['post code'];
-                                $order_details['town'] = $zip['places'][0]['place name'];
+                                if (empty($zip)) $missing_info = true;
+                                else {
+                                        $order_details['postcode'] = $zip['post code'];
+                                        $order_details['town'] = $zip['places'][0]['place name'];
+                                }
                         }
                 }
                 $customer_id = checkIfCustomerExists($order_details['email'], $db); 
                 if (!$customer_id) $customer_id = insertNewCustomer($order_details, $db);
+                else updateCustomer($order_details, $customer_id, $db);
                 $order_details['customer_id'] = $customer_id;
                 foreach ($order_details['items'] as &$item) {
                     $item_id = checkIfItemExists($item['item'], $db);
@@ -103,6 +113,7 @@ function insertOrderIntoDatabase($order_details, $db) {
         }
         // $db->rollback();
         $db->commit();
+        return $missing_info;
 }
 
 function checkIfCustomerExists($email, $db) : int {
@@ -132,6 +143,23 @@ function insertNewCustomer($order_details, $db) {
                 ]);
                 return $db->lastInsertId();
         } catch (Exception $e) {
+                throw new Exception($e);
+        }
+}
+
+function updateCustomer($order_details, $customer_id, $db) {
+        try {
+                $query = "UPDATE Customers SET address_1 = ?, city = ?, postcode = ?, country = ? WHERE customer_id = ?";
+                $stmt = $db->prepare($query);
+                $stmt->execute([
+                        ucwords($order_details['address']),
+                        ucwords($order_details['town']),
+                        $order_details['postcode'],
+                        ucwords($order_details['country']),
+                        $customer_id
+                ]);
+        }
+        catch (Exception $e) {
                 throw new Exception($e);
         }
 }
@@ -230,40 +258,13 @@ function getZipFromPostcode($postcode, $country_code='us') {
         $response = curl_exec($ch);
         curl_close($ch);
         $place_details = json_decode($response, true);
-        // $postcode = $json->places[0]->place_name;
+        if (empty($place_details)) {
+                $shortzip = str_replace($zip[1], "", $zip[0]);
+                $ch = curl_init($endpoint . $shortzip);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+                curl_close($ch);
+                $place_details = json_decode($response, true);
+        }
         return $place_details;
 }
-
-function to_utf8( $string ) {
-
-        // From http://w3.org/International/questions/qa-forms-utf-8.html
-        
-            if ( preg_match('%^(?:
-        
-              [\x09\x0A\x0D\x20-\x7E]            # ASCII
-        
-            | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
-        
-            | \xE0[\xA0-\xBF][\x80-\xBF]         # excluding overlongs
-        
-            | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
-        
-            | \xED[\x80-\x9F][\x80-\xBF]         # excluding surrogates
-        
-            | \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
-        
-            | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
-        
-            | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
-        
-        )*$%xs', $string) ) {
-        
-                return $string;
-        
-            } else {
-        
-                return iconv( 'CP1252', 'UTF-8', $string);
-        
-            }
-        
-        }

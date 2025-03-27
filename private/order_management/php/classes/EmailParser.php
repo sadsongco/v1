@@ -200,10 +200,10 @@ class EmailParser {
         $town = implode(" ", $tmp_arr);
 
         return [
-            "address" => $this->removeNewLines($data[1]),
-            "town" => $town,
+            "address" => ucwords($this->removeNewLines($data[1])),
+            "town" => ucwords($town),
             "postcode" => $postcode,
-            "country" => $this->removeNewlines($data[3])
+            "country" => ucwords($this->removeNewlines($data[3]))
         ];
     }
     
