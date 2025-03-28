@@ -127,5 +127,6 @@ function sendCustomerShippedEmail($order_id, $tracking_number, $db, $m) {
     $mail->msgHTML($email);
     $mail->addAddress($order['email']);
     // $mail->addAddress("nigel@thesadsongco.com", "Nigel");
+    $mail->addCC("info@unbelievabletruth.co.uk");
     $mail->send();
 }
