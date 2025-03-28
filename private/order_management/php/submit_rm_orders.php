@@ -43,7 +43,12 @@ foreach ($orders as &$order) {
         $item['weight'] *= 1000; // convert to grams from kg
         $order['weight'] += $item['weight'] * $item['amount']; // total package weight
     }
-    $ship_items[] = createRMOrder($order);
+    $items = createRMOrder($order);
+    if (!$items) {
+        echo "Order " . $order['order_id'] . " couldn't identify a shipping method.<br>";
+        continue;
+    }
+    $ship_items[] = $items;
 }
 
 $data = [

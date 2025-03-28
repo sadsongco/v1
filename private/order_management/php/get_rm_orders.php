@@ -12,6 +12,10 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 $unsent_orders = getUnsentOrders($db);
+if (empty($unsent_orders)) {
+    $output .=  "No orders to update.<br>";
+    exit();
+}
 
 $unsent_orders_string = "";
 foreach ($unsent_orders as $unsent_order) {
@@ -31,8 +35,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 curl_close($ch);
 $responseObj = json_decode($response);
-// p_2($responseObj);
-ob_start();
+$output = "";
 foreach ($responseObj as $order) {
     if (!isset($order->trackingNumber)) {
         continue;
@@ -54,20 +57,18 @@ foreach ($responseObj as $order) {
             $order->trackingNumber,
             (int)$order->orderReference
         ];
-        // $stmt->execute($params);
-        sendCustomerShippedEmail($order->orderReference, $db, $m);
-        echo "Updated order " . $order->orderReference . "<br>";
+        $stmt->execute($params);
+        sendCustomerShippedEmail($order->orderReference, $order->trackingNumber, $db, $m);
+        $output .=  "Updated order " . $order->orderReference . "<br>";
     } catch (Exception $e) {
-        echo "Couldn't update order " . $order->orderReference . ": " . $e->getMessage();
+        $output .=  "Couldn't update order " . $order->orderReference . ": " . $e->getMessage();
     }
-    ob_flush();
-    flush();
-    exit();
+    sleep(10);
 }
 
+$output .=  "<p>Orders Updated from Royal Mail</p>";
 header ('HX-Trigger:updateOrderList');
-echo "<p>Orders Updated from Royal Mail</p>";
-ob_end_flush();
+echo $output;
 
 function getUnsentOrders($db) {
     $query = "SELECT rm_order_identifier FROM Orders WHERE rm_tracking_number IS NULL AND rm_order_identifier IS NOT NULL";
@@ -76,10 +77,10 @@ function getUnsentOrders($db) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function sendCustomerShippedEmail($order_id, $db, $m) {
-    require_once(base_path("../secure/mailauth/ut.php"));
+function sendCustomerShippedEmail($order_id, $tracking_number, $db, $m) {
+    require(base_path("../secure/mailauth/ut.php"));
     try {
-        $query = "SELECT Orders.*, Customers.*
+        $query = "SELECT Orders.*, Customers.*, DATE_FORMAT(Orders.dispatched, '%D %M %Y') AS disp_dispatched_date
         FROM Orders
         JOIN Customers ON Orders.customer_id = Customers.customer_id
         WHERE Orders.order_id = ?";
@@ -104,11 +105,10 @@ function sendCustomerShippedEmail($order_id, $db, $m) {
                 "amount" => $item["amount"]
             ];
         }
-        p_2($order);
     } catch (PDOException $e) {
         throw new Exception($e);
     }
-    $email = $m->render("customerShippedEmail", ["order"=>$order]);
+    $email = $m->render("customerShippedEmail", ["order"=>$order, "tracking_number"=>$tracking_number]);
 
     // mail auth
     $from_name = "Unbelievable Truth shop";
@@ -123,10 +123,9 @@ function sendCustomerShippedEmail($order_id, $db, $m) {
     $mail->Password = $mail_auth['password'];
     $mail->setFrom($mail_auth['from']['address'], $from_name);
     $mail->addReplyTo($mail_auth['reply']['address'], $from_name);
-
+    $mail->Subject = "Unbelievable Truth - your order has shipped";
     $mail->msgHTML($email);
-    // $mail->addAddress($order['email']);
-    $mail->addAddress("nigel@thesadsongco.com", "Nigel");
+    $mail->addAddress($order['email']);
+    // $mail->addAddress("nigel@thesadsongco.com", "Nigel");
     $mail->send();
-    sleep(2);
 }

@@ -1,11 +1,13 @@
 <?php
 
-include_once(__DIR__."/order_includes.php");
 require_once(base_path("private/order_management/config.php"));
 
 function createRMOrder($data) {
+    include_once(__DIR__."/order_includes.php");
     $data['order_date'] = jsFormatDate($data['order_date']);
-    $serviceCode = getServiceCode($data);
+    [$serviceCode, $serviceName] = getServiceCode($data);
+    if (!$serviceCode) return false;
+    updateShippingMethod($data['order_id'], $serviceName, $db);
     $order_items = [];
     foreach($data['items'] as $item) {
         $order_items[] = createRMItem($item);
@@ -89,9 +91,9 @@ function getServiceCode($data) {
     $weight = $data['weight'];
     foreach (SHIPPING_METHODS_MAP as $key => $value) {
         if (preg_match('/' . $value['postage_method'] .'/', $method) == 1 && $weight >= $value['weight_min'] && $weight <= $value['weight_max'])
-            return $value['rm_code'];
+            return [$value['rm_code'], $value['rm_name']];
         if ($method == $value['postage_method'] && $weight >= $value['weight_min'] && $weight <= $value['weight_max'])
-            return $value['rm_code'];
+            return [$value['rm_code'], $value['rm_name']];
     }
     return false;
 }
@@ -111,4 +113,12 @@ function createRMItem($item) {
         "stockLocation"=>"GB"
     ];
     return $rm_item;
+}
+
+function updateShippingMethod($order_id, $serviceName, $db) {
+    $query = "UPDATE Orders
+    SET shipping_method = ?
+    WHERE order_id = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$serviceName, $order_id]);
 }
