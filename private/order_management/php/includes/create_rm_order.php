@@ -1,9 +1,8 @@
 <?php
 
 require_once(base_path("private/order_management/config.php"));
-include_once(__DIR__."/order_includes.php");
 
-function createRMOrder($data) {
+function createRMOrder($data, $db) {
     $data['order_date'] = jsFormatDate($data['order_date']);
     [$serviceCode, $serviceName] = getServiceCode($data);
     if (!$serviceCode) return false;

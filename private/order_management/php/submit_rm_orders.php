@@ -107,6 +107,7 @@ echo $m->render("orderOutcomes", ["outcomes"=>$order_outcomes]);
 
 
 function getOrderItems($order, $db) {
+
     try {
         $query = "SELECT
             Order_items.order_price,
