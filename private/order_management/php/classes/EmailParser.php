@@ -229,7 +229,7 @@ class EmailParser {
         $price_arr = explode("x", $td->textContent);
         return [
             "amount"=>$this->get_numeric(trim($price_arr[0])),
-            "price"=>$this->get_numeric(trim($this->removeNewlines($price_arr[1])))
+            "price"=>$this->get_numeric(str_replace("£", "", trim($price_arr[1])))
         ];
     }
 
