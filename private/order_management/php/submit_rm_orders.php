@@ -57,6 +57,11 @@ $data = [
     ]
 ];
 
+if (sizeof($data['items']) == 0) {
+    echo "No orders to submit.<br>";
+    exit();
+}
+
 $path = RM_BASE_URL."/orders";
 // $path = RM_BASE_URL."/version";
 $headers = [
@@ -99,9 +104,11 @@ if (isset($responseObj->createdOrders)) {
     }
 }
 
-foreach($responseObj->failedOrders as $failed_order) {
-    $order_outcomes[] = "FAILED TO CREATE ORDER: " . $failed_order->errors[0]->errorMessage;
-};
+if (isset($responseObj->failedOrders)) {
+    foreach($responseObj->failedOrders as $failed_order) {
+        $order_outcomes[] = "FAILED TO CREATE ORDER: " . $failed_order->errors[0]->errorMessage;
+    };
+}
 
 echo $m->render("orderOutcomes", ["outcomes"=>$order_outcomes]);
 

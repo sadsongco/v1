@@ -50,6 +50,36 @@ define('SHIPPING_METHODS_MAP', [
     ]
 ]);
 
+define('SHIPPING_METHODS', [
+    'Royal Mail Tracked 24' => [
+        "weight_min" => 0,
+        "weight_max" => 9999,
+        "rm_code" => "TOLP24",
+        "rm_name" => "Royal Mail Tracked 24"
+    ],
+
+    'Royal Mail Tracked 48' => [
+        "weight_min" => 0,
+        "weight_max" => 9999,
+        "rm_code" => "TOLP48",
+        "rm_name" => "Royal Mail Tracked 48"
+    ],
+
+    'International Tracked Economy' => [
+        "weight_min" => 0,
+        "weight_max" => 249,
+        "rm_code" => "IEOLP",
+        "rm_name" => "International Tracked Economy"
+    ],
+    
+    'International Tracked' => [
+        "weight_min" => 250,    
+        "weight_max" => 9999,
+        "rm_code" => "ITROLP",
+        "rm_name" => "International Tracked"
+    ],
+]);
+
 define('PACKAGE_FORMATS', [
     "LARGE_LETTER" => [
         "name" => "large letter",

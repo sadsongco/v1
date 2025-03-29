@@ -6,7 +6,7 @@ function createRMOrder($data, $db) {
     $data['order_date'] = jsFormatDate($data['order_date']);
     [$serviceCode, $serviceName] = getServiceCode($data);
     if (!$serviceCode) return false;
-    updateShippingMethod($data['order_id'], $serviceName, $db);
+    updateShippingMethod($data['order_id'], $serviceCode, $serviceName, $db);
     $order_items = [];
     foreach($data['items'] as $item) {
         $order_items[] = createRMItem($item);
@@ -91,8 +91,6 @@ function getServiceCode($data) {
     foreach (SHIPPING_METHODS_MAP as $key => $value) {
         if (preg_match('/' . $value['postage_method'] .'/', $method) == 1 && $weight >= $value['weight_min'] && $weight <= $value['weight_max'])
             return [$value['rm_code'], $value['rm_name']];
-        if ($method == $value['postage_method'] && $weight >= $value['weight_min'] && $weight <= $value['weight_max'])
-            return [$value['rm_code'], $value['rm_name']];
     }
     return false;
 }
@@ -114,10 +112,11 @@ function createRMItem($item) {
     return $rm_item;
 }
 
-function updateShippingMethod($order_id, $serviceName, $db) {
+function updateShippingMethod($order_id, $serviceCode, $serviceName, $db) {
     $query = "UPDATE Orders
-    SET shipping_method = ?
+    SET rm_service_code = ?,
+    rm_service_name = ?
     WHERE order_id = ?";
     $stmt = $db->prepare($query);
-    $stmt->execute([$serviceName, $order_id]);
+    $stmt->execute([$serviceCode, $serviceName, $order_id]);
 }

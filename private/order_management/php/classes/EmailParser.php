@@ -42,7 +42,6 @@ class EmailParser {
     public function parse() {
         try {
             $this->dom->loadHTML($this->message);
-            // $this->order_details = $this->getOrderHeaders();
             $tds = $this->dom->getElementsByTagName('td');
             $prev_node = null;
             foreach ($tds as $td) {
@@ -80,7 +79,7 @@ class EmailParser {
                     continue;
                 }
                 if (in_array("order-total-fullprice", $class_names)) {
-                    $this->order_details['totals']['total'] = (float)trim($td->nodeValue);
+                    $this->order_details['totals']['total'] = (float)str_replace("£", "", trim($td->nodeValue));
                     continue;
                 }
             }
@@ -234,7 +233,7 @@ class EmailParser {
     }
 
     private function getOrderSubTotals($td) {
-        return (float)$td->textContent;
+        return (float)str_replace("£", "", $td->textContent);
     }
 
     private function getVAT($td) {
@@ -244,7 +243,7 @@ class EmailParser {
                 $str = $div->textContent;
                 $str = str_replace("incl.", "", $str);
                 $str = str_replace("VAT", "", $str);
-                return (float)trim($str);
+                return (float)str_replace("£", "", trim($str));
             }
         }
         $ps = $td->getElementsByTagName('p');
@@ -253,7 +252,7 @@ class EmailParser {
                 $str = $p->textContent;
                 $str = str_replace("incl.", "", $str);
                 $str = str_replace("VAT", "", $str);
-                return (float)trim($str);
+                return (float)str_replace("£", "", trim($str));
             }
         }
     }

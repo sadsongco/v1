@@ -17,35 +17,35 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
     }
     $headers = imap_fetch_overview($mbox,"1:{$msgs->Nmsgs}",0);
     foreach ($headers as $id=>$header) {
-            $subject = imap_mime_header_decode($header->subject);
-            if (strtolower($subject[0]->text) != "new order") continue;
-        $message = imap_fetchbody($mbox, $id + 1, '2');
-        $message = imap_utf8(imap_qprint($message));
-        try {
-                $orderDetailObj = new EmailParser($message, $id);
-                $orderDetailObj->parse();
-                $orderDetailObj->rearrayItems();
-                $order_details = $orderDetailObj->get();
+                $subject = imap_mime_header_decode($header->subject);
+                if (strtolower($subject[0]->text) != "new order") continue;
+                $message = imap_fetchbody($mbox, $id + 1, '2');
+                $message = imap_utf8(imap_qprint($message));
                 try {
-                        $missing_info = insertOrderIntoDatabase($order_details, $db);
-                } catch (Exception $e) {
-                        error_log($e);
-                        $output .= "Couldn't insert order " . $order_details['order_no'] . " into database: " . $e->getMessage() . "<br>";
-                        continue;
+                        $orderDetailObj = new EmailParser($message, $id);
+                        $orderDetailObj->parse();
+                        $orderDetailObj->rearrayItems();
+                        $order_details = $orderDetailObj->get();
+                        try {
+                                $missing_info = insertOrderIntoDatabase($order_details, $db);
+                        } catch (Exception $e) {
+                                error_log($e);
+                                $output .= "Couldn't insert order " . $order_details['order_no'] . " into database: " . $e->getMessage() . "<br>";
+                                continue;
+                        }
+                        $output .= "Order " . $order_details['order_no'] . " inserted into database.<br>";
+                        if ($missing_info) $output .= "THIS ORDER IS MISSING INFO.<br>";
+                        // imap_delete($mbox, $id + 1);
+                        $output .= "Email for order " . $order_details['order_no'] . " deleted.<br>";
                 }
-                $output .= "Order " . $order_details['order_no'] . " inserted into database.<br>";
-                if ($missing_info) $output .= "THIS ORDER IS MISSING INFO.<br>";
-                imap_delete($mbox, $id + 1);
-                $output .= "Email for order " . $order_details['order_no'] . " deleted.<br>";
+                catch (Exception $e) {
+                        error_log($e);
+                        $output .= $e->getMessage() . "<br>";
+                }
         }
-        catch (Exception $e) {
-                error_log($e);
-                $output .= $e->getMessage() . "<br>";
-        }
-    }
-    imap_close($mbox, CL_EXPUNGE);
-    header ('HX-Trigger:updateOrderList');
-    echo $output;
+        imap_close($mbox, CL_EXPUNGE);
+        header ('HX-Trigger:updateOrderList');
+        echo $output;
 } else {
         for ($id = 1; $id < 1000; $id++) {
                 if (!$message) break;
@@ -202,7 +202,7 @@ function updateItem($item_id, $item_price, $db) {
 
 function insertOrderIntoOrderTable($order_details, $db) {
         try {
-        $query = "INSERT INTO Orders VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, 0, NULL, ?, 0, NULL, NULL, NULL)";
+        $query = "INSERT INTO Orders VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, 0, NULL, ?, 0, NULL, NULL, NULL, NULL, NULL)";
         $params = [
                 $order_details['order_no'],
                 $order_details['customer_id'],
