@@ -35,7 +35,7 @@ if ($mbox=imap_open( IMAP_CONFIG::AUTHHOST, IMAP_CONFIG::USERNAME, IMAP_CONFIG::
                         }
                         $output .= "Order " . $order_details['order_no'] . " inserted into database.<br>";
                         if ($missing_info) $output .= "THIS ORDER IS MISSING INFO.<br>";
-                        // imap_delete($mbox, $id + 1);
+                        imap_delete($mbox, $id + 1);
                         $output .= "Email for order " . $order_details['order_no'] . " deleted.<br>";
                 }
                 catch (Exception $e) {
