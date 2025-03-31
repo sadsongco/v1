@@ -23,7 +23,7 @@ while ($sub_dir = readdir($handle)) {
 }
 
 closedir($handle);
-
+sort($resource_sections);
 $sections = [];
 $resources = [];
 foreach ($resource_sections AS $resource_section) {
