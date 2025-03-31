@@ -33,12 +33,11 @@ if (sizeof($_FILES) > 0) {
                 default:
                     $image = null;
             }
-            
             if ($image) {
                 // save thumbnail
                 saveThumbnail($image, $filename, $image_file_type, $upload_dir);
                 // save web version
-                resizeImage($upload_path . "full_res", $image_file_type, $image, $upload_dir . "web/" . $filename);
+                resizeImage($upload_path, $image_file_type, $image, $upload_dir . "web/" . $filename);
             }
             else {
                 exit("<h2>Not an acceptable filetype</h2>");
@@ -47,17 +46,23 @@ if (sizeof($_FILES) > 0) {
         catch (Exception $e) {
             return ["success"=>false, "message"=>"File copy error: ".$e->getMessage()];
         }
-        $meta_file_path = $parent_dir . $_POST["resource_dir"] . "/" . $_POST["meta_filename"] . ".txt";
-        $res_str = $filename . "|" . $_POST['credit'] . "\n";
-        file_put_contents($meta_file_path, $res_str, FILE_APPEND);
-        exit("<h2>Resource Updated</h2>");
+        if (isset($_POST['meta_filename'])) {
+            $meta_file_path = $parent_dir . $_POST["resource_dir"] . "/" . $_POST["meta_filename"] . ".txt";
+            $res_str = $filename . "|" . $_POST['credit'] . "\n";
+            file_put_contents($meta_file_path, $res_str, FILE_APPEND);
+        }
+        echo "<h2>Resource Updated</h2>";
+        $meta_file = $_POST['meta_filename'] ?? null;
+        $fields = $_POST['fields'] ?? null;
+        echo $m->render("partials/resourceForm", ["dir"=>$_POST["resource_dir"], "meta_file"=>$meta_file, "fields"=>$fields]);
+        exit();
     }
     $target_file = $upload_dir . basename($_FILES[$file_pointer]["name"]);
     if (move_uploaded_file($_FILES[$file_pointer]["tmp_name"], $target_file)) {
         echo "The file ". htmlspecialchars( basename( $_FILES[$file_pointer]["name"])). " has been uploaded.";
-      } else {
+    } else {
         echo "Sorry, there was an error uploading your file.";
-      }
+    }
 }
 
 if (isset($_POST["meta_filename"]) && $_POST["meta_filename"] != "") {
@@ -70,4 +75,6 @@ if (isset($_POST["meta_filename"]) && $_POST["meta_filename"] != "") {
     $res_str = implode("|", $res_str_arr) . "\n";
     file_put_contents($file_path, $res_str, FILE_APPEND);
     echo "<h2>Resource meta file updated</h2>";
+    $meta_file = $_POST['meta_filename'] ?? null;
+    echo $m->render("partials/resourceForm", ["dir"=>$_POST["resource_dir"], "meta_file"=>$meta_file, "fields"=>$fields]);
 }
