@@ -15,7 +15,14 @@ function p_2($input) {
 
 include("get-resource.php");
 
-$resource_sections = ['bio_&_press_releases', 'playlists', 'uncompressed_audio', 'artwork', 'press_shots', 'videos', 'logos', 'tech_spec'];
+$resource_sections = [];
+$handle = opendir(__DIR__ . "/../resource_dirs");
+while ($sub_dir = readdir($handle)) {
+    if (substr($sub_dir, 0, 1) == ".") continue;
+    $resource_sections[] = $sub_dir;
+}
+
+closedir($handle);
 
 $sections = [];
 $resources = [];
