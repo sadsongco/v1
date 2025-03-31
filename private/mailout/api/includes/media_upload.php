@@ -30,23 +30,24 @@ function fileExists($filename, $table, $tag, $db) {
     return ["success"=>false, "message"=>"File exists! Either rename the file or insert the existing version.", "tag"=>"<!--{{".$tag."::".$media_id."}}-->"];
 }
 
-function resizeImage($file_path, $image_file_type) {
+function resizeImage($file_path, $image_file_type, $image=null, $target_filepath=null) {
+    $target_filepath = $target_filepath ?? $file_path;
     switch ($image_file_type) {
         case "jpg":
         case "jpeg":
-            $image = imagecreatefromjpeg($file_path);
+            $image =  $image ?? imagecreatefromjpeg($file_path);
             $resized_image = imagescale($image, MAX_IMAGE_WIDTH);
-            imagejpeg($resized_image, $file_path);
+            imagejpeg($resized_image, $target_filepath);
             break;
         case "png":
-            $image = imagecreatefrompng($file_path);
+            $image = $image ?? imagecreatefrompng($file_path);
             $resized_image = imagescale($image, MAX_IMAGE_WIDTH);
-            imagepng($resized_image, $file_path);
+            imagepng($resized_image, $target_filepath);
             break;
         case "gif":
-            $image = imagecreatefromgif($file_path);
+            $image = $image ?? imagecreatefromgif($file_path);
             $resized_image = imagescale($image, MAX_IMAGE_WIDTH);
-            imagegif($resized_image, $file_path);
+            imagegif($resized_image, $target_filepath);
             break;
         default:
             throw new Exception("unsupported image type");
@@ -109,4 +110,24 @@ function uploadMedia($files, $key, $db, $table, $image_file_type = null) {
         return ["success"=>false, "message"=>"File copy error: ".$e->getMessage()];
     }
     return ["success"=>true, "filename"=>$files["name"][$key], "tag"=>"<!--{{".$tag."::".$media_id."}}-->"];
+}
+
+function saveThumbnail($image, $filename, $image_file_type, $upload_path=IMAGE_UPLOAD_PATH) {
+    $thumbnail = imagescale($image, IMAGE_THUMBNAIL_WIDTH);
+    $file_path = $upload_path."thumbnail/".$filename;
+    switch ($image_file_type) {
+        case "jpg":
+        case "jpeg":
+            return imagejpeg($thumbnail, $file_path);
+            break;
+        case "png":
+            return imagepng($thumbnail, $file_path);
+            break;
+        case "gif":
+            return imagegif($thumbnail, $file_path);
+            break;
+        default:
+            throw new Exception("unsupported image type");
+            break;
+    }
 }

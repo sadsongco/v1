@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../styles/vars.css" />
+    <link rel="stylesheet" href="../../styles/imports.css" />
+    <link rel="stylesheet" href="/private/styles/admin.css" />
+    <link rel="stylesheet" href="../../user_area/styles/userAreaStyles.css" />
+    <script src="../../lib/htmx.min.js"></script>
+    <script src="/private/js/updateArticlePreview.js"></script>
+    <script src="/private/js/addFileButtonManager.js" defer></script>
+    <script src="/private/js/addToBody.js" defer></script>
+    <script src="/private/js/copyToClipboard.js" defer></script>
+
+    <title>Unbelievable Truth - resource management</title>
+  </head>
+  <body>
+    <main>
+      <h1>Unbelievable Truth</h1>
+      <h2>Resource Management Page</h2>
+      <section hx-get="php/resource_dirs.php" hx-trigger="load"></section>
+    </main>
+  </body>
+</html>

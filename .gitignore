@@ -14,3 +14,12 @@ private/assets/media/*
 *.htaccess
 *.log
 *.csv
+resources/resource_dirs/artwork
+resources/resource_dirs/bio_&_press_releases
+resources/resource_dirs/logos
+resources/resource_dirs/press_shots
+resources/resource_dirs/tech_spec
+resources/resource_dirs/uncompressed_audio
+resources/resource_dirs/promo_videos
+*error_log
+*debug_log

@@ -334,3 +334,15 @@ form label {
   display: block;
   margin-top: 0.5em;
 }
+
+.resource_container {
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.resource_container:nth-child(odd) {
+  background-color: #afafcf;
+}
+.resource_container:nth-child(even) {
+  background-color: #cfafaf;
+}

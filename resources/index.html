@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <script defer type="module" src="./js/getResources.js"></script> -->
+    <script src="../lib/htmx.min.js"></script>
+    <link rel="stylesheet" href="/styles/imports.css" />
+    <link rel="stylesheet" href="/styles/vars.css" />
+    <link rel="stylesheet" href="/resources/styles/resources.css" />
+    <title>The Exact Opposite - Resources</title>
+  </head>
+  <body>
+    <header>
+      <img src="/assets/images/logo/UnbelievableTruth-logo-black-web.png" alt="Unbelievable Truth logo" />
+    </header>
+    <main id="container">
+      <h1>Resources Page</h1>
+      <h2>Social Media Links</h2>
+      <section class="socials">
+        <div class="social"><a href="https://www.facebook.com/untruth.band/" target="_blank">Facebook</a></div>
+        <div class="social"><a href="https://www.instagram.com/untruth_band/" target="_blank">Instagram</a></div>
+        <div class="social"><a href="https://threads.net/@untruth_band" target="_blank">Threads</a></div>
+        <div class="social"><a href="https://bsky.app/profile/untruth-band.bsky.social" target="_blank">Blue Sky</a></div>
+        <div class="social"><a href="https://www.tiktok.com/@untruth_band" target="_blank">Tik Tok</a></div>
+        <div class="social"><a href="https://www.youtube.com/@unbelievable_truth_band" target="_blank">YouTube</a></div>
+      </section>
+      <section hx-get="/resources/api/get-resources.php" hx-trigger="load"></section>
+    </main>
+  </body>
+</html>

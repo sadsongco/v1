@@ -88,7 +88,6 @@ function getServiceCode($data) {
     $method = trim($data['shipping_method']);
     $weight = $data['weight'];
     foreach (SHIPPING_METHODS_MAP as $value) {
-        echo '/' . $value['postage_method'] .'/';
         if (strpos($value['postage_method'], $method) !== false && $weight >= $value['weight_min'] && $weight <= $value['weight_max'])
             return [$value['rm_code'], $value['rm_name']];
         if (preg_match('/' . $value['postage_method'] .'/', $method) == 1 && $weight >= $value['weight_min'] && $weight <= $value['weight_max'])

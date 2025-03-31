@@ -75,7 +75,7 @@ function saveThumbnail($image, $filename, $image_file_type) {
             return imagejpeg($thumbnail, $file_path);
             break;
         case "png":
-            return imagepng($thhumbnail, $file_path);
+            return imagepng($thumbnail, $file_path);
             break;
         case "gif":
             return imagegif($thumbnail, $file_path);

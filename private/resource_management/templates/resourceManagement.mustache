@@ -1,0 +1,17 @@
+{{#resources}}
+    <div class="resource_container">
+        <h1>{{dir_disp}}</h1>
+        <form enctype="multipart/form-data" hx-post="php/update_resource.php">
+            <input type="hidden" name="resource_dir" id="resource_dir" value="{{dir}}">
+            {{#meta_file}}
+                <input type="hidden" name="meta_filename" value="{{meta_file}}">
+            {{/meta_file}}
+            <input type="file" name="{{dir}}_file">
+            {{#fields}}
+                <label for="{{dir}}_{{.}}">{{.}}</label>
+                <input type="text" name="{{.}}" id="{{dir}}_{{.}}" value="">
+            {{/fields}}
+            <input type="submit" value="Update Resource">
+        </form>
+    </div>
+{{/resources}}

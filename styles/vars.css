@@ -47,4 +47,7 @@
 
   --alertOutPos: -4rem;
   --alertInPos: var(--stdMarginSmall);
+
+  --std-font: OpenSans, Inter, sans-serif;
+  --heading-font: OpenSansBold, Inter sans-serif;
 }
