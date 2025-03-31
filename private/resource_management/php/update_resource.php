@@ -65,6 +65,7 @@ if (sizeof($_FILES) > 0) {
     }
 }
 
+$fields = null;
 if (isset($_POST["meta_filename"]) && $_POST["meta_filename"] != "") {
     $file_path = $parent_dir . $_POST["resource_dir"] . "/" . $_POST["meta_filename"] . ".txt";
     $fields = $update_map[$_POST["meta_filename"]];
@@ -75,6 +76,6 @@ if (isset($_POST["meta_filename"]) && $_POST["meta_filename"] != "") {
     $res_str = implode("|", $res_str_arr) . "\n";
     file_put_contents($file_path, $res_str, FILE_APPEND);
     echo "<h2>Resource meta file updated</h2>";
-    $meta_file = $_POST['meta_filename'] ?? null;
-    echo $m->render("partials/resourceForm", ["dir"=>$_POST["resource_dir"], "meta_file"=>$meta_file, "fields"=>$fields]);
 }
+$meta_file = $_POST['meta_filename'] ?? null;
+echo $m->render("partials/resourceForm", ["dir"=>$_POST["resource_dir"], "meta_file"=>$meta_file, "fields"=>$fields]);
