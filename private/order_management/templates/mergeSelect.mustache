@@ -1,0 +1,9 @@
+<form hx-post="php/merge_order.php" hx-confirm="Do you really want to merge into order {{current_order_id}}? The merged order will be deleted">
+    <input type="hidden" name="order_id" value="{{current_order_id}}">
+    <input type="submit" value="Merge With Order">
+    <select name="order_to_merge">
+        {{#orders}}
+            <option value="{{order_id}}">{{order_id}}</option>
+        {{/orders}}
+    </select>
+</form>

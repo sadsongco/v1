@@ -8,4 +8,5 @@
     {{/dispatched}}
     <a hx-get="php/edit_order.php?order_id={{order_id}}" hx-target="#editOrder_{{order_id}}" class="button">Edit Order</a>
     <a hx-get="php/delete_order.php?order_id={{order_id}}" hx-confirm="Definitely delete order # {{sumup_id}}?" class="button">Delete Order</a>
+    <div hx-get="php/merge_select.php?order_id={{order_id}}" hx-trigger="load" hx-swap="outerHTML"></div>
 </div>
