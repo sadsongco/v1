@@ -51,11 +51,6 @@ function createTextBody($content) {
     return implode("\n", $content);
 }
 
-
-function p_2($input) {
-    echo "<pre>"; print_r($input); echo "</pre>";
-}
-
 function replaceImageTags($line) {
     global $m; global $db;
     $line = preg_replace_callback('/<!--{{i::([0-9]+)(::)?(l|r)?}}-->/',

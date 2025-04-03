@@ -11,3 +11,8 @@ $m = new Mustache_Engine(array(
 ));
 
 include_once("../../../email_management/includes/get_host.php");
+
+
+function p_2($input) {
+    echo "<pre>"; print_r($input); echo "</pre>";
+}

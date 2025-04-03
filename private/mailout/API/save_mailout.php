@@ -3,8 +3,7 @@
 include_once("includes/mailout_includes.php");
 $content_dir = "../assets/content";
 $mailout_content = $_POST['subject']."\n".$_POST['heading']."\n".$_POST['content'];
-p_2($mailout_content);
-die();
+
 
 try {
     $query = "INSERT INTO mailouts VALUES (NULL, NOW(), ?, ?, ?)";
