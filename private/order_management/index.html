@@ -57,5 +57,10 @@
       <div id="pickingList" class="pickingList" hx-get="./php/picking.php" hx-trigger="load, updateOrderList from:body"></div>
       <div id="orderList" hx-post="./php/order_list.php" hx-trigger="load, updateOrderList from:body" hx-include="#orderFilterForm"></div>
     </main>
+    <footer>
+      <section>
+        <a class="buttom" href="./php/get_year_sales.php" target="_blank">Get Tax Year Sales Report</a>
+      </section>
+    </footer>
   </body>
 </html>
