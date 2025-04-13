@@ -6,15 +6,15 @@
                 {{#img_preview}}
                     <img src="{{path}}thumbnail/{{resource}}" alt="Thumbnail image of {{resource}}" {{#thumbnail_size}}{{{3}}}{{/thumbnail_size}}/>
                     <br />
-                    <a href="{{path}}full_res/{{resource}}" target="_blank">Download at print resolution</a> {{#full_res_size}}({{0}} x {{1}}, 300dpi){{/full_res_size}}
+                    <a href="{{path}}full_res/{{resource}}" download="{{resource}}" target="_blank">Download at print resolution</a> {{#full_res_size}}({{0}} x {{1}}, 300dpi){{/full_res_size}}
                     &nbsp;||&nbsp;
-                    <a href="{{path}}web/{{resource}}" target="_blank">Download at web resolution</a> {{#web_size}}({{0}} x {{1}}, 72dpi){{/web_size}}
+                    <a href="{{path}}web/{{resource}}" download="{{resource}}" target="_blank">Download at web resolution</a> {{#web_size}}({{0}} x {{1}}, 72dpi){{/web_size}}
                     {{#photo_credit}}
                         <br />Please credit photo to {{{photo_credit}}}
                     {{/photo_credit}}
                 {{/img_preview}}
                 {{^img_preview}}
-                    <a href="{{path}}{{resource}}" target="_blank">
+                    <a href="{{path}}{{resource}}" download="{{resource}}" target="_blank">
                         {{#logo_preview}}
                             <img src="{{path}}{{resource}}" width="200" alt="image of {{resource}}" /><br />
                         {{/logo_preview}}
