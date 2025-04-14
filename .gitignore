@@ -23,3 +23,5 @@ resources/resource_dirs/uncompressed_audio
 resources/resource_dirs/promo_videos
 *error_log
 *debug_log
+resources/resource_dirs/new_resource
+private/order_management/pdf

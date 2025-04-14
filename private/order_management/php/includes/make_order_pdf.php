@@ -162,12 +162,13 @@ class ORDER_PDF extends FPDF {
     }
 }
 
-function makeOrderPDF($order) {
+function makeOrderPDF($order, $output = 'D', $path = '') {
     $pdf = new ORDER_PDF();
     $pdf->Init($order);
     $pdf->AddPage();
     $pdf->OrderDetailsCell($order);
-    $pdf->Output('D', "Unbelievable_Truth_order_".$order["sumup_id"].".pdf");
+    $pdf->Output($output, $path . "Unbelievable_Truth_order_".$order["sumup_id"].".pdf");
+    return "Unbelievable_Truth_order_".$order["sumup_id"].".pdf";
 }
 
 ?>
