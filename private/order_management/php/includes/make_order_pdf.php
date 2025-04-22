@@ -16,7 +16,7 @@ class ORDER_PDF extends FPDF {
     const PRICE_X = -30;
     private $pw;
 
-    function Init ($order) {
+    public function Init ($order) {
         $this->SetTitle("Unbelievable Truth order ".$order["sumup_id"]);
         $this->SetSubject("Unbelievable Truth order ".$order["sumup_id"]);
         $this->SetAuthor("Nigel Powell");
@@ -43,7 +43,7 @@ class ORDER_PDF extends FPDF {
         $this->Cell(0, $h, $address." :: ".$email, 'T', 0, 'C', true, 'mailto:info@unbelievabletruth.co.uk');
     }
 
-    function DateCell($order) {
+    private function DateCell($order) {
         $this->SetFont('opensansbold', '', 12);
         $this->SetTextColor(...self::BLACK);
         $this->SetDrawColor(...self::LILAC);
@@ -51,7 +51,7 @@ class ORDER_PDF extends FPDF {
         $this->Cell(0, 8, $order["order_date"], 'B', 1);
     }
 
-    function AddressCell($order) {
+    private function AddressCell($order) {
         $this->SetFont('opensansregular', '', 12);
         $address = $order["address_1"];
         if ($order["address_2"] != "") $address.="\n".$order["address_2"];
@@ -59,14 +59,14 @@ class ORDER_PDF extends FPDF {
         $this->MultiCell(0, 6,iconv('UTF-8', "CP1250//TRANSLIT", $order["name"])."\n".iconv('UTF-8', "CP1250//TRANSLIT", $address)."\n".iconv('UTF-8', "CP1250//TRANSLIT", $order["city"])."\n".iconv('UTF-8', "CP1250//TRANSLIT", $order["postcode"])."\n".iconv('UTF-8', "CP1250//TRANSLIT", $order["country"]), 'B');
     }
 
-    function OrderNoCell($order_no) {
+    private function OrderNoCell($order_no) {
         $this->SetFont('opensansbold', '', 12);
         $this->SetTextColor(...self::BLACK);
         $this->SetXY(...self::ORDER_NO_POS);
         $this->Cell(0, 8, "Order # ".$order_no, 0, 1);
     }
 
-    function ItemCell ($item) {
+    private function ItemCell ($item) {
         $this->setFont('opensansregular', '', 11);
         $this->SetTextColor(...self::ITEM_GREY);
         $this->SetX(self::ITEM_POS[0]);
@@ -78,14 +78,14 @@ class ORDER_PDF extends FPDF {
         $this->Cell(0, 8, GBP.$item["item_total"], 0, 1, 'R');
     }
     
-    function GetShippingCost($order) {
+    private function GetShippingCost($order) {
         if (strtotime($order['order_date']) <  strtotime("6th October 2023")) {
             return 0;
         }
         return $order['shipping'];
     }
     
-    function SubTotalCell($subtotal) {
+    private function SubTotalCell($subtotal) {
         $this->setFont('opensansbold', '', 12);
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 0, "Subtotal", 0, 0, 'L');
@@ -96,7 +96,7 @@ class ORDER_PDF extends FPDF {
         $this->Cell(0, 0, GBP.$money_format->format($subtotal), 0, 1, 'R');
     }
 
-    function ShippingCell($shipping_cost) {
+    private function ShippingCell($shipping_cost) {
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 0, "Postage and packing", 0, 0, 'L');
         $this->SetX(self::PRICE_X);
@@ -105,7 +105,7 @@ class ORDER_PDF extends FPDF {
         $this->Cell(0, 0, GBP.$money_format->format($shipping_cost), 0, 1, 'R');
     }
 
-    function VatCell($vat) {
+    private function VatCell($vat) {
         $this->SetX(self::ITEM_POS[0]);
         $this->Cell(0, 0, "including VAT", 0, 0, 'L');
         $this->SetX(self::PRICE_X);
@@ -114,7 +114,7 @@ class ORDER_PDF extends FPDF {
         $this->Cell(0, 0, GBP.$money_format->format($vat), 0, 1, 'R');
     }
 
-    function TotalCell($total) {
+    private function TotalCell($total) {
         $this->SetX(self::ORDER_NO_POS[0]);
         $this->setFont('opensansbold', '', 16);
         $this->setTextColor(...self::BLACK);
@@ -127,17 +127,17 @@ class ORDER_PDF extends FPDF {
 
     }
 
-    function Note($text = "Thank you for buying from Unbelievable Truth.\nIt means a lot to us.\nMake sure you're on our mailing list to get all the news first") {
+    private function Note($text = "Thank you for buying from Unbelievable Truth.\nIt means a lot to us.\nMake sure you're on our mailing list to get all the news first") {
         $this->SetX(self::ORDER_NO_POS[0]);
         $this->setFont('opensansregular', '', 9);
         $this->MultiCell(0, 7, iconv('UTF-8', "CP1250//TRANSLIT", $text), 0, 1);
     }
 
-    function Spacer($height = 10) {
+    private function Spacer($height = 10) {
      $this->Cell(0, $height, '', 0, 1);   
     }
 
-    function OrderDetailsCell ($order) {
+    public function OrderDetailsCell ($order) {
         $this->DateCell($order);
         $this->AddressCell($order);
         $this->OrderNoCell($order["sumup_id"]);

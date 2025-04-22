@@ -43,8 +43,13 @@ foreach ($responseObj as $order) {
         $output = "No tracking number for order " . $order->orderReference . "<br>";
         continue;
     }
-    if (!isset($order->orderRefernce)) {
+    if (!isset($order->orderReference)) {
         $output = "No order reference for order " . $order->orderReference . "<br>";
+        continue;
+    }
+    $shippedOn = isset($order->shippedOn) ? $order->shippedOn : NULL;
+    if (!$shippedOn) {
+        $output = "Order " . $order->orderReference . " not marked dispatched on Royal Mail portal.<br>";
         continue;
     }
     try {
@@ -56,7 +61,6 @@ foreach ($responseObj as $order) {
         `rm_tracking_number` = ?
         WHERE `order_id` = ?";
         $stmt = $db->prepare($query);
-        $shippedOn = isset($order->shippedOn) ? $order->shippedOn : NULL;
         $params = [
             $shippedOn,
             (int)$order->orderIdentifier,
@@ -74,7 +78,7 @@ foreach ($responseObj as $order) {
 }
 
 $output .=  "<p>Orders Updated from Royal Mail</p>";
-header ('HX-Trigger:updateOrderList');
+// header ('HX-Trigger:updateOrderList');
 echo $output;
 
 function getUnsentOrders($db) {
@@ -119,6 +123,7 @@ function sendCustomerShippedEmail($order_id, $tracking_number, $db, $m) {
     } catch (PDOException $e) {
         throw new Exception($e);
     }
+
     $email = $m->render("customerShippedEmail", ["order"=>$order, "tracking_number"=>$tracking_number]);
 
     // mail auth
