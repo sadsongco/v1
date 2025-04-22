@@ -21,9 +21,9 @@ function delete_current_mailout($current_mailout_file) {
 }
 
 function email_admin($mail, $msg) {
-    $mail->Subject = 'The Exact Opposite mailout admin email';
+    $mail->Subject = 'Unbelievable Truth mailout admin email';
     $mail->msgHTML($msg);
-    $mail->addAddress('info@thesadsongco.com', 'Info');
+    $mail->addAddress('info@unbelievabletruth.co.uk', 'Info');
     $mail->send();
 }
 
@@ -100,7 +100,6 @@ $mail = new PHPMailer(true);
 makeLogDir($log_dir);
 $log_fp = fopen("$log_dir$current_mailout.txt", 'a');
 
-
 // mail auth
 $mail->isSMTP();
 $mail->Host = $mail_auth['host'];
@@ -114,7 +113,7 @@ $mail->addReplyTo($mail_auth['reply']['address'], $from_name);
 
 // set up emails
 try {
-    $content = file($content_path.$current_mailout.'.txt');
+    $mailout_data = getMailoutData($current_mailout_id, $db);
 }
 catch (Exception $e) {
     write_to_log($log_fp, "\nFATAL: missing email body file: ".$e->getMessage());
@@ -123,14 +122,12 @@ catch (Exception $e) {
     exit();
 }
 
-
-
 $result = get_email_addresses($db, $current_mailout, $mailing_list_table, $log_fp);
 
 if (sizeof($result) == 0) {
     write_to_log($log_fp, "\n\n--------COMPLETE--------");
     delete_current_mailout($current_mailout_file);
-    email_admin($mail, "<h2>ALL EMAILS SENT. Check ./logs/mailout_log_".$current_mailout.".txt for details<h2>");
+    email_admin($mail, "<h2>ALL EMAILS SENT. Check $log_dir".$current_mailout.".txt for details<h2>");
     exit();
 }
 
@@ -138,7 +135,7 @@ $output = "";
 
 include_once(__DIR__."/generate_mailout_content.php");
 include_once(__DIR__."/generate_mailout_email_content.php");
-$replacements = generateMailoutContent($content, $subject_id);
+$replacements = generateMailoutContent($mailout_data);
 $replacements['host'] = getHost();
 $replacements['remove_path'] = $remove_path;
 

@@ -1,10 +1,10 @@
 <section class="progress">
   {{#current_mailout}}
-    <h2>Current mailout {{current_mailout}} is sending</h2>{{#sent}}<p>{{>sentEmails}}</p>{{/sent}}
+    <h2>Current mailout {{current_mailout}} is sending{{#test}} to test mailing list{{/test}}</h2>{{#sent}}<p>{{>sentEmails}}</p>{{/sent}}
+    <button hx-post="api/cancel_mailout.php" hx-swap="outerHTML">Cancel Send</button>
   {{/current_mailout}}
 </section>
 <section>
-<form hx-post="/private/mailout/api/set_mailout.php" id="mailoutForm">
 <label for="mailoutSelect">Select mailout to send</label>
   <select
     name="mailout"
@@ -15,19 +15,10 @@
     onchange="htmx.trigger('#previews', 'mailoutSelected')"
   >
   </select>
-  <input type="submit" value="Send This Mailout" id="submit" />
-</form>
-  <button id="edit">Edit Mailout</button>
+  <button hx-post="api/edit_mailout.php" hx-include="#mailoutSelect" hx-target="#createMailout">Edit Mailout</button>
+  <br>
+  <label for="testMailout">Send email to test list</label>
+  <input type="checkbox" name="test_mailout" id="testMailout" />
+  <button hx-post="api/set_mailout.php" hx-include="#mailoutSelect, #testMailout" hx-target="#createMailout">Send Mailout</button>
 <section class="previews" id="previews" hx-get="/private/mailout/api/preview_mailout.php" hx-include="#mailoutSelect" hx-trigger="mailoutSelected">
 </section>
-<script>
-  const editMailout = async (e) => {
-    e.preventDefault();
-    const id = document.getElementById('mailoutSelect').value;
-    console.log('api/edit_mailout.php?id=' + id)
-    const res = await fetch('api/edit_mailout.php?id=' + id);
-    const out = await res.text();
-    document.getElementById('createMailout').innerHTML = out;
-  }
-  document.getElementById('edit').addEventListener("click", editMailout);
-</script>

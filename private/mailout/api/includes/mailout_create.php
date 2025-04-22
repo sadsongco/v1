@@ -24,7 +24,8 @@ function replaceHTMLLink($line) {
     return $line;
 }
 
-function createHTMLBody($content) {
+function createHTMLBody($body) {
+    $content = explode("\n", $body);
     $body = "<p>";
     for ($x = 0; $x < sizeof($content); $x++) {
         if ($content[$x] == "" || $content[$x] == "\n") continue;
@@ -40,7 +41,8 @@ function createHTMLBody($content) {
     return $body;
 }
 
-function createTextBody($content) {
+function createTextBody($body) {
+    $content = explode('\n', $body);
     foreach($content as &$line) {
         $line = trim(preg_replace('/{{link}}([^}]*){{\/link}}/', '$1', $line));
         //remove images

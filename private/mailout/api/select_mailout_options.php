@@ -2,18 +2,13 @@
 
 require_once('includes/mailout_includes.php');
 
-$content_dir = "../assets/content";
-$mailoutOptions = [];
-
-if ($handle = opendir($content_dir)) {
-    while (false !== ($entry = readdir($handle))) {
-        if (substr($entry, 0, 1) != ".")
-        array_push($mailoutOptions, str_replace(".txt", "", $entry));
-    }
-
-    closedir($handle);
+try {
+    $query = "SELECT id, DATE_FORMAT(date, '%Y%m%d') AS `date` FROM mailouts ORDER BY date DESC";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    $mailouts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    exit("Couldn't retrieve mailouts: ".$e->getMessage());
 }
 
-rsort($mailoutOptions);
-
-echo $m->render("selectMailoutOptions", ["options"=>$mailoutOptions]);
+echo $m->render("selectMailoutOptions", ["options"=>$mailouts]);

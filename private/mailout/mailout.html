@@ -13,9 +13,9 @@
   <body>
     <main>
       <h1>Unbelievable Truth - Mailout Management</h1>
-      <section>
+      <!-- <section>
         <a href="add-download-token.html">Add Download Token</a>
-      </section>
+      </section> -->
       <section>
         <button hx-get="api/reset_test_mailout.php?nigel=true" hx-target="#createMailout">Reset Test Send To Nigel</button>
         <button hx-get="api/reset_test_mailout.php" hx-target="#createMailout">Reset Test Send To All</button>
@@ -23,8 +23,8 @@
       <section>
         <button hx-get="api/create_mailout_form.php" hx-target="#createMailout">Create New Mailout</button>
       </section>
-      <section id="createMailout"></section>
       <section id="info"></section>
+      <section id="createMailout"></section>
       <section class="selectMailout" hx-get="api/select_mailout.php" hx-trigger="load, mailoutAdded from:body, errorsDeleted from:body"></section>
     </main>
     <footer id="foot"></footer>

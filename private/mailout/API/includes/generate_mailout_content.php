@@ -2,14 +2,12 @@
 
 include_once(__DIR__."/mailout_create.php");
 
-function generateMailoutContent($raw_content, $subject_id) {
-    $subject = $subject_id.array_shift($raw_content);
-    $heading = array_shift($raw_content);
-    $text_content = createTextBody($raw_content);
-    $html_content = createHTMLBody($raw_content);
+function generateMailoutContent($mailout_data) {
+    $text_content = createTextBody($mailout_data['body']);
+    $html_content = createHTMLBody($mailout_data['body']);
     return [
-        "subject"=>$subject,
-        "heading"=>$heading,
+        "subject"=>$mailout_data['subject'],
+        "heading"=>$mailout_data['heading'],
         "text_content"=>$text_content,
         "html_content"=>$html_content,
         "host"=>"",

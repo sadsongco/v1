@@ -1,38 +1,21 @@
 <?php
 
 include_once("includes/mailout_includes.php");
-$content_dir = "../assets/content";
-$mailout_content = $_POST['subject']."\n".$_POST['heading']."\n".$_POST['content'];
-
+$clear_create = '<section id="createMailout" hx-swap-oob="true"></section>';
+if ($_POST['cancel']) exit($clear_create);
 
 try {
     $query = "INSERT INTO mailouts VALUES (NULL, NOW(), ?, ?, ?)";
+    $params = [$_POST['subject'], $_POST['heading'], $_POST['content']];
+    if (isset($_POST['edit'])) {
+        $query = "UPDATE mailouts SET subject = ?, heading = ?, body = ? WHERE id = ?";
+        $params[] = $_POST['id'];
+    }
     $stmt = $db->prepare($query);
-    $stmt->execute([$_POST['subject'], $_POST['heading'], $_POST['content']]);
+    $stmt->execute($params);
 }
 catch (PDOException $e) {
     exit("Couldn't save mailout: ".$e->getMessage());
 }
-
-$filename = "test.txt";
-
-$path = $content_dir."/".$filename;
-
-$fp = fopen($path, "w");
-
-fwrite($fp, $mailout_content);
-
-fclose($fp);
-
-$filename = $_POST['filename'].".txt";
-
-$path = $content_dir."/".$filename;
-
-$fp = fopen($path, "w");
-
-if(fwrite($fp, $mailout_content)) {
-    header("HX-Trigger: listChange");
-    echo "mailout saved";
-} else {
-    echo "mailout save failed";
-}
+header("HX-Trigger: listChange");
+echo "<p>mailout saved</p>" . $clear_create;

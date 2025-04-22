@@ -28,16 +28,25 @@ function getCompletedEmails($db, $table, $current_mailout) {
 }
 
 
-$current_mailout = file_get_contents("current_mailout.txt");
+$current_mailout_contents = file_get_contents("current_mailout.txt");
 
 $sent = null;
 $dd_sent = null;
+$current_mailout = false;
+$test = false;
 
-if ($current_mailout != "") {
-    $mailing_list = $current_mailout == "test" ? "test_mailing_list" : "ut_mailing_list";
+if ($current_mailout_contents != "") {
+    $mailout_arr = explode(":", $current_mailout_contents);
+    if ($mailout_arr[0] == "test") {
+        $test = true;
+        $current_mailout_id = $mailout_arr[1];
+    } else {
+        $current_mailout_id = $mailout_arr[0];
+    }
+    $mailing_list = $test ? "test_mailing_list" : "ut_mailing_list";
+    $current_mailout = getCurrentMailout($db, $current_mailout_id);
     $sent = getCompletedEmails($db, $mailing_list, $current_mailout);
     $sent['mailing_list'] = $mailing_list;
 }
 
-
-echo $m->render("selectMailout", ["current_mailout"=>$current_mailout, "sent"=>$sent]);
+echo $m->render("selectMailout", ["current_mailout"=>$current_mailout, "test"=>$test, "sent"=>$sent]);
