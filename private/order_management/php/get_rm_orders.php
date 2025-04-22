@@ -14,7 +14,7 @@ use PHPMailer\PHPMailer\Exception;
 
 $unsent_orders = getUnsentOrders($db);
 if (empty($unsent_orders)) {
-    $output .=  "No orders to update.<br>";
+    $output =  "No orders to update.<br>";
     exit();
 }
 
