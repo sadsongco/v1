@@ -132,7 +132,7 @@ function getOrderItems($order, $db) {
 }
 
 function getCountryCode($country, $db) {
-    $query = "SELECT country_code FROM countries WHERE name = ?";
+    $query = "SELECT country_code FROM Countries WHERE name = ?";
     $stmt = $db->prepare($query);
     $stmt->execute([$country]);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

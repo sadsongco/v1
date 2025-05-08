@@ -68,7 +68,7 @@ function insertOrderIntoDatabase($order_details, $db) {
                 }
                 
                 if ($order_details['town'] == "") {
-                        $query = "SELECT country_code FROM countries WHERE name = ?";
+                        $query = "SELECT country_code FROM Countries WHERE name = ?";
                         $stmt = $db->prepare($query);
                         $stmt->execute([$order_details['country']]);
                         $result = $stmt->fetch(PDO::FETCH_ASSOC);
