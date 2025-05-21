@@ -61,6 +61,11 @@ button:hover {
   font-size: clamp(0.7rem, 2vw, 1.1em);
 }
 
+.gigs {
+  display: block;
+  padding: 0.3em;
+}
+
 /* .first {
   top: 2.7em;
   display: block;
